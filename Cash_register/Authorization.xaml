@@ -1,0 +1,147 @@
+﻿<Window x:Class="Cash_register.Authorization"
+        x:Name="Autorization" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="600" 
+        Width="800" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png">
+    <Grid>
+        <TextBlock
+            Margin="100,100,100,0" 
+            Width="600" 
+            Height="100" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Авторизация" 
+            TextAlignment="Center"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Center" 
+            FontWeight="Bold" 
+            FontStyle="Italic"/>
+        
+        <TextBox
+            Name="login"
+            Margin="0,-100,50,0" 
+            Width="500" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+        </TextBox>
+        <PasswordBox
+            Name="password"
+            Margin="0,150,50,0"  
+            Width="500" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+
+        </PasswordBox>
+
+        <Border  
+            Width="150" 
+            Height="50" 
+            Margin="50,-100,0,0" 
+            BorderThickness="1" 
+            BorderBrush="Blue" 
+            CornerRadius="5" 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left">
+            <TextBlock
+            TextAlignment="Center"
+            Margin="0,0,0,0"  
+            Width="150" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="36"
+            Text="Логин:"
+            Foreground="Black">
+            </TextBlock>
+        </Border>
+
+        <Border
+            Width="150" 
+            Height="50" 
+            Margin="50,150,0,0" 
+            BorderThickness="1" 
+            BorderBrush="Blue" 
+            CornerRadius="5" 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left">
+            <TextBlock
+            TextAlignment="Center"
+            Margin="0,0,0,0"  
+            Width="150" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="36"
+            Text="Пароль:"
+            Foreground="Black">
+
+            </TextBlock>
+        </Border>
+
+        <Button
+                Background="Black"
+                BorderBrush="Black"
+                Name="Button_back"
+                Click="Click_back" 
+                Margin="0,505,20,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center"
+                Cursor="Hand">
+            <Ellipse 
+               Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="back.png" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Button>
+
+        <Button
+                Name="Button_enter"
+                Click="Click_to_enter"
+                Background="White" 
+                Margin="0,420,20,0" 
+                Height="50" 
+                Width="200" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center"
+                Cursor="Hand"
+                Content="Войти"
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="Black">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Window>
