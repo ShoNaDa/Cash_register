@@ -1,0 +1,235 @@
+﻿<Window x:Name="window2" 
+        x:Class="Cash_register.After_logging_in"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="600" 
+        Width="800" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png">
+    <Grid Background="Black">
+        <Border
+            Height="100" 
+            Width="800"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#FF2929A2">
+
+            <TextBlock
+             Margin="20,30,0,0" 
+             Width="600" 
+             Height="70" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Администратор" 
+            TextAlignment="Left"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="330,20,400,480" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="admin.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="100" 
+            Width="780"
+            Margin="10,120,10,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_sales"
+                Background="#FF1AB61A" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="100" 
+                Width="760"
+                Margin="0,0,0,0"
+                Content="Продажа"
+                Click="Click_to_sales" 
+                Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="50,140,300,360" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="sales.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="135" 
+            Width="245"
+            Margin="11,240,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_refund"
+                Background="#FFD32323" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="135" 
+                Width="245"
+                Margin="0,0,0,0"
+                Click="Click_to_refund" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center"
+                Content="     Возврат" 
+                Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="-400,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="refund.jpg" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="135" 
+            Width="245"
+            Margin="267,240,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_products"
+                Background="#FFD32323" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="135" 
+                Width="245"
+                Margin="0,0,0,0"
+                Click="Click_to_products" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center"
+                Content="     Товары" 
+                Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="130,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="products.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="135" 
+            Width="245"
+            Margin="523,240,12,40"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_statement"
+                Background="#FFD32323" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="135" 
+                Width="245"
+                Margin="0,0,0,0"
+                Click="Click_to_statement" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center"
+                Content="     Отчёты" 
+                Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="360,280,0,230" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="statement.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="100" 
+            Width="375"
+            Margin="10,395,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_settings"
+                Background="Gray" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="100" 
+                Width="375"
+                Margin="0,0,0,0"
+                Click="Click_to_settings"
+                Content="Настройки" 
+                Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="-350,335,300,0" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="settings.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="100" 
+            Width="375"
+            Margin="0,395,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <Button
+                Name="Button_calculator"
+                Background="#FFDC8114" 
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White"
+                Height="100" 
+                Width="375"
+                Margin="0,0,0,0"
+                Click="Click_to_calculator" 
+                Cursor="Hand"
+                Content=" Калькулятор">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="400,335,300,0" Cursor="Arrow" IsHitTestVisible="False" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="calculator.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Grid>
+</Window>

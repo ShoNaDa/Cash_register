@@ -1,0 +1,93 @@
+﻿<Window x:Class="Cash_register.Refund_of_products"
+        x:Name="window5"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="600" 
+        Width="800" 
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Border
+            Height="100" 
+            Width="800"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#FF2929A2">
+
+            <TextBlock
+             Margin="20,30,0,0" 
+             Width="300" 
+             Height="70" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Возврат" 
+            TextAlignment="Left"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="100,20,450,480" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="refund.jpg" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Button
+                Background="Black"
+                BorderBrush="Black"
+                Name="Button_back"
+                Click="Click_back" 
+                Margin="0,505,20,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center"
+                Cursor="Hand">
+            <Ellipse 
+               Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="back.png" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Button>
+
+        <Border
+            Height="100" 
+            Width="800"
+            Margin="0,110,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="White">
+
+            <Button
+            Name="Button_find_a_cheque"
+            Click="Click_to_find_a_cheque"
+             Margin="0,0,0,0" 
+             Height="100" 
+            Width="800"
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Content="Номер чека" 
+            Foreground="Black" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            Background="White"
+            BorderBrush="White"
+            Cursor="Hand"/>
+        </Border>
+        <Ellipse 
+               Width="50" Height="50" Margin="20,135,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="search.jpg" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Grid>
+</Window>
