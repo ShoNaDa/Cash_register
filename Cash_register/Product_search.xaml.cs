@@ -36,7 +36,8 @@ namespace Cash_register
 
         public void Click_to_find_a_product(object sender, RoutedEventArgs e)
         {
-
+            Button_find_a_product.Visibility = Visibility.Hidden;
+            Search_product.Visibility = Visibility.Visible;
         }
     }
 }

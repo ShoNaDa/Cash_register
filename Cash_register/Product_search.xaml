@@ -116,5 +116,20 @@
                 <ImageBrush ImageSource="search.jpg" Stretch="Fill"/>
             </Ellipse.Fill>
         </Ellipse>
+
+        <TextBox
+            Name="Search_product"
+            Visibility="Hidden"
+            Height="50" 
+            Width="700"
+            Margin="0,135,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="White"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam">
+
+        </TextBox>
     </Grid>
 </Window>

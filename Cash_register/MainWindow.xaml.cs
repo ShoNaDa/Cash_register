@@ -7,6 +7,7 @@ namespace Cash_register
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static bool IsDeposit;
         public static bool IsSearchProducts = true;
         public static bool IsCashier;
         public static bool IsAdmin;

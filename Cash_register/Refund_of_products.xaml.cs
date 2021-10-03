@@ -30,7 +30,8 @@ namespace Cash_register
 
         public void Click_to_find_a_cheque(object sender, RoutedEventArgs e)
         {
-
+            Button_find_a_cheque.Visibility = Visibility.Hidden;
+            Search_cheque.Visibility = Visibility.Visible;
         }
     }
 }

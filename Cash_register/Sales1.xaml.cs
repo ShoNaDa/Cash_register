@@ -14,7 +14,19 @@ namespace Cash_register
 
         public void Click_to_be_paid(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Оплачено");
+            if (MainWindow.IsCashier == true)
+            {
+                After_login_in_cashier window9 = new After_login_in_cashier();
+                window9.Show();
+                Close();
+            }
+            else if (MainWindow.IsCashier == false)
+            {
+                After_logging_in window2 = new After_logging_in();
+                window2.Show();
+                Close();
+            }
         }
 
         public void Click_add_product(object sender, RoutedEventArgs e)
