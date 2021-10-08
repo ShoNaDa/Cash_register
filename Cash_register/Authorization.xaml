@@ -26,20 +26,35 @@
             HorizontalAlignment="Center" 
             FontWeight="Bold" 
             FontStyle="Italic"/>
-        
-        <TextBox
-            Name="login"
-            Margin="0,-100,50,0" 
-            Width="500" 
-            Height="50"
-            Background="White"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Right"
-            FontFamily="Arial" 
-            FontSize="40"
-            Cursor="IBeam" 
-            Foreground="Black">
-        </TextBox>
+
+        <TextBlock
+            Margin="50,200,100,0" 
+            Width="250" 
+            Height="100" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Сотрудник: " 
+            TextAlignment="Left"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            FontWeight="Bold" 
+            FontStyle="Italic"/>
+
+        <TextBlock
+            x:Name="Worker"
+            Margin="300,200,100,0" 
+            Width="450" 
+            Height="100" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            TextAlignment="Left"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            FontWeight="Bold" 
+            FontStyle="Italic"/>
+
         <PasswordBox
             Name="password"
             Margin="0,150,50,0"  
@@ -54,30 +69,6 @@
             Foreground="Black">
 
         </PasswordBox>
-
-        <Border  
-            Width="150" 
-            Height="50" 
-            Margin="50,-100,0,0" 
-            BorderThickness="1" 
-            BorderBrush="Blue" 
-            CornerRadius="5" 
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left">
-            <TextBlock
-            TextAlignment="Center"
-            Margin="0,0,0,0"  
-            Width="150" 
-            Height="50"
-            Background="White"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            FontFamily="Arial" 
-            FontSize="36"
-            Text="Логин:"
-            Foreground="Black">
-            </TextBlock>
-        </Border>
 
         <Border
             Width="150" 

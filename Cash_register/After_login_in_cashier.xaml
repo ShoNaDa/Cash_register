@@ -150,7 +150,7 @@
                 FontSize="40" 
                 Foreground="White"
                 Height="100" 
-                Width="780"
+                Width="760"
                 Margin="0,0,0,0"
                 Click="Click_to_calculator" 
                 Cursor="Hand"

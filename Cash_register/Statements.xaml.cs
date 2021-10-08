@@ -31,10 +31,11 @@ namespace Cash_register
         public void Click_to_deposit(object sender, RoutedEventArgs e)
         {
             MainWindow.IsDeposit = true;
-            Amount_of_money Introduction = new Amount_of_money();
-            Introduction.Introduction.Visibility = Visibility.Visible;
+            
             Amount_of_money window10 = new Amount_of_money();
             window10.Show();
+            Amount_of_money Introduction = new Amount_of_money();
+            Introduction.Introduction.Visibility = Visibility.Visible;
             Close();
         }
 

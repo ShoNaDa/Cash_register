@@ -1,43 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
 namespace Cash_register
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для List_of_cashiers.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class List_of_cashiers : Window
     {
-        //List
-        public static List<string> Cashiers = new List<string>(1);
-        //bool
-        public static bool IsDeposit;
-        public static bool IsSearchProducts = true;
-        public static bool IsCashier;
-        public static bool IsAdmin;
-        //string
-        public static string FIO_cashier;
-        public MainWindow()
+        public List_of_cashiers()
         {
             InitializeComponent();
-        }
 
-        public void Click_to_cashier(object sender, RoutedEventArgs e)
-        {
-            IsAdmin = false;
-            List_of_cashiers window11 = new List_of_cashiers();
-            window11.Show();
-            Close();
-        }
+            DataTable dt_user = Select("SELECT * FROM [dbo].[Workers]");
+            for (int i = 0; i < dt_user.Rows.Count; i++)
+            {
+                MainWindow.Cashiers.Add((string)dt_user.Rows[i][1] + " " + (string)dt_user.Rows[i][2] + " " + (string)dt_user.Rows[i][3]);
+            }
 
-        public void Click_to_admin(object sender, RoutedEventArgs e)
-        {
-            IsAdmin = true;
-            Authorization authorization = new Authorization();
-            authorization.Show();
-            Close();
+            foreach (string i in MainWindow.Cashiers)
+            {
+                List_of_cashier.Items.Add(i);
+            }
+
+            MainWindow.FIO_cashier = (string)List_of_cashier.SelectedValue;
         }
 
         public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
@@ -52,6 +39,29 @@ namespace Cash_register
             sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
             sqlConnection.Close();
             return dataTable;
+        }
+
+        private void Click_to_next(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Cashiers.Clear();
+            if (List_of_cashier.SelectedIndex != -1)
+            {
+                Authorization Autorization = new Authorization();
+                Autorization.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Выберите кассира");
+            }
+        }
+
+        private void Click_back(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Cashiers.Clear();
+            MainWindow Cash_register = new MainWindow();
+            Cash_register.Show();
+            Close();
         }
     }
 }
