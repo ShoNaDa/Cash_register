@@ -71,6 +71,9 @@
     <Compile Include="Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="List_of_admin.xaml.cs">
+      <DependentUpon>List_of_admin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="List_of_cashiers.xaml.cs">
       <DependentUpon>List_of_cashiers.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,9 @@
     <Compile Include="Statements.xaml.cs">
       <DependentUpon>Statements.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workers.xaml.cs">
+      <DependentUpon>Workers.xaml</DependentUpon>
+    </Compile>
     <Page Include="After_logging_in.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Calculator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="List_of_admin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Workers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

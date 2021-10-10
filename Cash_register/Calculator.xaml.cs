@@ -59,7 +59,7 @@ namespace Cash_register
         //функция для предотвращения багов со знаками
         string Signs(string sing)
         {
-            if (equation == "")
+            if (equation == "" || equation == "-")
             {
                 if (sing == "-")
                 {

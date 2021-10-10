@@ -11,7 +11,9 @@ namespace Cash_register
     public partial class MainWindow : Window
     {
         //List
+        public static List<string> Workers = new List<string>(1);
         public static List<string> Cashiers = new List<string>(1);
+        public static List<string> Admins = new List<string>(1);
         //bool
         public static bool IsDeposit;
         public static bool IsSearchProducts = true;
@@ -22,6 +24,17 @@ namespace Cash_register
         public MainWindow()
         {
             InitializeComponent();
+
+            DataTable dt_admins = Select("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
+            for (int i = 0; i < dt_admins.Rows.Count; i++)
+            {
+                Admins.Add((string)dt_admins.Rows[i][1] + " " + (string)dt_admins.Rows[i][2] + " " + (string)dt_admins.Rows[i][3]);
+            }
+            DataTable dt_cashiers = Select("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
+            for (int i = 0; i < dt_cashiers.Rows.Count; i++)
+            {
+                Cashiers.Add((string)dt_cashiers.Rows[i][1] + " " + (string)dt_cashiers.Rows[i][2] + " " + (string)dt_cashiers.Rows[i][3]);
+            }
         }
 
         public void Click_to_cashier(object sender, RoutedEventArgs e)
@@ -35,8 +48,8 @@ namespace Cash_register
         public void Click_to_admin(object sender, RoutedEventArgs e)
         {
             IsAdmin = true;
-            Authorization authorization = new Authorization();
-            authorization.Show();
+            List_of_admin window12 = new List_of_admin();
+            window12.Show();
             Close();
         }
 

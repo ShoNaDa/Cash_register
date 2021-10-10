@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Cash_register
@@ -8,11 +9,13 @@ namespace Cash_register
     /// </summary>
     public partial class Authorization : Window
     {
-        public static bool IsLogin = true;
-        public static bool IsPass = true;
         public Authorization()
         {
             InitializeComponent();
+            string fName = MainWindow.FIO_cashier.Split(' ')[1];
+            string lName = MainWindow.FIO_cashier.Split(' ')[0];
+            string mName = MainWindow.FIO_cashier.Split(' ')[2];
+            Worker.Text = string.Concat(lName, " ", fName.Substring(0, 1), ". ", mName.Substring(0, 1), ". ");
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -24,7 +27,7 @@ namespace Cash_register
 
         private void Click_to_enter(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsAdmin == true)
+            if (MainWindow.IsAdmin)
             {
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
