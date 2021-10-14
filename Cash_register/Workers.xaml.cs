@@ -9,6 +9,8 @@ namespace Cash_register
     /// </summary>
     public partial class Workers : Window
     {
+        public static string lname, fname, mname;
+        public static int id = 0;
         public Workers()
         {
             InitializeComponent();
@@ -17,6 +19,7 @@ namespace Cash_register
             for (int i = 0; i < dt_workers.Rows.Count; i++)
             {
                 MainWindow.Workers.Add((string)dt_workers.Rows[i][1] + " " + ((string)dt_workers.Rows[i][2]).Substring(0, 1) + ". " + ((string)dt_workers.Rows[i][3]).Substring(0, 1) + ". (" + (string)dt_workers.Rows[i][4] + ")");
+                MainWindow.Workers_ID.Add((int)dt_workers.Rows[i][0]);
             }
 
             foreach (string i in MainWindow.Workers)
@@ -57,7 +60,24 @@ namespace Cash_register
             MainWindow.Workers.Clear();
             if (List_of_workers.SelectedIndex != -1)
             {
-                
+                int index = List_of_workers.SelectedIndex;
+                int counter = 0;
+                foreach (int i in MainWindow.Workers_ID)
+                {
+                    if (counter == index)
+                    {
+                        id = i;
+                    }
+                    counter++; ;
+                }
+                DataTable dt_worker = Select("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
+                fname = (string)dt_worker.Rows[0][2];
+                lname = (string)dt_worker.Rows[0][1];
+                mname = (string)dt_worker.Rows[0][3];
+                MainWindow.Workers_ID.Clear();
+                Edit_worker window14 = new Edit_worker();
+                window14.Show();
+                Close();
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Cash_register
 {
@@ -11,6 +10,10 @@ namespace Cash_register
         public Statements()
         {
             InitializeComponent();
+            if (edit_time.dateAndTime != null)
+            {
+                time.Text = edit_time.dateAndTime;
+            }
         }
         public void Click_back(object sender, RoutedEventArgs e)
         {

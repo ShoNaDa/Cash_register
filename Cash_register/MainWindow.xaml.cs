@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -12,6 +13,9 @@ namespace Cash_register
     {
         //List
         public static List<string> Workers = new List<string>(1);
+        public static List<int> Workers_ID = new List<int>(1);
+        public static List<int> Workers_ID_cashiers = new List<int>(1);
+        public static List<int> Workers_ID_admins = new List<int>(1);
         public static List<string> Cashiers = new List<string>(1);
         public static List<string> Admins = new List<string>(1);
         //bool
@@ -20,7 +24,8 @@ namespace Cash_register
         public static bool IsCashier;
         public static bool IsAdmin;
         //string
-        public static string FIO_cashier;
+        public static string FIO_worker;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,11 +34,13 @@ namespace Cash_register
             for (int i = 0; i < dt_admins.Rows.Count; i++)
             {
                 Admins.Add((string)dt_admins.Rows[i][1] + " " + (string)dt_admins.Rows[i][2] + " " + (string)dt_admins.Rows[i][3]);
+                Workers_ID_admins.Add((int)dt_admins.Rows[i][0]);
             }
             DataTable dt_cashiers = Select("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
             for (int i = 0; i < dt_cashiers.Rows.Count; i++)
             {
                 Cashiers.Add((string)dt_cashiers.Rows[i][1] + " " + (string)dt_cashiers.Rows[i][2] + " " + (string)dt_cashiers.Rows[i][3]);
+                Workers_ID_cashiers.Add((int)dt_cashiers.Rows[i][0]);
             }
         }
 

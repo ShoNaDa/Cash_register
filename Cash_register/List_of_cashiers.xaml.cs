@@ -7,6 +7,7 @@ namespace Cash_register
     /// </summary>
     public partial class List_of_cashiers : Window
     {
+        public static int index = 0;
         public List_of_cashiers()
         {
             InitializeComponent();
@@ -19,11 +20,12 @@ namespace Cash_register
 
         private void Click_to_next(object sender, RoutedEventArgs e)
         {
+            index = List_of_cashier.SelectedIndex;
             MainWindow.Cashiers.Clear();
             MainWindow.Admins.Clear();
             if (List_of_cashier.SelectedIndex != -1)
             {
-                MainWindow.FIO_cashier = (string)List_of_cashier.SelectedValue;
+                MainWindow.FIO_worker = (string)List_of_cashier.SelectedValue;
                 Authorization Autorization = new Authorization();
                 Autorization.Show();
                 Close();

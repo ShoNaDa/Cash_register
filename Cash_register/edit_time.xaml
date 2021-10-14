@@ -1,0 +1,115 @@
+﻿<Window x:Class="Cash_register.edit_time"
+        x:Name="time"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="600" 
+        Width="800" 
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Border
+            Height="100" 
+            Width="800"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#FF2929A2">
+
+            <TextBlock
+             Margin="20,30,0,0" 
+             Width="350" 
+             Height="70" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Дата и время" 
+            TextAlignment="Left"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Left" 
+            FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        </Border>
+        <Button
+                Background="Black"
+                BorderBrush="Black"
+                Name="Button_back"
+                Click="Click_back" 
+                Margin="50,500,0,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Cursor="Hand">
+            <Ellipse 
+               Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="back.png" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Button>
+
+        <ListBox
+            x:Name="List_of_time"
+            Margin="0,100,0,100" 
+            Width="700" 
+            Height="250"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Foreground="Black"
+            FontSize="25">
+            <ListBoxItem 
+                Content="20 июля 2015 г.">
+            </ListBoxItem>
+            <ListBoxItem>
+                20.07.2015
+            </ListBoxItem>
+            <ListBoxItem>
+                18:30:25
+            </ListBoxItem>
+            <ListBoxItem>
+                18:30
+            </ListBoxItem>
+            <ListBoxItem>
+                20.07.2015 21:30:25
+            </ListBoxItem>
+        </ListBox>
+
+        <TextBlock
+             Margin="0,130,0,0" 
+             Width="350" 
+             Height="70" 
+            VerticalAlignment="Top" 
+            FontFamily="Arial"
+            Text="Выберите формат" 
+            TextAlignment="Center"
+            Foreground="White" 
+            FontSize="36" 
+            HorizontalAlignment="Center"/>
+
+        <Button
+                Name="Button_save"
+                Click="Click_to_save"
+                Background="#FFD32323" 
+                Margin="0,500,50,0" 
+                Height="50" 
+                Width="250" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right"
+                Cursor="Hand"
+                Content="Сохранить"
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Window>
