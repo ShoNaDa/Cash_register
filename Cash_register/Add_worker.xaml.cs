@@ -5,17 +5,13 @@ using System.Windows;
 namespace Cash_register
 {
     /// <summary>
-    /// Логика взаимодействия для Edit_worker.xaml
+    /// Логика взаимодействия для Add_worker.xaml
     /// </summary>
-    public partial class Edit_worker : Window
+    public partial class Add_worker : Window
     {
-        public Edit_worker()
+        public Add_worker()
         {
             InitializeComponent();
-
-            edit_fname.Text = Workers.fname;
-            edit_lname.Text = Workers.lname;
-            edit_mname.Text = Workers.mname;
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -25,17 +21,17 @@ namespace Cash_register
             Close();
         }
 
-        private void Click_to_edit(object sender, RoutedEventArgs e)
+        private void Click_to_add(object sender, RoutedEventArgs e)
         {
-            if (edit_lname.Text != "" && edit_fname.Text != "" && edit_mname.Text != "" && edit_roleWorker.Text != "" && edit_pincode.Password != string.Empty)
+            if(add_lname.Text != "" && add_fname.Text != "" && add_mname.Text != "" && add_roleWorker.Text != "" && add_pincode.Password != string.Empty)
             {
-                DataTable dt_worker = Update("update [dbo].[Workers] set LName = '" + edit_lname.Text
-                                                               + "', FName = '" + edit_fname.Text
-                                                               + "', MName = '" + edit_mname.Text
-                                                               + "', RoleWorker = '" + edit_roleWorker.Text
-                                                               + "', PinCode = '" + edit_pincode.Password
-                                                               + "' WHERE WorkersId = " + Workers.id);
-                MessageBox.Show("Данные успешно изменены");
+                DataTable dt_worker = Insert("Insert into [dbo].[Workers] values " +
+                                                                          "('" + add_lname.Text +
+                                                                        "', '" + add_fname.Text +
+                                                                        "', '" + add_mname.Text +
+                                                                        "', '" + add_roleWorker.Text +
+                                                                        "', '" + add_pincode.Password + "')");
+                MessageBox.Show("Данные успешно добавлены");
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
@@ -46,7 +42,7 @@ namespace Cash_register
             }
         }
 
-        public DataTable Update(string selectSQL) // функция подключения к базе данных и обработка запросов
+        public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
         {
             DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
                                                                             // подключаемся к базе данных

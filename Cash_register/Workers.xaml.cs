@@ -39,6 +39,9 @@ namespace Cash_register
         private void Click_to_add_worker(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
+            Add_worker window15 = new Add_worker();
+            window15.Show();
+            Close();
         }
 
         public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов

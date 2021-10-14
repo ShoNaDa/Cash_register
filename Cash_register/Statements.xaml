@@ -69,6 +69,7 @@
             Background="Gray">
 
             <TextBlock
+                x:Name="shiftNumber"
              Margin="0,0,0,0" 
              Width="800" 
              Height="50" 
@@ -104,6 +105,7 @@
             Background="Gray">
 
             <TextBlock
+                x:Name="moneyInTheCashRegister"
              Margin="0,0,0,0" 
              Width="800" 
              Height="50" 
@@ -176,6 +178,7 @@
             FontSize="30" 
             HorizontalAlignment="Left"/>
         <TextBlock
+            x:Name="moneyAtTheBeginningOfTheShift"
              Margin="0,285,10,0" 
              Width="300" 
              Height="35" 
@@ -205,6 +208,7 @@
             FontSize="30" 
             HorizontalAlignment="Left"/>
         <TextBlock
+            x:Name="sales"
              Margin="0,325,10,0" 
              Width="300" 
              Height="35" 
@@ -234,6 +238,7 @@
             FontSize="30" 
             HorizontalAlignment="Left"/>
         <TextBlock
+            x:Name="refund"
              Margin="0,365,10,0" 
              Width="300" 
              Height="35" 
@@ -263,6 +268,7 @@
             FontSize="30" 
             HorizontalAlignment="Left"/>
         <TextBlock
+            x:Name="withdrawals"
              Margin="0,405,10,0" 
              Width="300" 
              Height="35" 
@@ -292,6 +298,7 @@
             FontSize="30" 
             HorizontalAlignment="Left"/>
         <TextBlock
+            x:Name="deposits"
              Margin="0,445,10,0" 
              Width="300" 
              Height="35" 

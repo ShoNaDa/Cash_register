@@ -19,12 +19,19 @@ namespace Cash_register
         public static List<string> Cashiers = new List<string>(1);
         public static List<string> Admins = new List<string>(1);
         //bool
-        public static bool IsDeposit;
         public static bool IsSearchProducts = true;
         public static bool IsCashier;
         public static bool IsAdmin;
         //string
         public static string FIO_worker;
+        //int
+        public static int shiftNumber;
+        public static int moneyInTheCashRegister;
+        public static int moneyAtTheBeginningOfTheShift;
+        public static int sales;
+        public static int refund;
+        public static int withdrawals;
+        public static int deposits;
 
         public MainWindow()
         {

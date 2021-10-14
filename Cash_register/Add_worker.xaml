@@ -1,0 +1,210 @@
+﻿<Window x:Class="Cash_register.Add_worker"
+        x:Name="window15" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="600" 
+        Width="800" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png">
+    <Grid>
+        <Button
+                Background="Black"
+                BorderBrush="Black"
+                Name="Button_back"
+                Click="Click_back" 
+                Margin="50,470,0,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Cursor="Hand">
+            <Ellipse 
+               Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="back.png" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Button>
+
+        <Button
+                Name="Button_add"
+                Click="Click_to_add"
+                Background="#FFD32323" 
+                Margin="0,470,50,0" 
+                Height="50" 
+                Width="250" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right"
+                Cursor="Hand"
+                Content="Добавить"
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <TextBox
+            Name="add_fname"
+            Margin="0,40,50,0"  
+            Width="450" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+
+        </TextBox>
+
+        <TextBox
+            Name="add_lname"
+            Margin="0,130,50,0"  
+            Width="450" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+
+        </TextBox>
+
+        <TextBox
+            Name="add_mname"
+            Margin="0,220,50,0"  
+            Width="450" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+
+        </TextBox>
+
+        <ComboBox
+            Name="add_roleWorker"
+            Margin="0,310,50,0"  
+            Width="450" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="Black">
+            <TextBlock>
+                Кассир
+            </TextBlock>
+            <TextBlock>
+                Администратор
+            </TextBlock>
+        </ComboBox>
+
+        <TextBlock
+            Margin="50,40,0,0"  
+            Width="200" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="White"
+            Text="Имя"
+            TextAlignment="Right">
+
+        </TextBlock>
+
+        <TextBlock
+            Margin="50,130,0,0"  
+            Width="200" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="White"
+            Text="Фамилия"
+            TextAlignment="Right">
+
+        </TextBlock>
+
+        <TextBlock
+            Margin="50,220,0,0"  
+            Width="200" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="White"
+            Text="Отчество"
+            TextAlignment="Right">
+
+        </TextBlock>
+
+        <TextBlock
+            Margin="50,310,0,0"  
+            Width="200" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="White"
+            Text="Роль"
+            TextAlignment="Right">
+
+        </TextBlock>
+
+        <PasswordBox
+            Name="add_pincode"
+            Margin="0,400,50,0"  
+            Width="450" 
+            Height="50"
+            Background="White"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            FontFamily="Arial" 
+            FontSize="40"
+            Cursor="IBeam" 
+            Foreground="Black">
+
+        </PasswordBox>
+
+        <TextBlock
+            Margin="50,400,0,0"  
+            Width="200" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            FontFamily="Arial" 
+            FontSize="40"
+            Foreground="White"
+            Text="Пин-код"
+            TextAlignment="Right">
+
+        </TextBlock>
+    </Grid>
+</Window>
