@@ -59,5 +59,14 @@ namespace Cash_register
             sqlConnection.Close();
             return dataTable;
         }
+
+        private void Click_to_drop(object sender, RoutedEventArgs e)
+        {
+            DataTable dt_worker = Update("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
+            MessageBox.Show("Данные успешно удалены");
+            After_logging_in window2 = new After_logging_in();
+            window2.Show();
+            Close();
+        }
     }
 }

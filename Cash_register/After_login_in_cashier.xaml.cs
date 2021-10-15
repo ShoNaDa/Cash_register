@@ -43,5 +43,12 @@ namespace Cash_register
             window8.Show();
             Close();
         }
+
+        private void Click_to_replace(object sender, RoutedEventArgs e)
+        {
+            MainWindow Cash_register = new MainWindow();
+            Cash_register.Show();
+            Close();
+        }
     }
 }

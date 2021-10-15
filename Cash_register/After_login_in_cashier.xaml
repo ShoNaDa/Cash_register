@@ -98,7 +98,7 @@
                 </Button.Resources>
             </Button>
         </Border>
-        <Ellipse Width="50" Height="50" Margin="-400,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
+        <Ellipse Width="50" Height="50" Margin="-350,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
             <Ellipse.Fill>
                 <ImageBrush ImageSource="refund.jpg" Stretch="Fill"/>
             </Ellipse.Fill>
@@ -131,7 +131,7 @@
                 </Button.Resources>
             </Button>
         </Border>
-        <Ellipse Width="50" Height="50" Margin="400,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
+        <Ellipse Width="50" Height="50" Margin="450,280,280,230" Cursor="Arrow" IsHitTestVisible="False" >
             <Ellipse.Fill>
                 <ImageBrush ImageSource="statement.png" Stretch="Fill"/>
             </Ellipse.Fill>
@@ -165,6 +165,37 @@
         <Ellipse Width="50" Height="50" Margin="0,335,300,0" Cursor="Arrow" IsHitTestVisible="False" >
             <Ellipse.Fill>
                 <ImageBrush ImageSource="calculator.png" Stretch="Fill"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Border
+            Height="80" 
+            Width="300"
+            Margin="0,10,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="#FF2929A2">
+            <Button
+                Name="Button_replace"
+                Click="Click_to_replace"
+                Background="Gray" 
+                BorderBrush="Black"
+                Margin="0,0,0,0" 
+                Height="80" 
+                Width="300" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Cursor="Hand"
+                Content="  Сменить"
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White">
+
+            </Button>
+        </Border>
+        <Ellipse Width="50" Height="50" Margin="240,-460,0,0" >
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="replace.png" Stretch="Fill"/>
             </Ellipse.Fill>
         </Ellipse>
     </Grid>

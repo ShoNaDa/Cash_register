@@ -26,12 +26,12 @@ namespace Cash_register
         public static string FIO_worker;
         //int
         public static int shiftNumber;
-        public static int moneyInTheCashRegister;
-        public static int moneyAtTheBeginningOfTheShift;
-        public static int sales;
-        public static int refund;
-        public static int withdrawals;
-        public static int deposits;
+        public static double moneyInTheCashRegister;
+        public static double moneyAtTheBeginningOfTheShift;
+        public static double sales;
+        public static double refund;
+        public static double withdrawals;
+        public static double deposits;
 
         public MainWindow()
         {

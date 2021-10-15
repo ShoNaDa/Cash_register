@@ -53,6 +53,27 @@
             </Button.Resources>
         </Button>
 
+        <Button
+                Name="Button_drop"
+                Click="Click_to_drop"
+                Background="#FFD32323" 
+                Margin="0,470,350,0" 
+                Height="50" 
+                Width="250" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right"
+                Cursor="Hand"
+                Content="Удалить"
+                FontFamily="Arial" 
+                FontSize="40" 
+                Foreground="White">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
         <TextBox
             Name="edit_fname"
             Margin="0,40,50,0"  
