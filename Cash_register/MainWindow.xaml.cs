@@ -18,6 +18,7 @@ namespace Cash_register
         public static List<int> Workers_ID_admins = new List<int>(1);
         public static List<string> Cashiers = new List<string>(1);
         public static List<string> Admins = new List<string>(1);
+        public static List<string> Products = new List<string>(1);
         //bool
         public static bool IsSearchProducts = true;
         public static bool IsCashier;
@@ -26,6 +27,8 @@ namespace Cash_register
         public static string FIO_worker;
         //int
         public static int shiftNumber;
+        public static int productId;
+        //double
         public static double moneyInTheCashRegister;
         public static double moneyAtTheBeginningOfTheShift;
         public static double sales;

@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Add_product.xaml.cs">
+      <DependentUpon>Add_product.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Add_worker.xaml.cs">
       <DependentUpon>Add_worker.xaml</DependentUpon>
     </Compile>
@@ -73,6 +76,9 @@
     </Compile>
     <Compile Include="Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Edit_product.xaml.cs">
+      <DependentUpon>Edit_product.xaml</DependentUpon>
     </Compile>
     <Compile Include="edit_time.xaml.cs">
       <DependentUpon>edit_time.xaml</DependentUpon>
@@ -104,6 +110,10 @@
     <Compile Include="Workers.xaml.cs">
       <DependentUpon>Workers.xaml</DependentUpon>
     </Compile>
+    <Page Include="Add_product.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Add_worker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Calculator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Edit_product.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

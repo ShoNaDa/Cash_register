@@ -72,11 +72,11 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="0,505,20,0" 
+                Margin="50,505,20,0" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Top" 
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 Cursor="Hand">
             <Ellipse 
                Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
@@ -87,7 +87,7 @@
         </Button>
 
         <Border
-            Height="100" 
+            Height="50" 
             Width="800"
             Margin="0,110,0,0"
             HorizontalAlignment="Center"
@@ -98,7 +98,7 @@
             Name="Button_find_a_product"
             Click="Click_to_find_a_product"
              Margin="0,0,0,0" 
-             Height="100" 
+             Height="50" 
             Width="800"
             VerticalAlignment="Top" 
             FontFamily="Arial"
@@ -111,7 +111,7 @@
             Cursor="Hand"/>
         </Border>
         <Ellipse 
-               Width="50" Height="50" Margin="20,135,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
+               Width="40" Height="40" Margin="20,115,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="search.jpg" Stretch="Fill"/>
             </Ellipse.Fill>
@@ -121,8 +121,8 @@
             Name="Search_product"
             Visibility="Hidden"
             Height="50" 
-            Width="700"
-            Margin="0,135,0,0"
+            Width="650"
+            Margin="0,110,50,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="White"
@@ -131,5 +131,57 @@
             Cursor="IBeam">
 
         </TextBox>
+
+        <ListBox
+            x:Name="List_of_products"
+            Margin="0,200,0,0" 
+            Width="700" 
+            Height="300"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            Foreground="Black"
+            FontSize="25" SelectionChanged="List_of_products_SelectionChanged">
+
+        </ListBox>
+        <Button
+            x:Name="Button_edit_product"
+            Click="Click_to_edit_product"
+            Background="#FFD32323" 
+            Margin="0,510,50,0" 
+            Height="45" 
+            Width="250" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Right"
+            Cursor="Hand"
+            Content="Изменить"
+            FontFamily="Arial" 
+            FontSize="40" 
+            Foreground="White">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button
+            x:Name="Button_drop_product"
+            Click="Click_to_drop_product"
+            Background="#FFD32323" 
+            Margin="0,510,350,0" 
+            Height="45" 
+            Width="250" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Right"
+            Cursor="Hand"
+            Content="Удалить"
+            FontFamily="Arial" 
+            FontSize="40" 
+            Foreground="White">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>
