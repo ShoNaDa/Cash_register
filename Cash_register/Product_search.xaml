@@ -110,6 +110,20 @@
             BorderBrush="White"
             Cursor="Hand"/>
         </Border>
+        <Button
+            Background="White"
+                BorderBrush="Black"
+                Name="Button_search"
+                Click="Click_search" 
+                Margin="15,110,20,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Cursor="Hand"
+                Visibility="Hidden">
+            
+        </Button>
         <Ellipse 
                Width="40" Height="40" Margin="20,115,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Ellipse.Fill>

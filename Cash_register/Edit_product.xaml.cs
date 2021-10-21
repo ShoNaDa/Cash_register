@@ -19,6 +19,7 @@ namespace Cash_register
             edit_product_name.Text = Product_search.nameProduct;
             product_code_edit.Text = Convert.ToString(Product_search.idProduct);
             edit_price.Text = Convert.ToString(Product_search.salePrice);
+            edit_count.Text = Convert.ToString(Product_search.productCount);
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -30,23 +31,23 @@ namespace Cash_register
 
         private void Click_to_save_product(object sender, RoutedEventArgs e)
         {
-            if (edit_product_name.Text != "" && edit_price.Text != "")
+            if (edit_product_name.Text != "" && edit_price.Text != "" && edit_count.Text != "")
             {
-                try
+                if (Convert.ToInt32(edit_count.Text) > 0 && Convert.ToDouble(edit_price.Text) > 0)
                 {
                     DataTable dt_product = Update("update [dbo].[Products] set ProductName = '" + edit_product_name.Text
-                                                                                           + "', SalePrice = " + Convert.ToDouble(Convert.ToString(edit_price.Text).Replace(',', '.'))
-                                                                                           + " WHERE ProductId = " + Convert.ToInt32(product_code_edit.Text));
+                                                                                               + "', SalePrice = " + Convert.ToDouble(Convert.ToString(edit_price.Text).Replace(',', '.'))
+                                                                                               + ", ProductCount = " + Convert.ToInt32(edit_count.Text)
+                                                                                               + " WHERE ProductId = " + Convert.ToInt32(product_code_edit.Text));
                     MessageBox.Show("Данные успешно изменены");
+                    After_logging_in window2 = new After_logging_in();
+                    window2.Show();
+                    Close();
                 }
-                catch(Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Неправильный формат");
                 }
-                
-                After_logging_in window2 = new After_logging_in();
-                window2.Show();
-                Close();
             }
             else
             {

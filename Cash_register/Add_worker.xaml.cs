@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Cash_register
 {
@@ -23,14 +25,30 @@ namespace Cash_register
 
         private void Click_to_add(object sender, RoutedEventArgs e)
         {
-            if(add_lname.Text != "" && add_fname.Text != "" && add_mname.Text != "" && add_roleWorker.Text != "" && add_pincode.Password != string.Empty)
+            if (add_lname.Text != "" && add_fname.Text != "" && add_mname.Text != "" && add_roleWorker.Text != "" && add_pincode.Password != string.Empty)
             {
+                //переводим строку в байт-массим  
+                byte[] bytes = Encoding.Unicode.GetBytes(add_pincode.Password);
+
+                //создаем объект для получения средст шифрования  
+                MD5CryptoServiceProvider CSP =
+                    new MD5CryptoServiceProvider();
+
+                //вычисляем хеш-представление в байтах  
+                byte[] byteHash = CSP.ComputeHash(bytes);
+
+                //создаем пустую строку
+                string hash = string.Empty;
+
+                //формируем одну цельную строку из массива  
+                foreach (byte b in byteHash)
+                    hash += string.Format("{0:x2}", b);
                 DataTable dt_worker = Insert("Insert into [dbo].[Workers] values " +
                                                                           "('" + add_lname.Text +
                                                                         "', '" + add_fname.Text +
                                                                         "', '" + add_mname.Text +
                                                                         "', '" + add_roleWorker.Text +
-                                                                        "', '" + add_pincode.Password + "')");
+                                                                        "', '" + hash + "')");
                 MessageBox.Show("Данные успешно добавлены");
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();

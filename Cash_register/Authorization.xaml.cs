@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 
 namespace Cash_register
@@ -40,10 +42,27 @@ namespace Cash_register
                     counter++; ;
                 }
 
+                //переводим строку в байт-массим  
+                byte[] bytes = Encoding.Unicode.GetBytes(password.Password);
+
+                //создаем объект для получения средст шифрования  
+                MD5CryptoServiceProvider CSP =
+                    new MD5CryptoServiceProvider();
+
+                //вычисляем хеш-представление в байтах  
+                byte[] byteHash = CSP.ComputeHash(bytes);
+
+                //создаем пустую строку
+                string hash = string.Empty;
+
+                //формируем одну цельную строку из массива  
+                foreach (byte b in byteHash)
+                    hash += string.Format("{0:x2}", b);
+
                 DataTable dt_admins = Select("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkersId = " + id);
                 for (int i = 0; i < dt_admins.Rows.Count; i++)
                 {
-                    if (password.Password == (string)dt_admins.Rows[i][5])
+                    if (hash == (string)dt_admins.Rows[i][5])
                     {
                         After_logging_in window2 = new After_logging_in();
                         window2.Show();
@@ -69,10 +88,27 @@ namespace Cash_register
                     counter++; ;
                 }
 
+                //переводим строку в байт-массим  
+                byte[] bytes = Encoding.Unicode.GetBytes(password.Password);
+
+                //создаем объект для получения средст шифрования  
+                MD5CryptoServiceProvider CSP =
+                    new MD5CryptoServiceProvider();
+
+                //вычисляем хеш-представление в байтах  
+                byte[] byteHash = CSP.ComputeHash(bytes);
+
+                //создаем пустую строку
+                string hash = string.Empty;
+
+                //формируем одну цельную строку из массива  
+                foreach (byte b in byteHash)
+                    hash += string.Format("{0:x2}", b);
+
                 DataTable dt_cashiers = Select("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
                 for (int i = 0; i < dt_cashiers.Rows.Count; i++)
                 {
-                    if (password.Password == (string)dt_cashiers.Rows[i][5])
+                    if (hash == (string)dt_cashiers.Rows[i][5])
                     {
                         After_login_in_cashier window9 = new After_login_in_cashier();
                         window9.Show();

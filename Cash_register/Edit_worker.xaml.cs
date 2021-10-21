@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 
 namespace Cash_register
@@ -29,11 +31,27 @@ namespace Cash_register
         {
             if (edit_lname.Text != "" && edit_fname.Text != "" && edit_mname.Text != "" && edit_roleWorker.Text != "" && edit_pincode.Password != string.Empty)
             {
+                //переводим строку в байт-массим  
+                byte[] bytes = Encoding.Unicode.GetBytes(edit_pincode.Password);
+
+                //создаем объект для получения средст шифрования  
+                MD5CryptoServiceProvider CSP =
+                    new MD5CryptoServiceProvider();
+
+                //вычисляем хеш-представление в байтах  
+                byte[] byteHash = CSP.ComputeHash(bytes);
+
+                //создаем пустую строку
+                string hash = string.Empty;
+
+                //формируем одну цельную строку из массива  
+                foreach (byte b in byteHash)
+                    hash += string.Format("{0:x2}", b);
                 DataTable dt_worker = Update("update [dbo].[Workers] set LName = '" + edit_lname.Text
                                                                + "', FName = '" + edit_fname.Text
                                                                + "', MName = '" + edit_mname.Text
                                                                + "', RoleWorker = '" + edit_roleWorker.Text
-                                                               + "', PinCode = '" + edit_pincode.Password
+                                                               + "', PinCode = '" + hash
                                                                + "' WHERE WorkersId = " + Workers.id);
                 MessageBox.Show("Данные успешно изменены");
                 After_logging_in window2 = new After_logging_in();

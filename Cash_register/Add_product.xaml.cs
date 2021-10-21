@@ -19,7 +19,14 @@ namespace Cash_register
             try
             {
                 DataTable dt_productId = Insert("select max(ProductId) from Products");
-                product_code.Text = Convert.ToString((int)dt_productId.Rows[0][0] + 1);
+                if (Convert.ToString(dt_productId.Rows[0][0]) == "")
+                {
+                    product_code.Text = "1";
+                }
+                else
+                {
+                    product_code.Text = Convert.ToString((int)dt_productId.Rows[0][0] + 1);
+                }
             }
             catch (Exception e)
             {
@@ -36,19 +43,34 @@ namespace Cash_register
 
         private void Click_to_add_product(object sender, RoutedEventArgs e)
         {
-            if (add_product_name.Text != "" && add_price.Text != "")
+            try
             {
-                DataTable dt_product = Insert("Insert into [dbo].[Products] values " +
-                                                                          "('" + add_product_name.Text +
-                                                                        "', " + Convert.ToDouble(Convert.ToString(add_price.Text).Replace(',', '.')) + ")");
-                MessageBox.Show("Продукт успешно добавлен");
-                Product_search window4 = new Product_search();
-                window4.Show();
-                Close();
+                if (add_product_name.Text != "" && add_price.Text != "" && add_count.Text != "")
+                {
+                    if (Convert.ToInt32(add_count.Text) > 0 && Convert.ToDouble(add_price.Text) > 0)
+                    {
+                        DataTable dt_product = Insert("Insert into [dbo].[Products] values " +
+                                                                              "('" + add_product_name.Text +
+                                                                            "', " + Convert.ToDouble(Convert.ToString(add_price.Text).Replace(',', '.')) +
+                                                                            ", " + Convert.ToInt32(add_count.Text) + ")");
+                        MessageBox.Show("Продукт успешно добавлен");
+                        Product_search window4 = new Product_search();
+                        window4.Show();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неправильный формат");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Все строки должны быть заполнены");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Все строки должны быть заполнены");
+                MessageBox.Show(ex.Message);
             }
         }
 

@@ -13,15 +13,16 @@ namespace Cash_register
         public static string nameProduct;
         public static int idProduct;
         public static double salePrice;
+        public static int productCount;
         public Product_search()
         {
             InitializeComponent();
             DataTable dt_products = Select("SELECT * FROM [dbo].[Products]");
             for (int i = 0; i < dt_products.Rows.Count; i++)
             {
-                MainWindow.Products.Add("Код: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + (string)dt_products.Rows[i][1] + " (" + Convert.ToString(Convert.ToDouble(dt_products.Rows[i][2])) + "₽)");
+                MainWindow.Products.Add("Код: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + Convert.ToString(dt_products.Rows[i][1]) + " - " + Convert.ToString(dt_products.Rows[i][3]) + " шт (" + Convert.ToString(Convert.ToDouble(dt_products.Rows[i][2])) + "₽)");
             }
-            
+
             foreach (string i in MainWindow.Products)
             {
                 List_of_products.Items.Add(i);
@@ -56,9 +57,9 @@ namespace Cash_register
 
         public void Click_to_find_a_product(object sender, RoutedEventArgs e)
         {
-            MainWindow.Products.Clear();
             Button_find_a_product.Visibility = Visibility.Hidden;
             Search_product.Visibility = Visibility.Visible;
+            Button_search.Visibility = Visibility.Visible;
         }
 
         private void List_of_products_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -103,7 +104,8 @@ namespace Cash_register
             {
                 nameProduct = Convert.ToString(List_of_products.SelectedItem).Split(' ')[2];
                 idProduct = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
-                salePrice = Convert.ToDouble(Convert.ToString(List_of_products.SelectedItem).Split(' ', '₽')[3].Substring(1));
+                salePrice = Convert.ToDouble(Convert.ToString(List_of_products.SelectedItem).Split(' ', '₽')[6].Substring(1));
+                productCount = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ')[4]);
                 MainWindow.Products.Clear();
                 Edit_product edit_product = new Edit_product();
                 edit_product.Show();
@@ -112,6 +114,18 @@ namespace Cash_register
             else
             {
                 MessageBox.Show("Выберите товар");
+            }
+        }
+
+        private void Click_search(object sender, RoutedEventArgs e)
+        {
+            List_of_products.Items.Clear();
+            foreach (string i in MainWindow.Products)
+            {
+                if (i.Contains(Search_product.Text))
+                {
+                    List_of_products.Items.Add(i);
+                }
             }
         }
     }
