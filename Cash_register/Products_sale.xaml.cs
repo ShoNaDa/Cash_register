@@ -6,15 +6,15 @@ using System.Windows;
 namespace Cash_register
 {
     /// <summary>
-    /// Логика взаимодействия для Product_search.xaml
+    /// Логика взаимодействия для Products_sale.xaml
     /// </summary>
-    public partial class Product_search : Window
+    public partial class Products_sale : Window
     {
+        public static int idProductForCount;
+        public static double price;
         public static string nameProduct;
-        public static int idProduct;
-        public static double salePrice;
-        public static int productCount;
-        public Product_search()
+
+        public Products_sale()
         {
             InitializeComponent();
             DataTable dt_products = Select("SELECT * FROM [dbo].[Products]");
@@ -29,33 +29,6 @@ namespace Cash_register
             }
         }
 
-        public void Click_add_product_plus(object sender, RoutedEventArgs e)
-        {
-            MainWindow.Products.Clear();
-            Add_product window16 = new Add_product();
-            window16.Show();
-            Close();
-        }
-
-        public void Click_back(object sender, RoutedEventArgs e)
-        {
-            MainWindow.Products.Clear();
-            After_logging_in window2 = new After_logging_in();
-            window2.Show();
-            Close();
-        }
-
-        public void Click_to_find_a_product(object sender, RoutedEventArgs e)
-        {
-            Button_find_a_product.Visibility = Visibility.Hidden;
-            Search_product.Visibility = Visibility.Visible;
-            Button_search.Visibility = Visibility.Visible;
-        }
-
-        private void List_of_products_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
         public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
         {
             DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
@@ -70,17 +43,45 @@ namespace Cash_register
             return dataTable;
         }
 
-        private void Click_to_drop_product(object sender, RoutedEventArgs e)
+        private void Click_to_find_product(object sender, RoutedEventArgs e)
         {
+            Button_find_product.Visibility = Visibility.Hidden;
+            Search_product.Visibility = Visibility.Visible;
+            Button_search.Visibility = Visibility.Visible;
+        }
+
+        private void Click_to_add_product_sale(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Products.Clear();
             if (List_of_products.SelectedIndex != -1)
             {
-                int id = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
-                DataTable dt_product = Select("delete from [dbo].[Products] WHERE ProductId = " + id);
-                MessageBox.Show("Данные успешно удалены");
-                MainWindow.Products.Clear();
-                After_logging_in window2 = new After_logging_in();
-                window2.Show();
-                Close();
+                bool ProductContain = false;
+                for (int i = 0; i < Sales1.ProductsSale.Count; i++)
+                {
+                    if (Sales1.ProductsSale[i].Split(' ', '.')[1] == Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1])
+                    {
+                        ProductContain = true;
+                        MessageBox.Show("Этот товар уже добавлен в продажи");
+                        break;
+                    }
+                }
+                if (ProductContain == false)
+                {
+                    try
+                    {
+                        Sales1.ProductsSale.Add(Convert.ToString(List_of_products.SelectedItem));
+                        nameProduct = Convert.ToString(List_of_products.SelectedItem).Split('.')[1].Split('-')[0].Trim();
+                        idProductForCount = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
+                        price = Convert.ToDouble(Convert.ToString(List_of_products.SelectedItem).Split('(')[1].Split('₽')[0]);
+                        Count count = new Count();
+                        count.Show();
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
             else
             {
@@ -88,23 +89,12 @@ namespace Cash_register
             }
         }
 
-        private void Click_to_edit_product(object sender, RoutedEventArgs e)
+        private void Click_back(object sender, RoutedEventArgs e)
         {
-            if (List_of_products.SelectedIndex != -1)
-            {
-                nameProduct = Convert.ToString(List_of_products.SelectedItem).Split('.')[1].Split('-')[0].Trim();
-                idProduct = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
-                salePrice = Convert.ToDouble(Convert.ToString(List_of_products.SelectedItem).Split('(')[1].Split('₽')[0]);
-                productCount = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split('-')[1].Split('ш')[0].Trim());
-                MainWindow.Products.Clear();
-                Edit_product edit_product = new Edit_product();
-                edit_product.Show();
-                Close();
-            }
-            else
-            {
-                MessageBox.Show("Выберите товар");
-            }
+            MainWindow.Products.Clear();
+            Sales1 window9 = new Sales1();
+            window9.Show();
+            Close();
         }
 
         private void Click_search(object sender, RoutedEventArgs e)

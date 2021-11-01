@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -10,6 +11,9 @@ namespace Cash_register
     /// </summary>
     public partial class Add_product : Window
     {
+        List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+        List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+
         public Add_product()
         {
             InitializeComponent();
@@ -43,10 +47,67 @@ namespace Cash_register
 
         private void Click_to_add_product(object sender, RoutedEventArgs e)
         {
-            try
+            //проверяем нет ли пустых полей
+            if (add_product_name.Text != "" && add_price.Text != "" && add_count.Text != "")
             {
-                if (add_product_name.Text != "" && add_price.Text != "" && add_count.Text != "")
+                bool CountIsOk = false;
+                bool PriceIsOk = false;
+                bool NameIsOk = true;
+                //проверяем правильно ли написано количество
+                for (int i = 0; i < add_count.Text.Length; i++)
                 {
+                    if (CountIsOk)
+                    {
+                        CountIsOk = false;
+                    }
+                    for (int j = 0; j < Numbers.Count; j++)
+                    {
+                        if (Convert.ToString(add_count.Text[i]).Contains(Numbers[j]))
+                        {
+                            CountIsOk = true;
+                            break;
+                        }
+                    }
+                    if (CountIsOk == false)
+                    {
+                        break;
+                    }
+                }
+                //проверяем правильно ли написана цена
+                for (int i = 0; i < add_price.Text.Length; i++)
+                {
+                    if (PriceIsOk)
+                    {
+                        PriceIsOk = false;
+                    }
+                    for (int j = 0; j < Signs.Count; j++)
+                    {
+                        if (Convert.ToString(add_price.Text[i]).Contains(Signs[j]))
+                        {
+                            PriceIsOk = true;
+                            break;
+                        }
+                    }
+                    if (PriceIsOk == false)
+                    {
+                        break;
+                    }
+                }
+                //проверяем правильно ли написано название
+                for (int i = 0; i < add_product_name.Text.Length; i++)
+                {
+                    if (add_product_name.Text[i] == '-' || add_product_name.Text[i] == '(')
+                    {
+                        MessageBox.Show("Нельзя использовать '-' или '(' в названии");
+                        NameIsOk = false;
+                    }
+                }
+                //если все ок и цена не начинается и не заканчивается с "." или ","
+                if (CountIsOk && PriceIsOk && NameIsOk &&
+                    Convert.ToString(add_price.Text[0]) != "." && Convert.ToString(add_price.Text[0]) != "," &&
+                    Convert.ToString(add_price.Text[add_price.Text.Length - 1]) != "." && Convert.ToString(add_price.Text[add_price.Text.Length - 1]) != ",")
+                {
+                    //проверяем: цена и количество больше нуля?
                     if (Convert.ToInt32(add_count.Text) > 0 && Convert.ToDouble(add_price.Text) > 0)
                     {
                         DataTable dt_product = Insert("Insert into [dbo].[Products] values " +
@@ -65,12 +126,12 @@ namespace Cash_register
                 }
                 else
                 {
-                    MessageBox.Show("Все строки должны быть заполнены");
+                    MessageBox.Show("Неправильный формат");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Все строки должны быть заполнены");
             }
         }
 

@@ -20,7 +20,6 @@ namespace Cash_register
         public static List<string> Admins = new List<string>(1);
         public static List<string> Products = new List<string>(1);
         //bool
-        public static bool IsSearchProducts = true;
         public static bool IsCashier;
         public static bool IsAdmin;
         //string

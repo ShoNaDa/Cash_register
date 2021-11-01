@@ -41,24 +41,26 @@
         </Ellipse>
 
         <Border
+            Name="ToPay"
             Height="100" 
-            Width="800"
-            Margin="0,400,0,0"
+            Width="780"
+            Margin="10,400,10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            Background="#FF2929A2" 
-            Opacity="0.7">
+            Background="#FF1AB61A" 
+            Opacity="0.5">
 
             <Button
                 Name="Button_to_be_paid"
                 Click="Click_to_be_paid"
                 Margin="0,0,0,0" 
                 Height="100" 
-                Width="800" 
+                Width="780" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"
-                Opacity="0.5"
-                Cursor="Hand">
+                Opacity="1"
+                Cursor="Hand"
+                Background="#FF1AB61A" >
 
             </Button>
 
@@ -70,19 +72,20 @@
                    FontSize="50" 
                     Height="50" 
                     Width="550"
-                    Margin="10,320,0,0"
+                    Margin="20,320,0,0"
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Center" 
                    Cursor="Arrow" 
                    IsHitTestVisible="False"/>
-        <TextBlock Text="0 ₽" 
+        <TextBlock Text="0 ₽"
+                   x:Name="Result"
                    FontFamily="Arial"
                    Foreground="White" 
                    Opacity="0.5"
                    FontSize="50" 
                     Height="50" 
                     Width="550"
-                    Margin="0,320,10,0"
+                    Margin="0,320,20,0"
                    HorizontalAlignment="Right" 
                    VerticalAlignment="Center" 
                    Cursor="Arrow" 
@@ -110,12 +113,14 @@
             </Button.Resources>
         </Button>
         <ListBox HorizontalAlignment="Center" 
+                 x:Name ="List_of_product_sale"
                  Height="280" 
-                 Margin="0,110,0,0" 
+                 Margin="10,110,10,0" 
                  VerticalAlignment="Top" 
-                 Width="800"
+                 Width="780"
                  Panel.ZIndex="-1" 
-                 Cursor="Arrow">
+                 Cursor="Arrow"
+                 FontSize="25">
 
         </ListBox>
 

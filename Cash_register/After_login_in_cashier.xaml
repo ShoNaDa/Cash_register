@@ -193,7 +193,7 @@
 
             </Button>
         </Border>
-        <Ellipse Width="50" Height="50" Margin="240,-460,0,0" >
+        <Ellipse Width="50" Height="50" Margin="240,-460,0,0" IsHitTestVisible="False">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="replace.png" Stretch="Fill"/>
             </Ellipse.Fill>
