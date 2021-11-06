@@ -1,0 +1,50 @@
+﻿<Window x:Class="Cash_register.Open_shift"
+        x:Name="openShift"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Касса" 
+        Height="250" 
+        Width="400" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="Black"
+        Icon = "Cash_register.png">
+    <Grid>
+        <Button
+            x:Name="Button_open"
+            Click="Click_open"
+            Background="#FF2929A2" 
+            Margin="0,150,0,0" 
+            Height="50" 
+            Width="300" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Center"
+            Cursor="Hand"
+            Content="Открыть смену"
+            FontFamily="Arial" 
+            FontSize="35" 
+            Foreground="White">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBlock
+            Margin="0,50,0,0"
+            x:Name="moneyInTheCashRegister"
+            Width="400" 
+            Height="50"
+            Background="Black"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            FontFamily="Arial" 
+            FontSize="35"
+            Foreground="White"
+            Text=" ₽ в кассе"
+            TextAlignment="Center"/>
+    </Grid>
+</Window>

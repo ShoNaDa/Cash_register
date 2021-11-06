@@ -77,8 +77,14 @@
     <Compile Include="Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Close_shift.xaml.cs">
+      <DependentUpon>Close_shift.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Count.xaml.cs">
       <DependentUpon>Count.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Deposit_money.xaml.cs">
+      <DependentUpon>Deposit_money.xaml</DependentUpon>
     </Compile>
     <Compile Include="Edit_product.xaml.cs">
       <DependentUpon>Edit_product.xaml</DependentUpon>
@@ -94,6 +100,9 @@
     </Compile>
     <Compile Include="List_of_cashiers.xaml.cs">
       <DependentUpon>List_of_cashiers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Open_shift.xaml.cs">
+      <DependentUpon>Open_shift.xaml</DependentUpon>
     </Compile>
     <Compile Include="Products_sale.xaml.cs">
       <DependentUpon>Products_sale.xaml</DependentUpon>
@@ -112,6 +121,9 @@
     </Compile>
     <Compile Include="Statements.xaml.cs">
       <DependentUpon>Statements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Withdrawals_money.xaml.cs">
+      <DependentUpon>Withdrawals_money.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workers.xaml.cs">
       <DependentUpon>Workers.xaml</DependentUpon>
@@ -144,7 +156,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Close_shift.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Count.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Deposit_money.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,6 +203,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Open_shift.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Products_sale.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Withdrawals_money.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

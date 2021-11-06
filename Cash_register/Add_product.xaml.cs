@@ -17,7 +17,7 @@ namespace Cash_register
         public Add_product()
         {
             InitializeComponent();
-
+            //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             try
@@ -96,9 +96,9 @@ namespace Cash_register
                 //проверяем правильно ли написано название
                 for (int i = 0; i < add_product_name.Text.Length; i++)
                 {
-                    if (add_product_name.Text[i] == '-' || add_product_name.Text[i] == '(')
+                    if (add_product_name.Text[i] == '-' || add_product_name.Text[i] == '(' || add_product_name.Text[i] == '?')
                     {
-                        MessageBox.Show("Нельзя использовать '-' или '(' в названии");
+                        MessageBox.Show("Нельзя использовать '-' / '(' / '?' в названии");
                         NameIsOk = false;
                     }
                 }

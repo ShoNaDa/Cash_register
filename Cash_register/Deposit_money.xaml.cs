@@ -7,63 +7,55 @@ using System.Windows;
 namespace Cash_register
 {
     /// <summary>
-    /// Логика взаимодействия для Count.xaml
+    /// Логика взаимодействия для Deposit_money.xaml
     /// </summary>
-    public partial class Count : Window
+    public partial class Deposit_money : Window
     {
-        List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        public static int countOfProduct;
-        public Count()
+        List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+        public Deposit_money()
         {
             InitializeComponent();
+            //с этой штукой правильно работает точка и запятая
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
-        private void Click_go_next(object sender, RoutedEventArgs e)
+        private void Click_go(object sender, RoutedEventArgs e)
         {
             //проверяем нет ли пустых полей
-            if (count_product.Text != "")
+            if (depositMoneyCount.Text != "")
             {
-                bool CountIsOk = false;
-                //проверяем правильно ли написано количество
-                for (int i = 0; i < count_product.Text.Length; i++)
+                bool depositCountIsOk = false;
+                //проверяем правильно ли написана сумма внесения
+                for (int i = 0; i < depositMoneyCount.Text.Length; i++)
                 {
-                    if (CountIsOk)
+                    if (depositCountIsOk)
                     {
-                        CountIsOk = false;
+                        depositCountIsOk = false;
                     }
-                    for (int j = 0; j < Numbers.Count; j++)
+                    for (int j = 0; j < Signs.Count; j++)
                     {
-                        if (Convert.ToString(count_product.Text[i]).Contains(Numbers[j]))
+                        if (Convert.ToString(depositMoneyCount.Text[i]).Contains(Signs[j]))
                         {
-                            CountIsOk = true;
+                            depositCountIsOk = true;
                             break;
                         }
                     }
-                    if (CountIsOk == false)
+                    if (depositCountIsOk == false)
                     {
                         break;
                     }
                 }
                 //если все ок
-                if (CountIsOk)
+                if (depositCountIsOk && Convert.ToString(depositMoneyCount.Text[0]) != "." && Convert.ToString(depositMoneyCount.Text[0]) != "," &&
+                    Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != "." && Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != ",")
                 {
-                    //проверяем: количество больше нуля?
-                    if (Convert.ToInt32(count_product.Text) > 0)
+                    //проверяем: сумма внесения больше нуля?
+                    if (Convert.ToDouble(depositMoneyCount.Text) > 0)
                     {
-                        DataTable dt_product = Insert("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
-                        if (Convert.ToInt32(dt_product.Rows[0][0]) >= Convert.ToInt32(count_product.Text))
-                        {
-                            countOfProduct = Convert.ToInt32(count_product.Text);
-                            Sales1.ProductsSale[Sales1.ProductsSale.Count - 1] = "Код: " + Convert.ToString(Products_sale.idProductForCount) + ". " + Products_sale.nameProduct + ". Стоимость: " + countOfProduct * Products_sale.price + "₽ (" + countOfProduct + " шт)";
-
-                            Sales1 sales = new Sales1();
-                            sales.Show();
-                            Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Такого количества товара нет на складе");
-                        }
+                        DataTable dt_deposit = Insert("Update Statements set Deposits = Deposits + " + Convert.ToDouble(Convert.ToString(depositMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
+                        Statements statements = new Statements();
+                        statements.Show();
+                        Close();
                     }
                     else
                     {

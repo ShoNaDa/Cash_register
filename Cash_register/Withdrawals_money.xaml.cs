@@ -7,62 +7,62 @@ using System.Windows;
 namespace Cash_register
 {
     /// <summary>
-    /// Логика взаимодействия для Count.xaml
+    /// Логика взаимодействия для Withdrawals_money.xaml
     /// </summary>
-    public partial class Count : Window
+    public partial class Withdrawals_money : Window
     {
-        List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        public static int countOfProduct;
-        public Count()
+        List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+        public Withdrawals_money()
         {
             InitializeComponent();
+            //с этой штукой правильно работает точка и запятая
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
-        private void Click_go_next(object sender, RoutedEventArgs e)
+        private void Click_goo(object sender, RoutedEventArgs e)
         {
             //проверяем нет ли пустых полей
-            if (count_product.Text != "")
+            if (withdrawalsMoneyCount.Text != "")
             {
-                bool CountIsOk = false;
-                //проверяем правильно ли написано количество
-                for (int i = 0; i < count_product.Text.Length; i++)
+                bool withdrawalsCountIsOk = false;
+                //проверяем правильно ли написана сумма внесения
+                for (int i = 0; i < withdrawalsMoneyCount.Text.Length; i++)
                 {
-                    if (CountIsOk)
+                    if (withdrawalsCountIsOk)
                     {
-                        CountIsOk = false;
+                        withdrawalsCountIsOk = false;
                     }
-                    for (int j = 0; j < Numbers.Count; j++)
+                    for (int j = 0; j < Signs.Count; j++)
                     {
-                        if (Convert.ToString(count_product.Text[i]).Contains(Numbers[j]))
+                        if (Convert.ToString(withdrawalsMoneyCount.Text[i]).Contains(Signs[j]))
                         {
-                            CountIsOk = true;
+                            withdrawalsCountIsOk = true;
                             break;
                         }
                     }
-                    if (CountIsOk == false)
+                    if (withdrawalsCountIsOk == false)
                     {
                         break;
                     }
                 }
                 //если все ок
-                if (CountIsOk)
+                if (withdrawalsCountIsOk && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "," &&
+                    Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != ",")
                 {
-                    //проверяем: количество больше нуля?
-                    if (Convert.ToInt32(count_product.Text) > 0)
+                    //проверяем: сумма внесения больше нуля?
+                    if (Convert.ToDouble(withdrawalsMoneyCount.Text) > 0)
                     {
-                        DataTable dt_product = Insert("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
-                        if (Convert.ToInt32(dt_product.Rows[0][0]) >= Convert.ToInt32(count_product.Text))
+                        DataTable dt = Insert("select MoneyInTheCashRegister from Statements where StatementsId = (select count(StatementsId) from Statements)");
+                        if (Convert.ToDouble(dt.Rows[0][0]) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
                         {
-                            countOfProduct = Convert.ToInt32(count_product.Text);
-                            Sales1.ProductsSale[Sales1.ProductsSale.Count - 1] = "Код: " + Convert.ToString(Products_sale.idProductForCount) + ". " + Products_sale.nameProduct + ". Стоимость: " + countOfProduct * Products_sale.price + "₽ (" + countOfProduct + " шт)";
-
-                            Sales1 sales = new Sales1();
-                            sales.Show();
+                            DataTable dt_withdrawals = Insert("Update Statements set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
+                            Statements statements = new Statements();
+                            statements.Show();
                             Close();
                         }
                         else
                         {
-                            MessageBox.Show("Такого количества товара нет на складе");
+                            MessageBox.Show("В кассе нет столько денег");
                         }
                     }
                     else

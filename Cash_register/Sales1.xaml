@@ -65,7 +65,8 @@
             </Button>
 
         </Border>
-        <TextBlock Text="К оплате" 
+        <TextBlock Text="К оплате"
+                   x:Name="toPay"
                    FontFamily="Arial"
                    Foreground="White" 
                    Opacity="0.5"

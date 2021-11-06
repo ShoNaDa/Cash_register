@@ -84,9 +84,9 @@ namespace Cash_register
                 //проверяем правильно ли написано название
                 for (int i = 0; i < edit_product_name.Text.Length; i++)
                 {
-                    if (edit_product_name.Text[i] == '-' || edit_product_name.Text[i] == '(')
+                    if (edit_product_name.Text[i] == '-' || edit_product_name.Text[i] == '(' || edit_product_name.Text[i] == '?')
                     {
-                        MessageBox.Show("Нельзя использовать '-' или '(' в названии");
+                        MessageBox.Show("Нельзя использовать '-' / '(' / '?' в названии");
                         NameIsOk = false;
                     }
                 }

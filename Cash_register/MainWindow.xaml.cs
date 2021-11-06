@@ -22,6 +22,7 @@ namespace Cash_register
         //bool
         public static bool IsCashier;
         public static bool IsAdmin;
+        public static bool theShiftIsOpen;
         //string
         public static string FIO_worker;
         //int

@@ -97,11 +97,35 @@
             Cursor="IBeam">
             
         </TextBox>
+
+        <Button
+            Background="White"
+                BorderBrush="Black"
+                Name="Button_searching"
+                Click="Click_searching" 
+                Margin="20,135,0,0" 
+                Height="50" 
+                Width="50" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Cursor="Hand"
+                Visibility="Hidden">
+
+        </Button>
         <Ellipse 
-               Width="50" Height="50" Margin="20,135,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
+               Width="40" Height="40" Margin="25,140,0,0" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="search.jpg" Stretch="Fill"/>
             </Ellipse.Fill>
         </Ellipse>
+        <ListBox HorizontalAlignment="Center" 
+            x:Name ="List_of_products_sold"
+            Height="270" 
+            Margin="10,220,10,0" 
+            VerticalAlignment="Top" 
+            Width="780"
+            Panel.ZIndex="-1" 
+            Cursor="Arrow"
+            FontSize="25"/>
     </Grid>
 </Window>
