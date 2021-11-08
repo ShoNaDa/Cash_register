@@ -99,11 +99,25 @@ namespace Cash_register
                         List_of_products_sold.Items.Add(ListOfProductsSold[i]);
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Напишите номер чека");
-                    break;
-                }
+            }
+        }
+
+        private void Click_to_refund_product(object sender, RoutedEventArgs e)
+        {
+            if (List_of_products_sold.SelectedIndex != -1)
+            {
+                //Возвращаем проданное количество
+                string count = Convert.ToString(List_of_products_sold.SelectedItem).Split('(')[1].Split(' ')[0].Trim();
+                string receiptNumber = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[1].Split('.')[0].Trim();
+                DataTable dt_id = Select("Select FK_ProductId from ProductsSold where ReceiptNumber = " + receiptNumber);
+                DataTable dt_products = Select("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + Convert.ToString(dt_id.Rows[0][0]));
+                //Добавляем возврат
+                DataTable dt_sale = Select("Update Statements set Refund = Refund + " + Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[2].Split('₽')[0].Trim().Replace(',', '.') + " where StatementsId = (Select count(StatementsId) from Statements)");
+                //Удаляем из списка
+                DataTable dt_sold = Select("Delete from ProductsSold where ReceiptNumber = " + receiptNumber);
+                Refund_of_products window5 = new Refund_of_products();
+                window5.Show();
+                Close();
             }
         }
     }

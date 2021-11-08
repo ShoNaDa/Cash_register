@@ -53,7 +53,7 @@ namespace Cash_register
                     string count = Convert.ToString(List_of_product_sale.Items[i]).Split('(')[1].Split(' ')[0].Trim();
                     string id = Convert.ToString(List_of_product_sale.Items[i]).Split(':')[1].Split('.')[0].Trim();
                     DataTable dt_products = Select("Update Products set ProductCount = ProductCount - " + count + " where ProductId = " + id);
-                    DataTable dt_products_sold = Select("Insert into ProductsSold values ('" + Convert.ToString(List_of_product_sale.Items[i]).Substring(Convert.ToString(List_of_product_sale.Items[i]).IndexOf('.') + 2) + "')");
+                    DataTable dt_products_sold = Select("Insert into ProductsSold values ('" + Convert.ToString(List_of_product_sale.Items[i]).Substring(Convert.ToString(List_of_product_sale.Items[i]).IndexOf('.') + 2) + "', " + id + ")");
                 }
                 DataTable statementsId = Select("Select count(StatementsId) from Statements");
                 DataTable salesInStatement = Select("Update Statements set Sales = Sales + " + Convert.ToDouble(Result.Text.Split(' ')[0].Trim()) + "where StatementsId = " + Convert.ToInt32(statementsId.Rows[0][0]));

@@ -42,7 +42,7 @@
         <Border
             Height="50" 
             Width="800"
-            Margin="-3,110,-3,0"
+            Margin="0,110,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Background="White">

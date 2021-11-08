@@ -45,7 +45,7 @@ namespace Cash_register
             MainWindow.deposits = Convert.ToDouble(dt_deposits.Rows[dt_deposits.Rows.Count - 1][0]); ;
             deposits.Text = Convert.ToString(MainWindow.deposits);
             //... рублей в кассе
-            DataTable MoneyInTheCashRegister = Select("Update Statements set MoneyInTheCashRegister = " + Convert.ToDouble(dt_moneyAtTheBeginningOfTheShift.Rows[0][0]) + " + " + Convert.ToDouble(dt_sales.Rows[0][0]) + " - " + Convert.ToDouble(dt_refund.Rows[0][0]) + " - " + Convert.ToDouble(dt_withdrawals.Rows[0][0]) + " + " + Convert.ToDouble(dt_deposits.Rows[0][0]));
+            DataTable MoneyInTheCashRegister = Select("Update Statements set MoneyInTheCashRegister = " + Convert.ToDouble(dt_moneyAtTheBeginningOfTheShift.Rows[0][0]) + " + " + Convert.ToDouble(dt_sales.Rows[0][0]) + " - " + Convert.ToDouble(dt_refund.Rows[0][0]) + " - " + Convert.ToDouble(dt_withdrawals.Rows[0][0]) + " + " + Convert.ToDouble(dt_deposits.Rows[0][0]) + " where StatementsId = (select count(StatementsId) from Statements)");
             DataTable dt_moneyInTheCashRegister = Select("SELECT MoneyInTheCashRegister FROM Statements where StatementsId = (select count(StatementsId) from Statements)");
             MainWindow.moneyInTheCashRegister = Convert.ToDouble(dt_moneyInTheCashRegister.Rows[dt_moneyInTheCashRegister.Rows.Count - 1][0]); ;
             moneyInTheCashRegister.Text = MainWindow.moneyInTheCashRegister + "₽ в кассе";
