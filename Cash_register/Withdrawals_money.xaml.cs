@@ -45,15 +45,28 @@ namespace Cash_register
                         break;
                     }
                 }
+                int count = 0;
+                for (int i = 0; i < withdrawalsMoneyCount.Text.Length; i++)
+                {
+                    if (Convert.ToString(withdrawalsMoneyCount.Text[i]) == "." || Convert.ToString(withdrawalsMoneyCount.Text[i]) == ",")
+                    {
+                        count++;
+                        if (count == 2)
+                        {
+                            withdrawalsCountIsOk = false;
+                            break;
+                        }
+                    }
+                }
                 //если все ок
                 if (withdrawalsCountIsOk && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "," &&
                     Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != ",")
                 {
-                    //проверяем: сумма внесения больше нуля?
+                    //проверяем: сумма изъятия больше нуля?
                     if (Convert.ToDouble(withdrawalsMoneyCount.Text) > 0)
                     {
                         DataTable dt = Insert("select MoneyInTheCashRegister from Statements where StatementsId = (select count(StatementsId) from Statements)");
-                        if (Convert.ToDouble(dt.Rows[0][0]) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
+                        if (Convert.ToDouble(Convert.ToString(dt.Rows[0][0]).Replace('.', ',')) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
                         {
                             DataTable dt_withdrawals = Insert("Update Statements set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
                             Statements statements = new Statements();

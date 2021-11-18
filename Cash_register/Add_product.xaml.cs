@@ -93,6 +93,19 @@ namespace Cash_register
                         break;
                     }
                 }
+                int count = 0;
+                for (int i = 0; i < add_price.Text.Length; i++)
+                {
+                    if (Convert.ToString(add_price.Text[i]) == "." || Convert.ToString(add_price.Text[i]) == ",")
+                    {
+                        count++;
+                        if (count == 2)
+                        {
+                            PriceIsOk = false;
+                            break;
+                        }
+                    }
+                }
                 //проверяем правильно ли написано название
                 for (int i = 0; i < add_product_name.Text.Length; i++)
                 {

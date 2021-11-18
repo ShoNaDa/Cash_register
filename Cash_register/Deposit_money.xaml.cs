@@ -45,6 +45,19 @@ namespace Cash_register
                         break;
                     }
                 }
+                int count = 0;
+                for (int i = 0; i < depositMoneyCount.Text.Length; i++)
+                {
+                    if (Convert.ToString(depositMoneyCount.Text[i]) == "." || Convert.ToString(depositMoneyCount.Text[i]) == ",")
+                    {
+                        count++;
+                        if (count == 2)
+                        {
+                            depositCountIsOk = false;
+                            break;
+                        }
+                    }
+                }
                 //если все ок
                 if (depositCountIsOk && Convert.ToString(depositMoneyCount.Text[0]) != "." && Convert.ToString(depositMoneyCount.Text[0]) != "," &&
                     Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != "." && Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != ",")
