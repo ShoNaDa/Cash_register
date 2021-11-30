@@ -94,5 +94,13 @@ namespace Cash_register
             sqlConnection.Close();
             return dataTable;
         }
+
+        private void Click_back(object sender, RoutedEventArgs e)
+        {
+            Sales1.ProductsSale.Clear();
+            Products_sale sale = new Products_sale();
+            sale.Show();
+            Close();
+        }
     }
 }

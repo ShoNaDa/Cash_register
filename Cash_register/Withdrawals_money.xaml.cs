@@ -107,5 +107,12 @@ namespace Cash_register
             sqlConnection.Close();
             return dataTable;
         }
+
+        private void Click_back(object sender, RoutedEventArgs e)
+        {
+            Statements statements = new Statements();
+            statements.Show();
+            Close();
+        }
     }
 }

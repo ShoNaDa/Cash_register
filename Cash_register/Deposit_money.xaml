@@ -39,7 +39,7 @@
             x:Name="Button_go"
             Click="Click_go"
             Background="#FF2929A2" 
-            Margin="0,200,0,0" 
+            Margin="150,200,0,0" 
             Height="50" 
             Width="150" 
             VerticalAlignment="Top" 
@@ -55,6 +55,23 @@
                 </Style>
             </Button.Resources>
         </Button>
-
+        <Button
+            Background="Black"
+            BorderBrush="Black"
+            x:Name="Button_back"
+            Click="Click_back" 
+            Margin="50,200,0,0" 
+            Height="50" 
+            Width="50" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left"
+            Cursor="Hand">
+            <Ellipse 
+                x:Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="back.png" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Button>
     </Grid>
 </Window>
