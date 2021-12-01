@@ -44,7 +44,7 @@ namespace Cash_register
         public Statements()
         {
             InitializeComponent();
-
+            Date();
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             //смена №...
@@ -77,6 +77,8 @@ namespace Cash_register
             MainWindow.moneyInTheCashRegister = Convert.ToDouble(dt_moneyInTheCashRegister.Rows[dt_moneyInTheCashRegister.Rows.Count - 1][0]); ;
             moneyInTheCashRegister.Text = MainWindow.moneyInTheCashRegister + "₽ в кассе";
         }
+
+        
         //событие для обновления времени на текущее при перемещении курсора мыши
         private void Grid_MouseMove(object sender, MouseEventArgs e)
         {

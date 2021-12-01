@@ -147,7 +147,6 @@ namespace Cash_register
                 MessageBox.Show("Все строки должны быть заполнены");
             }
         }
-
         public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
         {
             DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
