@@ -41,7 +41,7 @@
         </Ellipse>
         <Border
             Height="50" 
-            Width="800"
+            Width="760"
             Margin="0,110,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
@@ -52,7 +52,7 @@
                 Click="Click_to_find_product"
                 Margin="0,0,0,0" 
                 Height="50" 
-                Width="800"
+                Width="760"
                 VerticalAlignment="Top" 
                 FontFamily="Arial"
                 Content="Найти товар" 

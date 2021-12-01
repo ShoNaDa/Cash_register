@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -10,14 +11,40 @@ namespace Cash_register
     /// </summary>
     public partial class Statements : Window
     {
+        //функция для установки времени
+        public void Date()
+        {
+            DateTime date1 = DateTime.Now;
+            if (edit_time.dateAndTime != 0)
+            {
+                switch (edit_time.dateAndTime)
+                {
+                    case 1:
+                        time.Text = Convert.ToString(date1.ToLongDateString());
+                        break;
+                    case 2:
+                        time.Text = Convert.ToString(date1.ToShortDateString());
+                        break;
+                    case 3:
+                        time.Text = Convert.ToString(date1.ToLongTimeString());
+                        break;
+                    case 4:
+                        time.Text = Convert.ToString(date1.ToShortTimeString());
+                        break;
+                    case 5:
+                        time.Text = Convert.ToString(date1.ToLocalTime());
+                        break;
+                }
+            }
+            else
+            {
+                time.Text = Convert.ToString(date1);
+            }
+        }
         public Statements()
         {
             InitializeComponent();
 
-            if (edit_time.dateAndTime != null)
-            {
-                time.Text = edit_time.dateAndTime;
-            }
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             //смена №...
@@ -49,6 +76,11 @@ namespace Cash_register
             DataTable dt_moneyInTheCashRegister = Select("SELECT MoneyInTheCashRegister FROM Statements where StatementsId = (select count(StatementsId) from Statements)");
             MainWindow.moneyInTheCashRegister = Convert.ToDouble(dt_moneyInTheCashRegister.Rows[dt_moneyInTheCashRegister.Rows.Count - 1][0]); ;
             moneyInTheCashRegister.Text = MainWindow.moneyInTheCashRegister + "₽ в кассе";
+        }
+        //событие для обновления времени на текущее при перемещении курсора мыши
+        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        {
+            Date();
         }
         public void Click_back(object sender, RoutedEventArgs e)
         {

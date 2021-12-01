@@ -8,7 +8,7 @@ namespace Cash_register
     /// </summary>
     public partial class edit_time : Window
     {
-        public static string dateAndTime;
+        public static int dateAndTime = 0;
         public edit_time()
         {
             InitializeComponent();
@@ -23,26 +23,25 @@ namespace Cash_register
 
         private void Click_to_save(object sender, RoutedEventArgs e)
         {
-            DateTime date1 = DateTime.Now;
             if (List_of_time.SelectedIndex == 0)
             {
-                dateAndTime = date1.ToLongDateString();
+                dateAndTime = 1;
             }
             else if (List_of_time.SelectedIndex == 1)
             {
-                dateAndTime = date1.ToShortDateString();
+                dateAndTime = 2;
             }
             else if (List_of_time.SelectedIndex == 2)
             {
-                dateAndTime = date1.ToLongTimeString();
+                dateAndTime = 3;
             }
             else if (List_of_time.SelectedIndex == 3)
             {
-                dateAndTime = date1.ToShortTimeString();
+                dateAndTime = 4;
             }
             else if (List_of_time.SelectedIndex == 4)
             {
-                dateAndTime = Convert.ToString(date1.ToLocalTime());
+                dateAndTime = 5;
             }
             if (List_of_time.SelectedIndex != -1)
             {
