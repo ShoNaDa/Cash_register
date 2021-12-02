@@ -336,5 +336,26 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Button
+                Name="Button_StatementsOfMonth"
+                Click="Click_to_StatementsOfMonth"
+                Background="White" 
+                Margin="120,0,0,10" 
+                Height="50" 
+                Width="250" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Left"
+                Cursor="Hand"
+                Content="Отчет за месяц"
+                FontFamily="Arial" 
+                FontSize="30" 
+                FontWeight="Bold"
+                Foreground="Black">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

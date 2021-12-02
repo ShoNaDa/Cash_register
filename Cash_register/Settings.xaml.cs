@@ -35,8 +35,8 @@ namespace Cash_register
 
         private void Click_to_replace(object sender, RoutedEventArgs e)
         {
-            MainWindow Cash_register = new MainWindow();
-            Cash_register.Show();
+            Close_shift close_Shift = new Close_shift();
+            close_Shift.Show();
             Close();
         }
     }

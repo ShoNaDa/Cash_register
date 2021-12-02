@@ -19,8 +19,8 @@ namespace Cash_register
 
         private void Click_open(object sender, RoutedEventArgs e)
         {
-            Statements statements = new Statements();
-            statements.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             Close();
         }
 

@@ -26,8 +26,25 @@ namespace Cash_register
         {
             DataTable dt_UpdateShiftFK_Worker = Select("Update Statements set FK_Worker = " + Authorization.id + "where StatementsId = (select count(*) from Statements)");
             DateTime date1 = DateTime.Now;
-            DataTable dt_UpdateShiftWorkingDate = Select("Update Statements set WorkingDate = '" + date1.ToShortDateString() + "' where StatementsId = (select count(*) from Statements)");        
-            DataTable dt_newShift = Select("Insert into Statements values ((select count(ShiftNumber) from Statements) + 1, " + MainWindow.moneyInTheCashRegister + ", " + MainWindow.moneyInTheCashRegister + ", 0, 0, 0, 0, 1, '" + date1.ToShortDateString() + "')");
+            string month, day;
+            if (Convert.ToString(date1.ToShortDateString()).Split('/')[0].Length == 1)
+            {
+                month = "0" + Convert.ToString(date1.ToShortDateString()).Split('/')[0];
+            }
+            else
+            {
+                month = Convert.ToString(date1.ToShortDateString()).Split('/')[0];
+            }
+            if (Convert.ToString(date1.ToShortDateString()).Split('/')[1].Length == 1)
+            {
+                day = "0" + Convert.ToString(date1.ToShortDateString()).Split('/')[1];
+            }
+            else
+            {
+                day = Convert.ToString(date1.ToShortDateString()).Split('/')[1];
+            }
+            DataTable dt_UpdateShiftWorkingDate = Select("Update Statements set WorkingDate = '" + Convert.ToString(date1.ToShortDateString()).Split('/')[2] + month + day + "' where StatementsId = (select count(*) from Statements)");            
+            DataTable dt_newShift = Select("Insert into Statements values ((select count(ShiftNumber) from Statements) + 1, " + MainWindow.moneyInTheCashRegister + ", " + MainWindow.moneyInTheCashRegister + ", 0, 0, 0, 0, 1, '" + Convert.ToString(date1.ToShortDateString()).Split('/')[2] + month + day + "')");
             Open_shift openShift = new Open_shift();
             openShift.Show();
             Close();

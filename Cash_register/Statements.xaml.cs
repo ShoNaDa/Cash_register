@@ -135,5 +135,12 @@ namespace Cash_register
             sqlConnection.Close();
             return dataTable;
         }
+
+        private void Click_to_StatementsOfMonth(object sender, RoutedEventArgs e)
+        {
+            StatementOfMonth statementOfMonth = new StatementOfMonth();
+            statementOfMonth.Show();
+            Close();
+        }
     }
 }
