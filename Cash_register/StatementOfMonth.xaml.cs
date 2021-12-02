@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,6 +84,19 @@ namespace Cash_register
             sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
             sqlConnection.Close();
             return dataTable;
+        }
+
+        private void Click_to_save(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовый документ (*.txt)|*.txt|Все файлы (*.*)|*.*";
+
+            if (saveFileDialog.ShowDialog() != DialogResult.HasValue)
+            {
+                StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName);
+                streamWriter.WriteLine(statementOfMonth.Text);
+                streamWriter.Close();
+            }
         }
     }
 }
