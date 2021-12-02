@@ -11,7 +11,8 @@
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid>
         <Border
             Height="100" 
@@ -39,7 +40,7 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="50,500,0,0" 
+                Margin="50,520,0,0" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Top" 
@@ -57,7 +58,7 @@
             x:Name="List_of_time"
             Margin="0,100,0,100" 
             Width="700" 
-            Height="250"
+            Height="300"
             VerticalAlignment="Bottom"
             HorizontalAlignment="Center"
             Foreground="Black"
@@ -95,7 +96,7 @@
                 Name="Button_save"
                 Click="Click_to_save"
                 Background="#FFD32323" 
-                Margin="0,500,50,0" 
+                Margin="0,520,50,0" 
                 Height="50" 
                 Width="250" 
                 VerticalAlignment="Top" 

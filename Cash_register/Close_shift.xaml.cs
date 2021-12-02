@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
@@ -23,7 +24,10 @@ namespace Cash_register
 
         private void Click_close(object sender, RoutedEventArgs e)
         {
-            DataTable dt_newShift = Select("Insert into Statements values ((select count(ShiftNumber) from Statements) + 1, " + MainWindow.moneyInTheCashRegister + ", " + MainWindow.moneyInTheCashRegister + ", 0, 0, 0, 0)");
+            DataTable dt_UpdateShiftFK_Worker = Select("Update Statements set FK_Worker = " + Authorization.id + "where StatementsId = (select count(*) from Statements)");
+            DateTime date1 = DateTime.Now;
+            DataTable dt_UpdateShiftWorkingDate = Select("Update Statements set WorkingDate = '" + date1.ToShortDateString() + "' where StatementsId = (select count(*) from Statements)");        
+            DataTable dt_newShift = Select("Insert into Statements values ((select count(ShiftNumber) from Statements) + 1, " + MainWindow.moneyInTheCashRegister + ", " + MainWindow.moneyInTheCashRegister + ", 0, 0, 0, 0, 1, '" + date1.ToShortDateString() + "')");
             Open_shift openShift = new Open_shift();
             openShift.Show();
             Close();

@@ -40,6 +40,12 @@ namespace Cash_register
         {
             InitializeComponent();
 
+            //если это первая смена
+            DataTable dt_shiftNumber = Select("SELECT count(ShiftNumber) FROM Statements");
+            if (Convert.ToInt32(dt_shiftNumber.Rows[0][0]) == 0)
+            {
+                DataTable dt_shiftInsert = Select("insert into Statements values (1, 0, 0, 0, 0, 0, 0, 1, getdate())");
+            }
             DataTable dt_admins = Select("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
             for (int i = 0; i < dt_admins.Rows.Count; i++)
             {

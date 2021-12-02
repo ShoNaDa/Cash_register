@@ -6,12 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="550" 
         Width="800" 
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid>
         <Border Height="100" 
                 Width="700" 
@@ -370,7 +371,7 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="700,500,0,0" 
+                Margin="700,450,0,0" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Top" 

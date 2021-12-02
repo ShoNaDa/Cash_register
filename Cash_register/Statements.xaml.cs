@@ -44,6 +44,7 @@ namespace Cash_register
         public Statements()
         {
             InitializeComponent();
+
             Date();
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -86,7 +87,7 @@ namespace Cash_register
         }
         public void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsCashier == true)
+            if (MainWindow.IsCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();

@@ -7,11 +7,12 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="570" 
         Width="800" 
         ResizeMode="CanMinimize"
         Background="Black"
-        Icon = "Cash_register.png">
+        Icon = "Cash_register.png"
+        WindowStyle="None">
     <Grid>
         <Border
             Height="100" 
@@ -34,7 +35,7 @@
             HorizontalAlignment="Left" 
             FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
         </Border>
-        <Ellipse Width="50" Height="50" Margin="90,20,450,480" >
+        <Ellipse Width="50" Height="50" Margin="90,10,450,480" >
             <Ellipse.Fill>
                 <ImageBrush ImageSource="sales.png" Stretch="Fill"/>
             </Ellipse.Fill>

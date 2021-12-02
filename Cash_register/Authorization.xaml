@@ -6,12 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="550" 
         Width="800" 
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         Background="Black"
-        Icon = "Cash_register.png">
+        Icon = "Cash_register.png"
+        WindowStyle="None">
     <Grid>
         <TextBlock
             Margin="100,100,100,0" 
@@ -57,7 +58,7 @@
 
         <PasswordBox
             Name="password"
-            Margin="0,150,50,0"  
+            Margin="0,120,50,0"  
             Width="500" 
             Height="50"
             Background="White"
@@ -73,7 +74,7 @@
         <Border
             Width="150" 
             Height="50" 
-            Margin="50,150,0,0" 
+            Margin="50,120,0,0" 
             BorderThickness="1" 
             BorderBrush="Blue" 
             CornerRadius="5" 
@@ -100,7 +101,7 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="0,505,20,0" 
+                Margin="0,480,20,0" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Top" 
@@ -118,7 +119,7 @@
                 Name="Button_enter"
                 Click="Click_to_enter"
                 Background="White" 
-                Margin="0,420,20,0" 
+                Margin="0,390,20,0" 
                 Height="50" 
                 Width="200" 
                 VerticalAlignment="Top" 

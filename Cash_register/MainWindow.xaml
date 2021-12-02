@@ -6,16 +6,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="550" 
         Width="800" 
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         Background="Black"
-        Icon = "Cash_register.png">
+        Icon = "Cash_register.png"
+        WindowStyle="None">
 
     <Grid Background="Black">
         <TextBlock
-             Margin="0,100,0,0" 
+             Margin="0,70,0,0" 
              Width="600" 
              Height="100" 
             VerticalAlignment="Top" 

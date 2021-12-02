@@ -6,12 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="580" 
         Width="800" 
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid>
         <Border
             Height="100" 
@@ -34,7 +35,7 @@
             HorizontalAlignment="Left" 
             FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
         </Border>
-        <Ellipse Width="50" Height="50" Margin="50,20,450,480" >
+        <Ellipse Width="50" Height="50" Margin="50,0,450,480" >
             <Ellipse.Fill>
                 <ImageBrush ImageSource="sales.png" Stretch="Fill"/>
             </Ellipse.Fill>
@@ -72,7 +73,7 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="50,505,20,0" 
+                Margin="50,515,20,0" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Top" 
@@ -161,7 +162,7 @@
             x:Name="Button_edit_product"
             Click="Click_to_edit_product"
             Background="#FFD32323" 
-            Margin="0,510,50,0" 
+            Margin="0,515,50,0" 
             Height="45" 
             Width="250" 
             VerticalAlignment="Top" 
@@ -181,7 +182,7 @@
             x:Name="Button_drop_product"
             Click="Click_to_drop_product"
             Background="#FFD32323" 
-            Margin="0,510,350,0" 
+            Margin="0,515,350,0" 
             Height="45" 
             Width="250" 
             VerticalAlignment="Top" 

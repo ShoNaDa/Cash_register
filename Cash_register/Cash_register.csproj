@@ -68,9 +68,6 @@
     <Compile Include="After_login_in_cashier.xaml.cs">
       <DependentUpon>After_login_in_cashier.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Amount_of_money.xaml.cs">
-      <DependentUpon>Amount_of_money.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
@@ -141,10 +138,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="After_login_in_cashier.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Amount_of_money.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

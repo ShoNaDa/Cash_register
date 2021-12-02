@@ -11,6 +11,7 @@ namespace Cash_register
     /// </summary>
     public partial class Authorization : Window
     {
+        public static int id = 0;
         public Authorization()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace Cash_register
             if (MainWindow.IsAdmin)
             {
                 int counter = 0;
-                int id = 0;
+                
                 foreach (int i in MainWindow.Workers_ID_admins)
                 {
                     if (counter == List_of_admin.index)
@@ -78,7 +79,6 @@ namespace Cash_register
             else if (MainWindow.IsAdmin == false)
             {
                 int counter = 0;
-                int id = 0;
                 foreach (int i in MainWindow.Workers_ID_cashiers)
                 {
                     if (counter == List_of_cashiers.index)

@@ -11,7 +11,8 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         Background="Black"
-        Icon = "Cash_register.png">
+        Icon = "Cash_register.png"
+        WindowStyle="None">
     <Grid>
         <TextBlock
             Margin="0,50,0,0"  

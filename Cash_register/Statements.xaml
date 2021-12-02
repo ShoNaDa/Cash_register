@@ -6,12 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Касса" 
-        Height="600" 
+        Height="555" 
         Width="800" 
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid MouseMove="Grid_MouseMove">
         <Border
             Height="100" 
@@ -45,7 +46,7 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="50,0,0,20" 
+                Margin="50,0,0,10" 
                 Height="50" 
                 Width="50" 
                 VerticalAlignment="Bottom" 
@@ -319,7 +320,7 @@
                 Name="Button_close_shift"
                 Click="Click_to_close_shift"
                 Background="#FF1AB61A" 
-                Margin="0,0,50,20" 
+                Margin="0,0,50,10" 
                 Height="50" 
                 Width="350" 
                 VerticalAlignment="Bottom" 
