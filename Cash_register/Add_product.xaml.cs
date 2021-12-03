@@ -22,22 +22,17 @@ namespace Cash_register
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            try
+            DataTable dt_productId = SQLrequest("Select max(ProductId) from Products");
+            if (Convert.ToString(dt_productId.Rows[0][0]) == "")
             {
-                DataTable dt_productId = SQLrequest("Select max(ProductId) from Products");
-                if (Convert.ToString(dt_productId.Rows[0][0]) == "")
-                {
-                    product_code.Text = "1";
-                }
-                else
-                {
-                    product_code.Text = Convert.ToString((int)dt_productId.Rows[0][0] + 1);
-                }
+                product_code.Text = "1";
             }
-            catch (Exception e)
+            else
             {
-                MessageBox.Show(e.Message);
+                product_code.Text = Convert.ToString((int)dt_productId.Rows[0][0] + 1);
             }
+
+            add_product_name.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -155,9 +150,19 @@ namespace Cash_register
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && add_product_name.Focusable != true && add_price.Focusable != true && add_count.Focusable == true)
             {
                 Button_add_product.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            else if (e.Key == Key.Enter && add_product_name.Focusable == true)
+            {
+                add_product_name.Focusable = false;
+                add_price.Focus();
+            }
+            else if (e.Key == Key.Enter && add_price.Focusable == true)
+            {
+                add_price.Focusable = false;
+                add_count.Focus();
             }
         }
     }

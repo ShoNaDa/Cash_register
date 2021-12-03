@@ -24,6 +24,8 @@ namespace Cash_register
             edit_fname.Text = Workers.fname;
             edit_lname.Text = Workers.lname;
             edit_mname.Text = Workers.mname;
+
+            edit_fname.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -145,6 +147,31 @@ namespace Cash_register
             if (e.Key == Key.Escape)
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter && edit_fname.Focusable != true && edit_fname.Focusable != true && edit_mname.Focusable != true
+                && edit_roleWorker.Focusable != true && edit_pincode.Focusable == true)
+            {
+                Button_edit.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            else if (e.Key == Key.Enter && edit_fname.Focusable == true)
+            {
+                edit_fname.Focusable = false;
+                edit_lname.Focus();
+            }
+            else if (e.Key == Key.Enter && edit_lname.Focusable == true)
+            {
+                edit_lname.Focusable = false;
+                edit_mname.Focus();
+            }
+            else if (e.Key == Key.Enter && edit_mname.Focusable == true)
+            {
+                edit_mname.Focusable = false;
+                edit_roleWorker.Focus();
+            }
+            else if (e.Key == Key.Enter && edit_roleWorker.Focusable == true)
+            {
+                edit_roleWorker.Focusable = false;
+                edit_pincode.Focus();
             }
         }
     }

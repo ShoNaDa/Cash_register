@@ -15,6 +15,7 @@ namespace Cash_register
     {
         List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         List<string> ListOfProductsSold = new List<string>(1);
+
         public Refund_of_products()
         {
             InitializeComponent();
@@ -52,6 +53,8 @@ namespace Cash_register
             Button_find_a_cheque.Visibility = Visibility.Hidden;
             Search_cheque.Visibility = Visibility.Visible;
             Button_searching.Visibility = Visibility.Visible;
+
+            Search_cheque.Focus();
         }
         private void Click_searching(object sender, RoutedEventArgs e)
         {
@@ -114,9 +117,17 @@ namespace Cash_register
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && List_of_products_sold.SelectedIndex != -1)
             {
                 Button_refund_product.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+        }
+
+        private void Search_cheque_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Click_searching(sender, e);
             }
         }
     }

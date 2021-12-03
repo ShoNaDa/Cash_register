@@ -25,6 +25,8 @@ namespace Cash_register
             product_code_edit.Text = Convert.ToString(Product_search.idProduct);
             edit_price.Text = Convert.ToString(Product_search.salePrice);
             edit_count.Text = Convert.ToString(Product_search.productCount);
+
+            edit_product_name.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -143,9 +145,19 @@ namespace Cash_register
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && edit_product_name.Focusable != true && edit_price.Focusable != true && edit_count.Focusable == true)
             {
                 Button_save_product.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            else if (e.Key == Key.Enter && edit_product_name.Focusable == true)
+            {
+                edit_product_name.Focusable = false;
+                edit_price.Focus();
+            }
+            else if (e.Key == Key.Enter && edit_price.Focusable == true)
+            {
+                edit_price.Focusable = false;
+                edit_count.Focus();
             }
         }
     }

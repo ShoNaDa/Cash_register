@@ -35,6 +35,8 @@ namespace Cash_register
             Button_find_product.Visibility = Visibility.Hidden;
             Search_product.Visibility = Visibility.Visible;
             Button_search.Visibility = Visibility.Visible;
+
+            Search_product.Focus();
         }
 
         private void Click_to_add_product_sale(object sender, RoutedEventArgs e)
@@ -102,9 +104,17 @@ namespace Cash_register
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && Search_product.Focusable != true)
             {
                 Button_add_product_sale.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+        }
+
+        private void Search_product_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Click_search(sender, e);
             }
         }
     }

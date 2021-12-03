@@ -87,6 +87,7 @@
         </Border>
         <TextBox
             Name="Search_cheque"
+            KeyDown="Search_cheque_KeyDown"
             Visibility="Hidden"
             Height="50" 
             Width="650"

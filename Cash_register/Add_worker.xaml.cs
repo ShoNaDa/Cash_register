@@ -22,6 +22,8 @@ namespace Cash_register
         public Add_worker()
         {
             InitializeComponent();
+
+            add_fname.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -143,9 +145,30 @@ namespace Cash_register
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && add_fname.Focusable != true && add_lname.Focusable != true && add_mname.Focusable != true
+                && add_roleWorker.Focusable != true && add_pincode.Focusable == true)
             {
                 Button_add.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            else if (e.Key == Key.Enter && add_fname.Focusable == true)
+            {
+                add_fname.Focusable = false;
+                add_lname.Focus();
+            }
+            else if (e.Key == Key.Enter && add_lname.Focusable == true)
+            {
+                add_lname.Focusable = false;
+                add_mname.Focus();
+            }
+            else if (e.Key == Key.Enter && add_mname.Focusable == true)
+            {
+                add_mname.Focusable = false;
+                add_roleWorker.Focus();
+            }
+            else if (e.Key == Key.Enter && add_roleWorker.Focusable == true)
+            {
+                add_roleWorker.Focusable = false;
+                add_pincode.Focus();
             }
         }
     }

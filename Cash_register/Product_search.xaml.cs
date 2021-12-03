@@ -55,6 +55,8 @@ namespace Cash_register
             Button_find_a_product.Visibility = Visibility.Hidden;
             Search_product.Visibility = Visibility.Visible;
             Button_search.Visibility = Visibility.Visible;
+
+            Search_product.Focus();
         }
         private void Click_to_drop_product(object sender, RoutedEventArgs e)
         {
@@ -110,6 +112,18 @@ namespace Cash_register
             if (e.Key == Key.Escape)
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Delete)
+            {
+                Click_to_drop_product(sender, e);
+            }
+        }
+
+        private void Search_product_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Click_search(sender, e);
             }
         }
     }

@@ -135,6 +135,7 @@
 
         <TextBox
             Name="Search_product"
+            KeyDown="Search_product_KeyDown"
             Visibility="Hidden"
             Height="50" 
             Width="650"
@@ -155,7 +156,8 @@
             Height="300"
             VerticalAlignment="Top"
             HorizontalAlignment="Center"
-            Foreground="Black">
+            Foreground="Black"
+            FontSize="25">
 
         </ListBox>
         <Button
