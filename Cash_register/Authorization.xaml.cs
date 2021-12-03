@@ -1,8 +1,10 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using static Cash_register.SQLRequest;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Data;
 
 namespace Cash_register
 {
@@ -15,10 +17,13 @@ namespace Cash_register
         public Authorization()
         {
             InitializeComponent();
+
             string fName = MainWindow.FIO_worker.Split(' ')[1];
             string lName = MainWindow.FIO_worker.Split(' ')[0];
             string mName = MainWindow.FIO_worker.Split(' ')[2];
             Worker.Text = string.Concat(lName, " ", fName.Substring(0, 1), ". ", mName.Substring(0, 1), ". ");
+
+            password.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -43,27 +48,10 @@ namespace Cash_register
                     counter++; ;
                 }
 
-                //переводим строку в байт-массим  
-                byte[] bytes = Encoding.Unicode.GetBytes(password.Password);
-
-                //создаем объект для получения средст шифрования  
-                MD5CryptoServiceProvider CSP =
-                    new MD5CryptoServiceProvider();
-
-                //вычисляем хеш-представление в байтах  
-                byte[] byteHash = CSP.ComputeHash(bytes);
-
-                //создаем пустую строку
-                string hash = string.Empty;
-
-                //формируем одну цельную строку из массива  
-                foreach (byte b in byteHash)
-                    hash += string.Format("{0:x2}", b);
-
-                DataTable dt_admins = Select("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkersId = " + id);
+                DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkersId = " + id);
                 for (int i = 0; i < dt_admins.Rows.Count; i++)
                 {
-                    if (hash == (string)dt_admins.Rows[i][5])
+                    if (Hash(password.Password) == (string)dt_admins.Rows[i][5])
                     {
                         After_logging_in window2 = new After_logging_in();
                         window2.Show();
@@ -88,27 +76,10 @@ namespace Cash_register
                     counter++; ;
                 }
 
-                //переводим строку в байт-массим  
-                byte[] bytes = Encoding.Unicode.GetBytes(password.Password);
-
-                //создаем объект для получения средст шифрования  
-                MD5CryptoServiceProvider CSP =
-                    new MD5CryptoServiceProvider();
-
-                //вычисляем хеш-представление в байтах  
-                byte[] byteHash = CSP.ComputeHash(bytes);
-
-                //создаем пустую строку
-                string hash = string.Empty;
-
-                //формируем одну цельную строку из массива  
-                foreach (byte b in byteHash)
-                    hash += string.Format("{0:x2}", b);
-
-                DataTable dt_cashiers = Select("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
+                DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
                 for (int i = 0; i < dt_cashiers.Rows.Count; i++)
                 {
-                    if (hash == (string)dt_cashiers.Rows[i][5])
+                    if (Hash(password.Password) == (string)dt_cashiers.Rows[i][5])
                     {
                         After_login_in_cashier window9 = new After_login_in_cashier();
                         window9.Show();
@@ -122,19 +93,33 @@ namespace Cash_register
                 }
             }
         }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
+            if (e.Key == Key.Enter)
+            {
+                Button_enter.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+        }
+        public static string Hash(string password)
+        {
+            //переводим строку в байт-массим  
+            byte[] bytes = Encoding.Unicode.GetBytes(password);
+
+            //создаем объект для получения средст шифрования  
+            MD5CryptoServiceProvider CSP = new MD5CryptoServiceProvider();
+
+            //вычисляем хеш-представление в байтах  
+            byte[] byteHash = CSP.ComputeHash(bytes);
+
+            //создаем пустую строку
+            string hash = string.Empty;
+
+            //формируем одну цельную строку из массива  
+            foreach (byte b in byteHash)
+            {
+                hash += string.Format("{0:x2}", b);
+            }
+            return hash;
         }
     }
 }

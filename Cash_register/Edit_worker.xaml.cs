@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Security.Cryptography;
-using System.Text;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -103,27 +100,11 @@ namespace Cash_register
                 //если все ок...
                 if (FNameIsOk && LNameIsOk && MNameIsOk)
                 {
-                    //переводим строку в байт-массим  
-                    byte[] bytes = Encoding.Unicode.GetBytes(edit_pincode.Password);
-
-                    //создаем объект для получения средст шифрования  
-                    MD5CryptoServiceProvider CSP =
-                        new MD5CryptoServiceProvider();
-
-                    //вычисляем хеш-представление в байтах  
-                    byte[] byteHash = CSP.ComputeHash(bytes);
-
-                    //создаем пустую строку
-                    string hash = string.Empty;
-
-                    //формируем одну цельную строку из массива  
-                    foreach (byte b in byteHash)
-                        hash += string.Format("{0:x2}", b);
-                    DataTable dt_worker = Update("update [dbo].[Workers] set LName = '" + edit_lname.Text
+                    SQLrequest("update [dbo].[Workers] set LName = '" + edit_lname.Text
                                                                    + "', FName = '" + edit_fname.Text
                                                                    + "', MName = '" + edit_mname.Text
                                                                    + "', RoleWorker = '" + edit_roleWorker.Text
-                                                                   + "', PinCode = '" + hash
+                                                                   + "', PinCode = '" + Authorization.Hash(edit_pincode.Password)
                                                                    + "' WHERE WorkersId = " + Workers.id);
                     MessageBox.Show("Данные успешно изменены");
                     After_logging_in window2 = new After_logging_in();
@@ -140,24 +121,9 @@ namespace Cash_register
                 MessageBox.Show("Все строки должны быть заполнены");
             }
         }
-
-        public DataTable Update(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_to_drop(object sender, RoutedEventArgs e)
         {
-            DataTable dt_worker = Update("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
+            SQLrequest("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
             MessageBox.Show("Данные успешно удалены");
             After_logging_in window2 = new After_logging_in();
             window2.Show();

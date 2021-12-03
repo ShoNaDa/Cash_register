@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -42,6 +44,14 @@ namespace Cash_register
             else
             {
                 MessageBox.Show("Выберите сотрудника");
+            }
+        }
+
+        private void Button_next_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Button_next.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

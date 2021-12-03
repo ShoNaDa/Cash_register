@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -22,7 +22,7 @@ namespace Cash_register
 
             try
             {
-                DataTable dt_productId = Insert("select max(ProductId) from Products");
+                DataTable dt_productId = SQLrequest("Select max(ProductId) from Products");
                 if (Convert.ToString(dt_productId.Rows[0][0]) == "")
                 {
                     product_code.Text = "1";
@@ -123,8 +123,7 @@ namespace Cash_register
                     //проверяем: цена и количество больше нуля?
                     if (Convert.ToInt32(add_count.Text) > 0 && Convert.ToDouble(add_price.Text) > 0)
                     {
-                        DataTable dt_product = Insert("Insert into [dbo].[Products] values " +
-                                                                              "('" + add_product_name.Text +
+                        SQLrequest("Insert into [dbo].[Products] values " + "('" + add_product_name.Text +
                                                                             "', " + Convert.ToDouble(Convert.ToString(add_price.Text).Replace(',', '.')) +
                                                                             ", " + Convert.ToInt32(add_count.Text) + ")");
                         MessageBox.Show("Продукт успешно добавлен");
@@ -146,19 +145,6 @@ namespace Cash_register
             {
                 MessageBox.Show("Все строки должны быть заполнены");
             }
-        }
-        public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
         }
     }
 }

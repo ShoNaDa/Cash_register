@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -50,7 +50,7 @@ namespace Cash_register
                     //проверяем: количество больше нуля?
                     if (Convert.ToInt32(count_product.Text) > 0)
                     {
-                        DataTable dt_product = Insert("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
+                        DataTable dt_product = SQLrequest("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
                         if (Convert.ToInt32(dt_product.Rows[0][0]) >= Convert.ToInt32(count_product.Text))
                         {
                             countOfProduct = Convert.ToInt32(count_product.Text);
@@ -79,20 +79,6 @@ namespace Cash_register
             {
                 MessageBox.Show("Все строки должны быть заполнены");
             }
-        }
-
-        public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
         }
 
         private void Click_back(object sender, RoutedEventArgs e)

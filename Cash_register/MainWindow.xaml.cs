@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -41,18 +41,18 @@ namespace Cash_register
             InitializeComponent();
 
             //если это первая смена
-            DataTable dt_shiftNumber = Select("SELECT count(ShiftNumber) FROM Statements");
+            DataTable dt_shiftNumber = SQLrequest("SELECT count(ShiftNumber) FROM Statements");
             if (Convert.ToInt32(dt_shiftNumber.Rows[0][0]) == 0)
             {
-                DataTable dt_shiftInsert = Select("insert into Statements values (1, 0, 0, 0, 0, 0, 0, 1, getdate())");
+                SQLrequest("Insert into Statements values (1, 0, 0, 0, 0, 0, 0, 1, getdate())");
             }
-            DataTable dt_admins = Select("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
+            DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
             for (int i = 0; i < dt_admins.Rows.Count; i++)
             {
                 Admins.Add((string)dt_admins.Rows[i][1] + " " + (string)dt_admins.Rows[i][2] + " " + (string)dt_admins.Rows[i][3]);
                 Workers_ID_admins.Add((int)dt_admins.Rows[i][0]);
             }
-            DataTable dt_cashiers = Select("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
+            DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
             for (int i = 0; i < dt_cashiers.Rows.Count; i++)
             {
                 Cashiers.Add((string)dt_cashiers.Rows[i][1] + " " + (string)dt_cashiers.Rows[i][2] + " " + (string)dt_cashiers.Rows[i][3]);
@@ -74,20 +74,6 @@ namespace Cash_register
             List_of_admin window12 = new List_of_admin();
             window12.Show();
             Close();
-        }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
         }
     }
 }

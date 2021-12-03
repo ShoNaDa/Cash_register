@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -33,7 +33,7 @@ namespace Cash_register
                     Result.Text = "";
                     result += Convert.ToDouble(Convert.ToString(List_of_product_sale.Items[i]).Split('₽')[0].Split(':')[2].Trim());
                 }
-                Result.Text = Convert.ToString(result + " ₽");
+                Result.Text = Convert.ToString(result + " ₽").Replace(',', '.');
             }
             else
             {
@@ -52,11 +52,11 @@ namespace Cash_register
                 {
                     string count = Convert.ToString(List_of_product_sale.Items[i]).Split('(')[1].Split(' ')[0].Trim();
                     string id = Convert.ToString(List_of_product_sale.Items[i]).Split(':')[1].Split('.')[0].Trim();
-                    DataTable dt_products = Select("Update Products set ProductCount = ProductCount - " + count + " where ProductId = " + id);
-                    DataTable dt_products_sold = Select("Insert into ProductsSold values ('" + Convert.ToString(List_of_product_sale.Items[i]).Substring(Convert.ToString(List_of_product_sale.Items[i]).IndexOf('.') + 2).Replace(',', '.') + "', " + id + ")");
+                    SQLrequest("Update Products set ProductCount = ProductCount - " + count + " where ProductId = " + id);
+                    SQLrequest("Insert into ProductsSold values ('" + Convert.ToString(List_of_product_sale.Items[i]).Substring(Convert.ToString(List_of_product_sale.Items[i]).IndexOf('.') + 2).Replace(',', '.') + "', " + id + ")");
                 }
-                DataTable statementsId = Select("Select count(StatementsId) from Statements");
-                DataTable salesInStatement = Select("Update Statements set Sales = Sales + " + Convert.ToDouble(Result.Text.Split(' ')[0].Trim().Replace(',', '.')) + "where StatementsId = " + Convert.ToInt32(statementsId.Rows[0][0]));
+                DataTable statementsId = SQLrequest("Select count(StatementsId) from Statements");
+                SQLrequest("Update Statements set Sales = Sales + " + Result.Text.Trim().Split('₽')[0] + " where StatementsId = " + statementsId.Rows[0][0]);
                 ProductsSale.Clear();
                 if (MainWindow.IsCashier)
                 {
@@ -99,20 +99,6 @@ namespace Cash_register
                 window2.Show();
                 Close();
             }
-        }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
         }
     }
 }

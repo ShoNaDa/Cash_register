@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -169,6 +170,67 @@ namespace Cash_register
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
+            }
+        }
+        //функция нажатия на кнопки
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D1)
+            {
+                equation += "1";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D2)
+            {
+                equation += "2";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D3)
+            {
+                equation += "3";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D4)
+            {
+                equation += "4";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D5)
+            {
+                equation += "5";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D6)
+            {
+                equation += "6";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D7)
+            {
+                equation += "7";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D8)
+            {
+                equation += "8";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D9)
+            {
+                equation += "9";
+                Reply_line.Text = equation;
+            }
+            else if (e.Key == Key.D0)
+            {
+                Click_to_zero(sender, e);
+            }
+        }
+
+        private void Grid_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            if(e.Text == "/")
+            {
+                Signs("/");
             }
         }
     }

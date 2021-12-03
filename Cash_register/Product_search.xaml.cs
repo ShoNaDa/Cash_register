@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -14,10 +14,11 @@ namespace Cash_register
         public static int idProduct;
         public static double salePrice;
         public static int productCount;
+
         public Product_search()
         {
             InitializeComponent();
-            DataTable dt_products = Select("SELECT * FROM [dbo].[Products]");
+            DataTable dt_products = SQLrequest("SELECT * FROM [dbo].[Products]");
             for (int i = 0; i < dt_products.Rows.Count; i++)
             {
                 MainWindow.Products.Add("Код: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + Convert.ToString(dt_products.Rows[i][1]) + " - " + Convert.ToString(dt_products.Rows[i][3]) + " шт (" + Convert.ToString(Convert.ToDouble(dt_products.Rows[i][2])) + "₽)");
@@ -51,31 +52,12 @@ namespace Cash_register
             Search_product.Visibility = Visibility.Visible;
             Button_search.Visibility = Visibility.Visible;
         }
-
-        private void List_of_products_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_to_drop_product(object sender, RoutedEventArgs e)
         {
             if (List_of_products.SelectedIndex != -1)
             {
                 int id = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
-                DataTable dt_product = Select("delete from [dbo].[Products] WHERE ProductId = " + id);
+                SQLrequest("delete from [dbo].[Products] WHERE ProductId = " + id);
                 MessageBox.Show("Данные успешно удалены");
                 MainWindow.Products.Clear();
                 After_logging_in window2 = new After_logging_in();

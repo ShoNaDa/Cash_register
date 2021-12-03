@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -65,10 +65,10 @@ namespace Cash_register
                     //проверяем: сумма изъятия больше нуля?
                     if (Convert.ToDouble(withdrawalsMoneyCount.Text) > 0)
                     {
-                        DataTable dt = Insert("select MoneyInTheCashRegister from Statements where StatementsId = (select count(StatementsId) from Statements)");
+                        DataTable dt = SQLrequest("select MoneyInTheCashRegister from Statements where StatementsId = (select count(StatementsId) from Statements)");
                         if (Convert.ToDouble(Convert.ToString(dt.Rows[0][0]).Replace('.', ',')) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
                         {
-                            DataTable dt_withdrawals = Insert("Update Statements set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
+                            SQLrequest("Update Statements set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
                             Statements statements = new Statements();
                             statements.Show();
                             Close();
@@ -93,21 +93,6 @@ namespace Cash_register
                 MessageBox.Show("Все строки должны быть заполнены");
             }
         }
-
-        public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_back(object sender, RoutedEventArgs e)
         {
             Statements statements = new Statements();

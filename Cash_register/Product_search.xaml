@@ -154,8 +154,7 @@
             Height="300"
             VerticalAlignment="Top"
             HorizontalAlignment="Center"
-            Foreground="Black"
-            FontSize="25" SelectionChanged="List_of_products_SelectionChanged">
+            Foreground="Black">
 
         </ListBox>
         <Button

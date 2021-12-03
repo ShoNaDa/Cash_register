@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -17,7 +17,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
-            DataTable dt_products = Select("Select * from ProductsSold");
+            DataTable dt_products = SQLrequest("Select * from ProductsSold");
             for (int i = 0; i < dt_products.Rows.Count; i++)
             {
                 List_of_products_sold.Items.Add("Номер чека: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + Convert.ToString(dt_products.Rows[i][1]).Replace('?', '₽'));
@@ -51,21 +51,6 @@ namespace Cash_register
             Search_cheque.Visibility = Visibility.Visible;
             Button_searching.Visibility = Visibility.Visible;
         }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_searching(object sender, RoutedEventArgs e)
         {
             bool IsOk = false;
@@ -109,12 +94,12 @@ namespace Cash_register
                 //Возвращаем проданное количество
                 string count = Convert.ToString(List_of_products_sold.SelectedItem).Split('(')[1].Split(' ')[0].Trim();
                 string receiptNumber = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[1].Split('.')[0].Trim();
-                DataTable dt_id = Select("Select FK_ProductId from ProductsSold where ReceiptNumber = " + receiptNumber);
-                DataTable dt_products = Select("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + Convert.ToString(dt_id.Rows[0][0]));
+                DataTable dt_id = SQLrequest("Select FK_ProductId from ProductsSold where ReceiptNumber = " + receiptNumber);
+                SQLrequest("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + Convert.ToString(dt_id.Rows[0][0]));
                 //Добавляем возврат
-                DataTable dt_sale = Select("Update Statements set Refund = Refund + " + Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[2].Split('₽')[0].Trim().Replace(',', '.') + " where StatementsId = (Select count(StatementsId) from Statements)");
+                SQLrequest("Update Statements set Refund = Refund + " + Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[2].Split('₽')[0].Trim().Replace(',', '.') + " where StatementsId = (Select count(StatementsId) from Statements)");
                 //Удаляем из списка
-                DataTable dt_sold = Select("Delete from ProductsSold where ReceiptNumber = " + receiptNumber);
+                SQLrequest("Delete from ProductsSold where ReceiptNumber = " + receiptNumber);
                 Refund_of_products window5 = new Refund_of_products();
                 window5.Show();
                 Close();

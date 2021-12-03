@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using static Cash_register.SQLRequest;
 using System.Windows;
 using System.Security.Cryptography;
 using System.Text;
@@ -115,12 +114,11 @@ namespace Cash_register
                     //формируем одну цельную строку из массива  
                     foreach (byte b in byteHash)
                         hash += string.Format("{0:x2}", b);
-                    DataTable dt_worker = Insert("Insert into [dbo].[Workers] values " +
-                                                                              "('" + add_lname.Text +
-                                                                            "', '" + add_fname.Text +
-                                                                            "', '" + add_mname.Text +
-                                                                            "', '" + add_roleWorker.Text +
-                                                                            "', '" + hash + "')");
+                    SQLrequest("Insert into [dbo].[Workers] values " + "('" + add_lname.Text +
+                                                                       "', '" + add_fname.Text +
+                                                                       "', '" + add_mname.Text +
+                                                                       "', '" + add_roleWorker.Text +
+                                                                       "', '" + hash + "')");
                     MessageBox.Show("Данные успешно добавлены");
                     After_logging_in window2 = new After_logging_in();
                     window2.Show();
@@ -135,20 +133,6 @@ namespace Cash_register
             {
                 MessageBox.Show("Все строки должны быть заполнены");
             }
-        }
-
-        public DataTable Insert(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
         }
     }
 }

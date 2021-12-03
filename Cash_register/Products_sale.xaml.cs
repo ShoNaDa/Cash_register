@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -17,7 +17,7 @@ namespace Cash_register
         public Products_sale()
         {
             InitializeComponent();
-            DataTable dt_products = Select("SELECT * FROM [dbo].[Products]");
+            DataTable dt_products = SQLrequest("SELECT * FROM [dbo].[Products]");
             for (int i = 0; i < dt_products.Rows.Count; i++)
             {
                 MainWindow.Products.Add("Код: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + Convert.ToString(dt_products.Rows[i][1]) + " - " + Convert.ToString(dt_products.Rows[i][3]) + " шт (" + Convert.ToString(Convert.ToDouble(dt_products.Rows[i][2])) + "₽)");
@@ -28,21 +28,6 @@ namespace Cash_register
                 List_of_products.Items.Add(i);
             }
         }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_to_find_product(object sender, RoutedEventArgs e)
         {
             Button_find_product.Visibility = Visibility.Hidden;

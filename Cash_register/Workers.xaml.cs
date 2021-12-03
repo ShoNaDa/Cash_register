@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.SqlClient;
+using static Cash_register.SQLRequest;
 using System.Windows;
 
 namespace Cash_register
@@ -15,7 +15,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
-            DataTable dt_workers = Select("SELECT * FROM [dbo].[Workers]");
+            DataTable dt_workers = SQLrequest("SELECT * FROM [dbo].[Workers]");
             for (int i = 0; i < dt_workers.Rows.Count; i++)
             {
                 MainWindow.Workers.Add((string)dt_workers.Rows[i][1] + " " + ((string)dt_workers.Rows[i][2]).Substring(0, 1) + ". " + ((string)dt_workers.Rows[i][3]).Substring(0, 1) + ". (" + (string)dt_workers.Rows[i][4] + ")");
@@ -43,21 +43,6 @@ namespace Cash_register
             window15.Show();
             Close();
         }
-
-        public DataTable Select(string selectSQL) // функция подключения к базе данных и обработка запросов
-        {
-            DataTable dataTable = new DataTable("dataBase");                // создаём таблицу в приложении
-                                                                            // подключаемся к базе данных
-            SqlConnection sqlConnection = new SqlConnection(@"server=WIN-PA0KKAO063F\SQLEXPRESS;Trusted_Connection=Yes;DataBase=Cash_register;");
-            sqlConnection.Open();                                           // открываем базу данных
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();          // создаём команду
-            sqlCommand.CommandText = selectSQL;                             // присваиваем команде текст
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
-            sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
-            sqlConnection.Close();
-            return dataTable;
-        }
-
         private void Click_to_edit_worker(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
@@ -73,7 +58,7 @@ namespace Cash_register
                     }
                     counter++; ;
                 }
-                DataTable dt_worker = Select("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
+                DataTable dt_worker = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
                 fname = (string)dt_worker.Rows[0][2];
                 lname = (string)dt_worker.Rows[0][1];
                 mname = (string)dt_worker.Rows[0][3];

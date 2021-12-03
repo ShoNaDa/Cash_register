@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -43,6 +45,14 @@ namespace Cash_register
             MainWindow Cash_register = new MainWindow();
             Cash_register.Show();
             Close();
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Button_next.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }
