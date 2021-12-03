@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -87,6 +89,18 @@ namespace Cash_register
             Products_sale sale = new Products_sale();
             sale.Show();
             Close();
+        }
+
+        private void count_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_go_next.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

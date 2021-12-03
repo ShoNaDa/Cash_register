@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -98,6 +100,18 @@ namespace Cash_register
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
+            }
+        }
+
+        private void window3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_to_be_paid.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -132,6 +134,18 @@ namespace Cash_register
             else
             {
                 MessageBox.Show("Все строки должны быть заполнены");
+            }
+        }
+
+        private void edit_product_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_save_product.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

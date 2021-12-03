@@ -12,8 +12,9 @@
         Background="Black"
         Icon = "Cash_register.png"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
-    <Grid KeyDown="Grid_KeyDown" TextInput="Grid_TextInput">
+        WindowStyle="None"
+        KeyDown="Grid_KeyDown" TextInput="Grid_TextInput">
+    <Grid>
         <Border Height="100" 
                 Width="700" 
                 HorizontalAlignment="Left" 
@@ -38,6 +39,7 @@
 
         <Border Height="70" 
                 Width="70"
+                Cursor="Hand"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="50,200,0,0"
@@ -60,9 +62,10 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="176,200,0,0"
+                Margin="155,200,0,0"
                 Background="#FFDDE8E8"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Two"
                     Height="60"
@@ -80,8 +83,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="302,200,0,0"
+                Margin="260,200,0,0"
                 Background="#FFDDE8E8"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Three"
@@ -103,6 +107,7 @@
                 Margin="50,320,0,0"
                 Background="#FFDDE8E8"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Four"
                     Height="60"
@@ -120,8 +125,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="176,320,0,0"
+                Margin="155,320,0,0"
                 Background="#FFDDE8E8"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Five"
@@ -140,8 +146,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="302,320,0,0"
+                Margin="260,320,0,0"
                 Background="#FFDDE8E8"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Six"
@@ -163,6 +170,7 @@
                 Margin="50,440,0,0"
                 Background="#FFDDE8E8"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Seven"
                     Height="60"
@@ -180,8 +188,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="176,440,0,0"
+                Margin="155,440,0,0"
                 Background="#FFDDE8E8"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Eihgt"
@@ -200,9 +209,10 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="302,440,0,0"
+                Margin="260,440,0,0"
                 Background="#FFDDE8E8"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Nine"
                     Height="60"
@@ -220,9 +230,10 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="428,440,0,0"
+                Margin="365,440,0,0"
                 Background="#FFDDE8E8"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Zero"
                     Height="60"
@@ -240,9 +251,10 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="428,320,0,0"
+                Margin="365,320,0,0"
                 Background="Gray"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Plus"
                     Height="60"
@@ -260,9 +272,10 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="428,200,0,0"
+                Margin="365,200,0,0"
                 Background="Gray"
                 BorderBrush="Black"
+                Cursor="Hand"
                 BorderThickness="3">
             <Button Name="Minus"
                     Height="60"
@@ -280,8 +293,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="554,200,0,0"
+                Margin="470,200,0,0"
                 Background="Gray"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Multiply"
@@ -300,8 +314,9 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="554,320,0,0"
+                Margin="470,320,0,0"
                 Background="Gray"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Divide"
@@ -309,7 +324,6 @@
                     Width="60"
                     FontSize="36"
                     Background="Gray"
-                    BorderBrush="Gray"
                     Click="Buttons_of_sings"
                     ClickMode="Release"
                     Content="/">
@@ -322,6 +336,7 @@
                 VerticalAlignment="Top"
                 Margin="680,200,0,0"
                 Background="Gray"
+                Cursor="Hand"
                 BorderBrush="Black"
                 BorderThickness="3">
             <Button Name="Equal"
@@ -340,29 +355,30 @@
                 Width="70"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="554,440,0,0"
-                Background="White"
+                Margin="575,440,0,0"
+                Cursor="Hand"
+                Background="Gray"
                 BorderBrush="Black"
                 BorderThickness="3">
-            <Button Name="Clear"
+            <Button Name="ClearALl"
                        Height="60"
                        Width="60"
                        FontSize="36"
                        Background="White"
-                       BorderBrush="White"
-                       Click="Click_to_clear"
+                       BorderBrush="Gray"
+                       Click="Click_to_CA"
                        ClickMode="Release">
-                C
+                CA
             </Button>
         </Border>
 
         <Border Height="2"
-                Width="850"
-                HorizontalAlignment="Left"
+                Width="700"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Margin="100,170,0,0"
-                Background="White"
-                BorderBrush="Black"
+                Margin="0,170,0,0"
+                Background="Gray"
+                BorderBrush="Gray"
                 BorderThickness="3">
         </Border>
 
@@ -371,18 +387,58 @@
                 BorderBrush="Black"
                 Name="Button_back"
                 Click="Click_back" 
-                Margin="700,450,0,0" 
-                Height="50" 
-                Width="50" 
+                Margin="680,440,0,0" 
+                Height="70" 
+                Width="70" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"
                 Cursor="Hand">
             <Ellipse 
-               Name="Ellipse_back" Width="45" Height="45" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
+               Name="Ellipse_back" Width="65" Height="65" Margin="0,0,0,0" Cursor="Arrow" IsHitTestVisible="False">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="back.png" Stretch="Fill"/>
                 </Ellipse.Fill>
             </Ellipse>
         </Button>
+        <Border Height="70" 
+                Width="70"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="470,440,0,0"
+                Background="Gray"
+                BorderBrush="Black"
+                Cursor="Hand"
+                BorderThickness="3">
+            <Button Name="point"
+                    Height="60"
+                    Width="60"
+                    FontSize="36"
+                    Background="Gray"
+                    BorderBrush="Gray"
+                    Click="Buttons_of_sings"
+                    ClickMode="Release"
+                    Content=".">
+            </Button>
+        </Border>
+        <Border Height="190" 
+                Width="70"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="575,200,0,0"
+                Background="Gray"
+                BorderBrush="Black"
+                Cursor="Hand"
+                BorderThickness="3">
+            <Button Name="Clear"
+                    Height="180"
+                    Width="60"
+                    FontSize="48"
+                    Background="White"
+                    BorderBrush="Gray"
+                    Click="Click_to_clear"
+                    ClickMode="Release"
+                    Content="C">
+            </Button>
+        </Border>
     </Grid>
 </Window>

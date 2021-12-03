@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -53,6 +55,18 @@ namespace Cash_register
             else
             {
                 MessageBox.Show("Выберите форматa");
+            }
+        }
+
+        private void time_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_save.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

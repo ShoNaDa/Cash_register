@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using System;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -132,6 +134,18 @@ namespace Cash_register
             else
             {
                 MessageBox.Show("Все строки должны быть заполнены");
+            }
+        }
+
+        private void window15_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_add.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

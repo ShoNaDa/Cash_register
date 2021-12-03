@@ -3,6 +3,7 @@ using System.Data;
 using static Cash_register.SQLRequest;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -126,6 +127,14 @@ namespace Cash_register
             else
             {
                 time.Text = Convert.ToString(date1);
+            }
+        }
+
+        private void window6_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

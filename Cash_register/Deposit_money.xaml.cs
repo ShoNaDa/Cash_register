@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -90,6 +92,18 @@ namespace Cash_register
             Statements statements = new Statements();
             statements.Show();
             Close();
+        }
+
+        private void depositMoney_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Enter)
+            {
+                Button_go.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

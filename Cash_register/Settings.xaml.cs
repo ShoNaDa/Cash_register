@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Cash_register
 {
@@ -38,6 +40,14 @@ namespace Cash_register
             Close_shift close_Shift = new Close_shift();
             close_Shift.Show();
             Close();
+        }
+
+        private void window7_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

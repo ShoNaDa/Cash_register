@@ -2,6 +2,8 @@
 using System.Data;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -14,6 +16,8 @@ namespace Cash_register
         public static int idProduct;
         public static double salePrice;
         public static int productCount;
+
+        public object Button_open { get; private set; }
 
         public Product_search()
         {
@@ -98,6 +102,14 @@ namespace Cash_register
                 {
                     List_of_products.Items.Add(i);
                 }
+            }
+        }
+
+        private void window4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

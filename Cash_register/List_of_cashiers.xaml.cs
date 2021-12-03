@@ -18,6 +18,7 @@ namespace Cash_register
             {
                 List_of_cashier.Items.Add(i);
             }
+
         }
 
         private void Click_to_next(object sender, RoutedEventArgs e)
@@ -47,11 +48,15 @@ namespace Cash_register
             Close();
         }
 
-        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 Button_next.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
     }

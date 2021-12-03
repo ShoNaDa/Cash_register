@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -123,11 +125,27 @@ namespace Cash_register
         }
         private void Click_to_drop(object sender, RoutedEventArgs e)
         {
-            SQLrequest("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
-            MessageBox.Show("Данные успешно удалены");
-            After_logging_in window2 = new After_logging_in();
-            window2.Show();
-            Close();
+            //чтоб админ сам себя удалить не мог
+            if (Workers.id != Authorization.id)
+            {
+                SQLrequest("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
+                MessageBox.Show("Данные успешно удалены");
+                After_logging_in window2 = new After_logging_in();
+                window2.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Ошибка");
+            }
+        }
+
+        private void window14_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

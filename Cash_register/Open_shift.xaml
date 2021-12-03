@@ -12,7 +12,8 @@
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStyle="None">
+        WindowStyle="None"
+        KeyDown="openShift_KeyDown">
     <Grid>
         <Button
             x:Name="Button_open"

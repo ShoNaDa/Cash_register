@@ -12,8 +12,8 @@
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStyle="None">
-    <Grid KeyDown="Grid_KeyDown">
+        WindowStyle="None" KeyDown="Window_KeyDown">
+    <Grid>
         <TextBlock
              Margin="0,50,0,0" 
              Width="600" 

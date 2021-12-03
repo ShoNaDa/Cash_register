@@ -12,7 +12,8 @@
         ResizeMode="CanMinimize"
         Background="Black"
         Icon = "Cash_register.png"
-        WindowStyle="None">
+        WindowStyle="None"
+        KeyDown="window3_KeyDown">
     <Grid>
         <Border
             Height="100" 

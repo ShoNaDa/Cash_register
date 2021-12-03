@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using static Cash_register.SQLRequest;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace Cash_register
 {
@@ -34,6 +36,14 @@ namespace Cash_register
             Settings window7 = new Settings();
             window7.Show();
             Close();
+        }
+
+        private void window13_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
 
         private void Click_to_add_worker(object sender, RoutedEventArgs e)
