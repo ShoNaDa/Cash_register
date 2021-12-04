@@ -15,7 +15,10 @@ namespace Cash_register
     {
         public static List<string> ProductsSale = new List<string>(1);
         public static List<string> SalesList = new List<string>(1);
+        public static List<string> cheque = new List<string>();
         public double result;
+        public static double fullPrice;
+
         public Sales1()
         {
             InitializeComponent();
@@ -49,7 +52,11 @@ namespace Cash_register
         {
             if (List_of_product_sale.Items.Count != 0)
             {
-                MessageBox.Show("Оплачено");
+                foreach (string item in List_of_product_sale.Items)
+                {
+                    cheque.Add(item);
+                }
+
                 for (int i = 0; i < List_of_product_sale.Items.Count; i++)
                 {
                     string count = Convert.ToString(List_of_product_sale.Items[i]).Split('(')[1].Split(' ')[0].Trim();
@@ -59,19 +66,11 @@ namespace Cash_register
                 }
                 DataTable statementsId = SQLrequest("Select count(StatementsId) from Statements");
                 SQLrequest("Update Statements set Sales = Sales + " + Result.Text.Trim().Split('₽')[0] + " where StatementsId = " + statementsId.Rows[0][0]);
+                fullPrice = Convert.ToDouble(Result.Text.Trim().Replace('.', ',').Split('₽')[0]);
                 ProductsSale.Clear();
-                if (MainWindow.IsCashier)
-                {
-                    After_login_in_cashier window9 = new After_login_in_cashier();
-                    window9.Show();
-                    Close();
-                }
-                else if (MainWindow.IsCashier == false)
-                {
-                    After_logging_in window2 = new After_logging_in();
-                    window2.Show();
-                    Close();
-                }
+                Cheque chequeWindow = new Cheque();
+                chequeWindow.Show();
+                Close();
             }
             else
             {

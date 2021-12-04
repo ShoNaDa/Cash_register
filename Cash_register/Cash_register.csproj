@@ -43,6 +43,7 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -77,6 +78,9 @@
     </Compile>
     <Compile Include="Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cheque.xaml.cs">
+      <DependentUpon>Cheque.xaml</DependentUpon>
     </Compile>
     <Compile Include="Close_shift.xaml.cs">
       <DependentUpon>Close_shift.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Calculator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cheque.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
