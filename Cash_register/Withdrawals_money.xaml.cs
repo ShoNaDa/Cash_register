@@ -19,6 +19,8 @@ namespace Cash_register
             InitializeComponent();
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            withdrawalsMoneyCount.Focus();
         }
 
         private void Click_goo(object sender, RoutedEventArgs e)
@@ -67,10 +69,10 @@ namespace Cash_register
                     //проверяем: сумма изъятия больше нуля?
                     if (Convert.ToDouble(withdrawalsMoneyCount.Text) > 0)
                     {
-                        DataTable dt = SQLrequest("select MoneyInTheCashRegister from Statements where StatementsId = (select count(StatementsId) from Statements)");
-                        if (Convert.ToDouble(Convert.ToString(dt.Rows[0][0]).Replace('.', ',')) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
+                        DataTable dt = SQLrequest("Select MoneyInTheCashRegister from BalanceAfterCloseCashRegister where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
+                        if (Convert.ToDouble(Convert.ToString(dt.Rows[0][0])) >= Convert.ToDouble(withdrawalsMoneyCount.Text))
                         {
-                            SQLrequest("Update Statements set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
+                            SQLrequest("Update BalanceAfterCloseCashRegister set Withdrawals = Withdrawals + " + Convert.ToDouble(Convert.ToString(withdrawalsMoneyCount.Text).Replace(',', '.')) + " where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
                             Statements statements = new Statements();
                             statements.Show();
                             Close();
@@ -102,7 +104,7 @@ namespace Cash_register
             Close();
         }
 
-        private void withdrawalsMoney_KeyDown(object sender, KeyEventArgs e)
+        private void WithdrawalsMoney_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

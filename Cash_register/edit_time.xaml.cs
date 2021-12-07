@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
@@ -58,7 +57,7 @@ namespace Cash_register
             }
         }
 
-        private void time_KeyDown(object sender, KeyEventArgs e)
+        private void Time_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

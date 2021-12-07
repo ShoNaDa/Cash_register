@@ -18,6 +18,8 @@ namespace Cash_register
             InitializeComponent();
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            depositMoneyCount.Focus();
         }
 
         private void Click_go(object sender, RoutedEventArgs e)
@@ -66,7 +68,7 @@ namespace Cash_register
                     //проверяем: сумма внесения больше нуля?
                     if (Convert.ToDouble(depositMoneyCount.Text) > 0)
                     {
-                        SQLrequest("Update Statements set Deposits = Deposits + " + Convert.ToDouble(Convert.ToString(depositMoneyCount.Text).Replace(',', '.')) + " where StatementsId = (select count(StatementsId) from Statements)");
+                        SQLrequest("Update BalanceAfterCloseCashRegister set Deposits = Deposits + " + Convert.ToDouble(Convert.ToString(depositMoneyCount.Text).Replace(',', '.')) + " where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
                         Statements statements = new Statements();
                         statements.Show();
                         Close();
@@ -94,7 +96,7 @@ namespace Cash_register
             Close();
         }
 
-        private void depositMoney_KeyDown(object sender, KeyEventArgs e)
+        private void DepositMoney_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

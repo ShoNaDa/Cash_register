@@ -25,7 +25,7 @@ namespace Cash_register
             edit_lname.Text = Workers.lname;
             edit_mname.Text = Workers.mname;
 
-            edit_fname.Focus();
+            edit_lname.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -104,13 +104,14 @@ namespace Cash_register
                 //если все ок...
                 if (FNameIsOk && LNameIsOk && MNameIsOk)
                 {
-                    SQLrequest("update [dbo].[Workers] set LName = '" + edit_lname.Text
+                    SQLrequest("Update [dbo].[Workers] set LName = '" + edit_lname.Text
                                                                    + "', FName = '" + edit_fname.Text
                                                                    + "', MName = '" + edit_mname.Text
                                                                    + "', RoleWorker = '" + edit_roleWorker.Text
                                                                    + "', PinCode = '" + Authorization.Hash(edit_pincode.Password)
-                                                                   + "' WHERE WorkersId = " + Workers.id);
+                                                                   + "' WHERE WorkerId = " + Workers.id);
                     MessageBox.Show("Данные успешно изменены");
+
                     After_logging_in window2 = new After_logging_in();
                     window2.Show();
                     Close();
@@ -130,7 +131,7 @@ namespace Cash_register
             //чтоб админ сам себя удалить не мог
             if (Workers.id != Authorization.id)
             {
-                SQLrequest("delete from [dbo].[Workers] WHERE WorkersId = " + Workers.id);
+                SQLrequest("Delete from [dbo].[Workers] WHERE WorkerId = " + Workers.id);
                 MessageBox.Show("Данные успешно удалены");
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
@@ -142,33 +143,33 @@ namespace Cash_register
             }
         }
 
-        private void window14_KeyDown(object sender, KeyEventArgs e)
+        private void Window14_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
             if (e.Key == Key.Enter && edit_fname.Focusable != true && edit_fname.Focusable != true && edit_mname.Focusable != true
-                && edit_roleWorker.Focusable != true && edit_pincode.Focusable == true)
+                && edit_roleWorker.Focusable != true && edit_pincode.Focusable)
             {
                 Button_edit.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            else if (e.Key == Key.Enter && edit_fname.Focusable == true)
-            {
-                edit_fname.Focusable = false;
-                edit_lname.Focus();
-            }
-            else if (e.Key == Key.Enter && edit_lname.Focusable == true)
+            else if (e.Key == Key.Enter && edit_lname.Focusable)
             {
                 edit_lname.Focusable = false;
+                edit_fname.Focus();
+            }
+            else if (e.Key == Key.Enter && edit_fname.Focusable)
+            {
+                edit_fname.Focusable = false;
                 edit_mname.Focus();
             }
-            else if (e.Key == Key.Enter && edit_mname.Focusable == true)
+            else if (e.Key == Key.Enter && edit_mname.Focusable)
             {
                 edit_mname.Focusable = false;
                 edit_roleWorker.Focus();
             }
-            else if (e.Key == Key.Enter && edit_roleWorker.Focusable == true)
+            else if (e.Key == Key.Enter && edit_roleWorker.Focusable)
             {
                 edit_roleWorker.Focusable = false;
                 edit_pincode.Focus();

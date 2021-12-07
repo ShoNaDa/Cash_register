@@ -12,6 +12,9 @@ namespace Cash_register
         public Settings()
         {
             InitializeComponent();
+
+            //с этой штукой правильно работает точка и запятая
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
         public void Click_back(object sender, RoutedEventArgs e)

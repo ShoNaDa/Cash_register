@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using static Cash_register.SQLRequest;
+using static Cash_register.DateFunc;
 
 namespace Cash_register
 {
@@ -14,6 +16,12 @@ namespace Cash_register
             InitializeComponent();
 
             moneyInTheCashRegister.Text = MainWindow.moneyInTheCashRegister + "₽ в кассе";
+
+            SQLrequest("Insert into BalanceAfterCloseCashRegister values (" + MainWindow.moneyInTheCashRegister + ", " 
+                + MainWindow.moneyInTheCashRegister + ", 0, 0, '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "')");
+
+            SQLrequest("Insert into [Shift] values ((select max(ShiftNumber) from [Shift]) + 1, " + Authorization.id +
+                ", (select max(ShiftNumber) from [Shift]) + 1, '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "')");
         }
 
         private void Click_open(object sender, RoutedEventArgs e)
@@ -23,7 +31,7 @@ namespace Cash_register
             Close();
         }
 
-        private void openShift_KeyDown(object sender, KeyEventArgs e)
+        private void OpenShift_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

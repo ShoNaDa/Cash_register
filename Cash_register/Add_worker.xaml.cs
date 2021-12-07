@@ -23,7 +23,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
-            add_fname.Focus();
+            add_lname.Focus();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -102,28 +102,13 @@ namespace Cash_register
                 //если все ок...
                 if (FNameIsOk && LNameIsOk && MNameIsOk)
                 {
-                    //переводим строку в байт-массим  
-                    byte[] bytes = Encoding.Unicode.GetBytes(add_pincode.Password);
-
-                    //создаем объект для получения средст шифрования  
-                    MD5CryptoServiceProvider CSP =
-                        new MD5CryptoServiceProvider();
-
-                    //вычисляем хеш-представление в байтах  
-                    byte[] byteHash = CSP.ComputeHash(bytes);
-
-                    //создаем пустую строку
-                    string hash = string.Empty;
-
-                    //формируем одну цельную строку из массива  
-                    foreach (byte b in byteHash)
-                        hash += string.Format("{0:x2}", b);
                     SQLrequest("Insert into [dbo].[Workers] values " + "('" + add_lname.Text +
                                                                        "', '" + add_fname.Text +
                                                                        "', '" + add_mname.Text +
                                                                        "', '" + add_roleWorker.Text +
-                                                                       "', '" + hash + "')");
+                                                                       "', '" + Authorization.Hash(add_pincode.Password) + "')");
                     MessageBox.Show("Данные успешно добавлены");
+
                     After_logging_in window2 = new After_logging_in();
                     window2.Show();
                     Close();
@@ -139,33 +124,33 @@ namespace Cash_register
             }
         }
 
-        private void window15_KeyDown(object sender, KeyEventArgs e)
+        private void Window15_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
             if (e.Key == Key.Enter && add_fname.Focusable != true && add_lname.Focusable != true && add_mname.Focusable != true
-                && add_roleWorker.Focusable != true && add_pincode.Focusable == true)
+                && add_roleWorker.Focusable != true && add_pincode.Focusable)
             {
                 Button_add.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-            else if (e.Key == Key.Enter && add_fname.Focusable == true)
-            {
-                add_fname.Focusable = false;
-                add_lname.Focus();
-            }
-            else if (e.Key == Key.Enter && add_lname.Focusable == true)
+            else if (e.Key == Key.Enter && add_lname.Focusable)
             {
                 add_lname.Focusable = false;
+                add_fname.Focus();
+            }
+            else if (e.Key == Key.Enter && add_fname.Focusable)
+            {
+                add_fname.Focusable = false;
                 add_mname.Focus();
             }
-            else if (e.Key == Key.Enter && add_mname.Focusable == true)
+            else if (e.Key == Key.Enter && add_mname.Focusable)
             {
                 add_mname.Focusable = false;
                 add_roleWorker.Focus();
             }
-            else if (e.Key == Key.Enter && add_roleWorker.Focusable == true)
+            else if (e.Key == Key.Enter && add_roleWorker.Focusable)
             {
                 add_roleWorker.Focusable = false;
                 add_pincode.Focus();

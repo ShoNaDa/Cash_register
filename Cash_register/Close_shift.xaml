@@ -13,7 +13,7 @@
         Background="Black"
         Icon = "Cash_register.png"
         WindowStyle="None"
-        KeyDown="closeShift_KeyDown">
+        KeyDown="CloseShift_KeyDown">
     <Grid>
         <TextBlock
             Margin="0,50,0,0"  

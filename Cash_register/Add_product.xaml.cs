@@ -19,6 +19,7 @@ namespace Cash_register
         public Add_product()
         {
             InitializeComponent();
+
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
@@ -144,7 +145,7 @@ namespace Cash_register
             }
         }
 
-        private void window16_KeyDown(object sender, KeyEventArgs e)
+        private void Window16_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

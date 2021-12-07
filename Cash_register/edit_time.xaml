@@ -13,7 +13,7 @@
         Icon = "Cash_register.png"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        KeyDown="time_KeyDown">
+        KeyDown="Time_KeyDown">
     <Grid>
         <Border
             Height="100" 

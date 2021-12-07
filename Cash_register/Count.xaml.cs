@@ -91,7 +91,7 @@ namespace Cash_register
             Close();
         }
 
-        private void count_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Count_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

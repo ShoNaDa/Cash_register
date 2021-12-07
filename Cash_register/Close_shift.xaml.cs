@@ -1,5 +1,5 @@
-﻿using System;
-using static Cash_register.SQLRequest;
+﻿using static Cash_register.SQLRequest;
+using static Cash_register.DateFunc;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
@@ -25,33 +25,19 @@ namespace Cash_register
 
         private void Click_close(object sender, RoutedEventArgs e)
         {
-            SQLrequest("Update Statements set FK_Worker = " + Authorization.id + "where StatementsId = (select count(*) from Statements)");
-            DateTime date1 = DateTime.Now;
-            string month, day;
-            if (Convert.ToString(date1.ToShortDateString()).Split('/')[0].Length == 1)
-            {
-                month = "0" + Convert.ToString(date1.ToShortDateString()).Split('/')[0];
-            }
-            else
-            {
-                month = Convert.ToString(date1.ToShortDateString()).Split('/')[0];
-            }
-            if (Convert.ToString(date1.ToShortDateString()).Split('/')[1].Length == 1)
-            {
-                day = "0" + Convert.ToString(date1.ToShortDateString()).Split('/')[1];
-            }
-            else
-            {
-                day = Convert.ToString(date1.ToShortDateString()).Split('/')[1];
-            }
-            SQLrequest("Update Statements set WorkingDate = '" + Convert.ToString(date1.ToShortDateString()).Split('/')[2] + month + day + "' where StatementsId = (select count(*) from Statements)");            
-            SQLrequest("Insert into Statements values ((select count(ShiftNumber) from Statements) + 1, " + MainWindow.moneyInTheCashRegister + ", " + MainWindow.moneyInTheCashRegister + ", 0, 0, 0, 0, 1, '" + Convert.ToString(date1.ToShortDateString()).Split('/')[2] + month + day + "')");
+            SQLrequest("Update [Shift] set FK_workerId = " + Authorization.id + " where ShiftId = (select max(ShiftId) from [Shift])");
+
+            SQLrequest("Update BalanceAfterCloseCashRegister set [Date] = '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "' where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
+            SQLrequest("Update [Shift] set CloseShiftDate = '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "' where ShiftId = (select max(ShiftId) from [Shift])");
+
+            Refund_of_products.refundOfShift = 0;
+
             Open_shift openShift = new Open_shift();
             openShift.Show();
             Close();
         }
 
-        private void closeShift_KeyDown(object sender, KeyEventArgs e)
+        private void CloseShift_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

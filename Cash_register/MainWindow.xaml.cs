@@ -40,18 +40,25 @@ namespace Cash_register
         {
             InitializeComponent();
 
-            //если это первая смена
-            DataTable dt_shiftNumber = SQLrequest("SELECT count(ShiftNumber) FROM Statements");
+            //если это первая смена, то добавляем начальные значения в талицы Смена и Баланс и создаем тестового админа
+            DataTable dt_shiftNumber = SQLrequest("SELECT count(ShiftNumber) FROM [Shift]");
             if (Convert.ToInt32(dt_shiftNumber.Rows[0][0]) == 0)
             {
-                SQLrequest("Insert into Statements values (1, 0, 0, 0, 0, 0, 0, 1, getdate())");
+                SQLrequest("Insert into BalanceAfterCloseCashRegister values (0, 0, 0, 0, getdate())");
+
+                SQLrequest("insert into Workers values ('Тест', 'Тест', 'Тест', 'Администратор', '95751a2e765809e6221e3249319cee73')");
+                //пароль 12314
+
+                SQLrequest("Insert into [Shift] values (1, 1, 1, getdate())");
             }
+            //Составляем лист существующих админов
             DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
             for (int i = 0; i < dt_admins.Rows.Count; i++)
             {
                 Admins.Add((string)dt_admins.Rows[i][1] + " " + (string)dt_admins.Rows[i][2] + " " + (string)dt_admins.Rows[i][3]);
                 Workers_ID_admins.Add((int)dt_admins.Rows[i][0]);
             }
+            //Составляем лист существующих кассиров
             DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
             for (int i = 0; i < dt_cashiers.Rows.Count; i++)
             {

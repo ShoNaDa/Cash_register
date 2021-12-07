@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using static Cash_register.SQLRequest;
+using static Cash_register.DateFunc;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
@@ -15,15 +16,48 @@ namespace Cash_register
     {
         List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         List<string> ListOfProductsSold = new List<string>(1);
+        static List<int> numberOfChequeProductSold = new List<int>();
+
+        public static Dictionary<int, double> refunds = new Dictionary<int, double>();
+
+        public static double refundOfShift = 0;
 
         public Refund_of_products()
         {
             InitializeComponent();
 
-            DataTable dt_products = SQLrequest("Select * from ProductsSold");
-            for (int i = 0; i < dt_products.Rows.Count; i++)
+            //с этой штукой правильно работает точка и запятая
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            DataTable dt_ProductsList = SQLrequest("Select * from ProductsList");
+
+            for (int i = 0; i < dt_ProductsList.Rows.Count; i++)
             {
-                List_of_products_sold.Items.Add("Номер чека: " + Convert.ToString(dt_products.Rows[i][0]) + ". " + Convert.ToString(dt_products.Rows[i][1]).Replace('?', '₽'));
+                //ID проданного товара
+                DataTable dt_productId = SQLrequest("Select FK_ProductId from ProductsList where ProductsListId = " + Convert.ToInt32(dt_ProductsList.Rows[i][0]));
+                //его название и цена 
+                DataTable dt_productsInfo = SQLrequest("Select ProductName, ProductPrice from Products where ProductId = " + Convert.ToInt32(dt_productId.Rows[0][0]));
+                //количество проданного товара
+                DataTable dt_count = SQLrequest("Select ProductCount from ProductsList where ProductsListId = " + Convert.ToInt32(dt_ProductsList.Rows[i][0]));
+                //сумма
+                double sum = Convert.ToDouble(dt_productsInfo.Rows[0][1]) * Convert.ToDouble(dt_count.Rows[0][0]);
+
+                //проверяем вернули ли мы такой товар
+                bool isRefund = false;
+                foreach (int item in numberOfChequeProductSold)
+                {
+                    if (Convert.ToInt32(dt_ProductsList.Rows[i][0]) == item)
+                    {
+                        isRefund = true;
+                    }
+                }
+                if (!isRefund)
+                {
+                    //прописываем проданные товары
+                    List_of_products_sold.Items.Add("Номер чека: " + Convert.ToString(dt_ProductsList.Rows[i][0]) + ". "
+                        + Convert.ToString(dt_productsInfo.Rows[0][0])
+                        + " (Цена: " + Convert.ToString(Convert.ToDouble(dt_productsInfo.Rows[0][1])) + "₽). Количество: " + Convert.ToString(dt_count.Rows[0][0]) + ", Сумма: " + Convert.ToString(sum));
+                }
             }
 
             for (int i = 0; i < List_of_products_sold.Items.Count; i++)
@@ -34,7 +68,7 @@ namespace Cash_register
 
         public void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsCashier == true)
+            if (MainWindow.IsCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
@@ -96,22 +130,39 @@ namespace Cash_register
         {
             if (List_of_products_sold.SelectedIndex != -1)
             {
-                //Возвращаем проданное количество
-                string count = Convert.ToString(List_of_products_sold.SelectedItem).Split('(')[1].Split(' ')[0].Trim();
-                string receiptNumber = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[1].Split('.')[0].Trim();
-                DataTable dt_id = SQLrequest("Select FK_ProductId from ProductsSold where ReceiptNumber = " + receiptNumber);
-                SQLrequest("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + Convert.ToString(dt_id.Rows[0][0]));
+                //количество возвращенного товара
+                string count = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[3].Split(',')[0].Trim();
+                //ID возвращенного товара
+                string idInList = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[1].Split('.')[0].Trim();
+                DataTable dt_id = SQLrequest("Select FK_ProductId from ProductsList where ProductsListId = " + idInList);
+                //сумма 
+                string amount = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[4].Trim().Replace(',', '.');
+
+                SQLrequest("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + dt_id.Rows[0][0]);
+
                 //Добавляем возврат
-                SQLrequest("Update Statements set Refund = Refund + " + Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[2].Split('₽')[0].Trim().Replace(',', '.') + " where StatementsId = (Select count(StatementsId) from Statements)");
-                //Удаляем из списка
-                SQLrequest("Delete from ProductsSold where ReceiptNumber = " + receiptNumber);
+                SQLrequest("Insert into Refunds values (" + dt_id.Rows[0][0] + ", " + count + ", " + amount + ", '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "')");
+
+                refundOfShift += Convert.ToDouble(amount);
+
+                //если это первый возврат за смену
+                if (refunds.ContainsKey(Convert.ToInt32(SQLrequest("Select max(ShiftId) from [Shift]").Rows[0][0])))
+                {
+                    refunds[Convert.ToInt32(SQLrequest("Select max(ShiftId) from [Shift]").Rows[0][0])] += Convert.ToDouble(amount);
+                }
+                else
+                {
+                    refunds.Add(Convert.ToInt32(SQLrequest("Select max(ShiftId) from [Shift]").Rows[0][0]), Convert.ToDouble(amount));
+                }
+                numberOfChequeProductSold.Add(Convert.ToInt32(Convert.ToString(List_of_products_sold.SelectedItem).Split(' ')[2].Split('.')[0].Trim()));
+
                 Refund_of_products window5 = new Refund_of_products();
                 window5.Show();
                 Close();
             }
         }
 
-        private void window5_KeyDown(object sender, KeyEventArgs e)
+        private void Window5_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

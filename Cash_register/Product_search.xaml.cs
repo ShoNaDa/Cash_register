@@ -107,7 +107,7 @@ namespace Cash_register
             }
         }
 
-        private void window4_KeyDown(object sender, KeyEventArgs e)
+        private void Window4_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

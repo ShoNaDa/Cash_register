@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Data;
+using System.Windows;
 using System.Windows.Controls;
+using static Cash_register.SQLRequest;
 
 namespace Cash_register
 {
@@ -12,6 +15,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
+            //Сделали шаблон чека
             cheque.Text = "\t\tТоварный чек\n";
             int count = 1;
             foreach (string item in Sales1.cheque)
@@ -19,7 +23,17 @@ namespace Cash_register
                 cheque.Text += count + ") " + item + "\n";
                 count++;
             }
-            cheque.Text += "\tИТОГ: " + Sales1.fullPrice;
+            cheque.Text += "\tИТОГ: " + Sales1.fullPrice + "₽";
+
+            //ID этой продажи
+            DataTable dt_SaleId = SQLrequest("Select SaleId from Sale where SaleId = (select count(SaleId) from Sale)");
+            int saleId = Convert.ToInt32(dt_SaleId.Rows[0][0]);
+            //ID чека
+            DataTable dt_chequeId = SQLrequest("Select count(ChequeId) from Cheque");
+            int chequeId = Convert.ToInt32(dt_chequeId.Rows[0][0]) + 1;
+            //добавили чек в БД
+            SQLrequest("Insert into Cheque values (" + chequeId + ", " + saleId + ")");
+            Sales1.cheque.Clear();
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
@@ -32,6 +46,7 @@ namespace Cash_register
             }
             else if (MainWindow.IsCashier == false)
             {
+                Sales1.cheque.Clear();
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
@@ -40,10 +55,11 @@ namespace Cash_register
 
         private void Click_print(object sender, RoutedEventArgs e)
         {
+            //создаем окно диалога принтера
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                printDialog.PrintVisual(cheque, "Printing");
+                printDialog.PrintVisual(cheque, "Printing"); //при выборе принтера печатаем
             }
             if (MainWindow.IsCashier)
             {
@@ -53,6 +69,7 @@ namespace Cash_register
             }
             else if (MainWindow.IsCashier == false)
             {
+                Sales1.cheque.Clear();
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();

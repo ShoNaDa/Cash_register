@@ -88,6 +88,7 @@
     <Compile Include="Count.xaml.cs">
       <DependentUpon>Count.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DateFunc.cs" />
     <Compile Include="Deposit_money.xaml.cs">
       <DependentUpon>Deposit_money.xaml</DependentUpon>
     </Compile>
@@ -130,6 +131,9 @@
     </Compile>
     <Compile Include="Statements.xaml.cs">
       <DependentUpon>Statements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TipOfPament.xaml.cs">
+      <DependentUpon>TipOfPament.xaml</DependentUpon>
     </Compile>
     <Compile Include="Withdrawals_money.xaml.cs">
       <DependentUpon>Withdrawals_money.xaml</DependentUpon>
@@ -241,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TipOfPament.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

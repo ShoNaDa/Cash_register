@@ -13,7 +13,7 @@
         Background="Black"
         Icon = "Cash_register.png"
         WindowStyle="None"
-        KeyDown="window15_KeyDown">
+        KeyDown="Window15_KeyDown">
     <Grid>
         <Button
                 Background="Black"
@@ -57,7 +57,7 @@
 
         <TextBox
             Name="add_fname"
-            Margin="0,40,50,0"  
+            Margin="0,130,50,0"  
             Width="450" 
             Height="50"
             Background="White"
@@ -72,7 +72,7 @@
 
         <TextBox
             Name="add_lname"
-            Margin="0,130,50,0"  
+            Margin="0,40,50,0"  
             Width="450" 
             Height="50"
             Background="White"
@@ -120,7 +120,7 @@
         </ComboBox>
 
         <TextBlock
-            Margin="50,40,0,0"  
+            Margin="50,130,0,0"  
             Width="200" 
             Height="50"
             Background="Black"
@@ -135,7 +135,7 @@
         </TextBlock>
 
         <TextBlock
-            Margin="50,130,0,0"  
+            Margin="50,40,0,0"  
             Width="200" 
             Height="50"
             Background="Black"

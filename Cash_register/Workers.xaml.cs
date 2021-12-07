@@ -17,6 +17,8 @@ namespace Cash_register
         {
             InitializeComponent();
 
+            MainWindow.Workers_ID.Clear();
+
             DataTable dt_workers = SQLrequest("SELECT * FROM [dbo].[Workers]");
             for (int i = 0; i < dt_workers.Rows.Count; i++)
             {
@@ -33,12 +35,13 @@ namespace Cash_register
         private void Click_back(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
+
             Settings window7 = new Settings();
             window7.Show();
             Close();
         }
 
-        private void window13_KeyDown(object sender, KeyEventArgs e)
+        private void Window13_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -49,6 +52,7 @@ namespace Cash_register
         private void Click_to_add_worker(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
+
             Add_worker window15 = new Add_worker();
             window15.Show();
             Close();
@@ -56,6 +60,7 @@ namespace Cash_register
         private void Click_to_edit_worker(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
+
             if (List_of_workers.SelectedIndex != -1)
             {
                 int index = List_of_workers.SelectedIndex;
@@ -68,11 +73,14 @@ namespace Cash_register
                     }
                     counter++; ;
                 }
-                DataTable dt_worker = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
+
+                DataTable dt_worker = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
                 fname = (string)dt_worker.Rows[0][2];
                 lname = (string)dt_worker.Rows[0][1];
                 mname = (string)dt_worker.Rows[0][3];
+
                 MainWindow.Workers_ID.Clear();
+
                 Edit_worker window14 = new Edit_worker();
                 window14.Show();
                 Close();

@@ -48,7 +48,7 @@ namespace Cash_register
                     counter++; ;
                 }
 
-                DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkersId = " + id);
+                DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkerId = " + id);
                 for (int i = 0; i < dt_admins.Rows.Count; i++)
                 {
                     if (Hash(password.Password) == (string)dt_admins.Rows[i][5])
@@ -76,7 +76,7 @@ namespace Cash_register
                     counter++; ;
                 }
 
-                DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkersId = " + id);
+                DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
                 for (int i = 0; i < dt_cashiers.Rows.Count; i++)
                 {
                     if (Hash(password.Password) == (string)dt_cashiers.Rows[i][5])

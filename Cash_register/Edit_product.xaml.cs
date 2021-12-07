@@ -114,8 +114,8 @@ namespace Cash_register
                     //проверяем: цена и количество больше нуля?
                     if (Convert.ToInt32(edit_count.Text) > 0 && Convert.ToDouble(edit_price.Text) > 0)
                     {
-                        SQLrequest("update [dbo].[Products] set ProductName = '" + edit_product_name.Text
-                                                                                 + "', SalePrice = " + Convert.ToDouble(Convert.ToString(edit_price.Text).Replace(',', '.'))
+                        SQLrequest("Update [dbo].[Products] set ProductName = '" + edit_product_name.Text
+                                                                                 + "', ProductPrice = " + Convert.ToDouble(Convert.ToString(edit_price.Text).Replace(',', '.'))
                                                                                  + ", ProductCount = " + Convert.ToInt32(edit_count.Text)
                                                                                  + " WHERE ProductId = " + Convert.ToInt32(product_code_edit.Text));
                         MessageBox.Show("Данные успешно изменены");
@@ -139,7 +139,7 @@ namespace Cash_register
             }
         }
 
-        private void edit_product_KeyDown(object sender, KeyEventArgs e)
+        private void Edit_product_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

@@ -13,7 +13,7 @@
         Background="Black"
         Icon = "Cash_register.png"
         WindowStyle="None"
-        KeyDown="window3_KeyDown">
+        KeyDown="Window3_KeyDown">
     <Grid>
         <Border
             Height="100" 
