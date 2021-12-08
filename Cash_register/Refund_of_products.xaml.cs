@@ -156,6 +156,16 @@ namespace Cash_register
                 }
                 numberOfChequeProductSold.Add(Convert.ToInt32(Convert.ToString(List_of_products_sold.SelectedItem).Split(' ')[2].Split('.')[0].Trim()));
 
+                DataTable dt_tipPament = SQLrequest("Select TipOfPament from Pament where PamentId = (select FK_SaleId from ProductsList where ProductsListId = " + idInList + ")" );
+                if (Convert.ToString(dt_tipPament.Rows[0][0]) == "Наличные")
+                {
+                    MessageBox.Show("Возврат наличными");
+                }
+                else
+                {
+                    MessageBox.Show("Возврат на счет банковской карты");
+                }
+
                 Refund_of_products window5 = new Refund_of_products();
                 window5.Show();
                 Close();
