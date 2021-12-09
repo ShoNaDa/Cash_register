@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cash_register;
 
-namespace Authtor
+namespace Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class AllTests
     {
         [TestMethod]
         public void TestHash()

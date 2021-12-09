@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cash_register", "Cash_register\Cash_register.csproj", "{3FDE27EF-EC34-410C-ADFE-88C85764E10A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authtor", "Authtor\Authtor.csproj", "{00245AD2-CF07-48DB-AED8-8E46969A645B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Authtor\Tests.csproj", "{00245AD2-CF07-48DB-AED8-8E46969A645B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
