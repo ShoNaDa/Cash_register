@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Data;
+using System.Collections.Generic;
 
 namespace Cash_register
 {
@@ -14,10 +15,12 @@ namespace Cash_register
     public partial class Authorization : Window
     {
         public static int id = 0;
+
         public Authorization()
         {
             InitializeComponent();
 
+            //Создаю строку приветствия
             string fName = MainWindow.FIO_worker.Split(' ')[1];
             string lName = MainWindow.FIO_worker.Split(' ')[0];
             string mName = MainWindow.FIO_worker.Split(' ')[2];
@@ -37,62 +40,53 @@ namespace Cash_register
         {
             if (MainWindow.IsAdmin)
             {
-                int counter = 0;
-                
-                foreach (int i in MainWindow.Workers_ID_admins)
-                {
-                    if (counter == List_of_admin.index)
-                    {
-                        id = i;
-                    }
-                    counter++; ;
-                }
-
-                DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Администратор' and WorkerId = " + id);
-                for (int i = 0; i < dt_admins.Rows.Count; i++)
-                {
-                    if (Hash(password.Password) == (string)dt_admins.Rows[i][5])
-                    {
-                        After_logging_in window2 = new After_logging_in();
-                        window2.Show();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неправильный пароль");
-                        break;
-                    }
-                }
+                RoleVerification(MainWindow.Workers_ID_admins, List_of_admin.index, MainWindow.IsAdmin);
             }
-            else if (MainWindow.IsAdmin == false)
+            else if (!MainWindow.IsAdmin)
             {
-                int counter = 0;
-                foreach (int i in MainWindow.Workers_ID_cashiers)
-                {
-                    if (counter == List_of_cashiers.index)
-                    {
-                        id = i;
-                    }
-                    counter++; ;
-                }
-
-                DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
-                for (int i = 0; i < dt_cashiers.Rows.Count; i++)
-                {
-                    if (Hash(password.Password) == (string)dt_cashiers.Rows[i][5])
-                    {
-                        After_login_in_cashier window9 = new After_login_in_cashier();
-                        window9.Show();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неправильный пароль");
-                        break;
-                    }
-                }
+                RoleVerification(MainWindow.Workers_ID_cashiers, List_of_cashiers.index, MainWindow.IsAdmin);
             }
         }
+
+        //фунция, которая проверяет какая роль у сотруника, чтобы открыть соответствующее окно
+        public void RoleVerification(List<int> RoleEmployee, int index, bool isAdmin)
+        {
+            //волшебным образом узнаю id пользователя
+            int counter = 0;
+            foreach (int i in RoleEmployee)
+            {
+                if (counter == index)
+                {
+                    id = i;
+                }
+                counter++; ;
+            }
+
+            //узнаем информацию о пользователе
+            DataTable dt_role = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
+
+            //проверяем, что введенный пароль, если его захешировать будет соответствовать с строкой в бд
+            //далее просто открываю окно
+            if (Hash(password.Password) == (string)dt_role.Rows[0][5])
+            {
+                if (isAdmin)
+                {
+                    After_logging_in admin = new After_logging_in();
+                    admin.Show();
+                }
+                else
+                {
+                    After_login_in_cashier cashier = new After_login_in_cashier();
+                    cashier.Show();
+                }
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Неправильный пароль");
+            }
+        }
+
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -100,6 +94,8 @@ namespace Cash_register
                 Button_enter.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
+
+        //функция хэширования
         public static string Hash(string password)
         {
             //переводим строку в байт-массим  

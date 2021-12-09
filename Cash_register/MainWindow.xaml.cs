@@ -46,7 +46,7 @@ namespace Cash_register
             {
                 SQLrequest("Insert into BalanceAfterCloseCashRegister values (0, 0, 0, 0, getdate())");
 
-                SQLrequest("insert into Workers values ('Тест', 'Тест', 'Тест', 'Администратор', '95751a2e765809e6221e3249319cee73')");
+                SQLrequest("Insert into Workers values ('Тест', 'Тест', 'Тест', 'Администратор', '95751a2e765809e6221e3249319cee73')");
                 //пароль 12314
 
                 SQLrequest("Insert into [Shift] values (1, 1, 1, getdate())");
