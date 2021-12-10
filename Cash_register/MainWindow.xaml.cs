@@ -20,8 +20,8 @@ namespace Cash_register
         public static List<string> Admins = new List<string>(1);
         public static List<string> Products = new List<string>(1);
         //bool
-        public static bool IsCashier;
-        public static bool IsAdmin;
+        public static bool isCashier;
+        public static bool isAdmin;
         public static bool theShiftIsOpen;
         //string
         public static string FIO_worker;
@@ -40,7 +40,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
-            //если это первая смена, то добавляем начальные значения в талицы Смена и Баланс и создаем тестового админа
+            //если это первая смена, то добавляем начальные значения в таблицы Смена и Баланс (они изменятся) и создаем тестового админа
             DataTable dt_shiftNumber = SQLrequest("SELECT count(ShiftNumber) FROM [Shift]");
             if (Convert.ToInt32(dt_shiftNumber.Rows[0][0]) == 0)
             {
@@ -51,25 +51,30 @@ namespace Cash_register
 
                 SQLrequest("Insert into [Shift] values (1, 1, 1, getdate())");
             }
+
             //Составляем лист существующих админов
             DataTable dt_admins = SQLrequest("SELECT * FROM [dbo].[Workers] WHERE roleWorker = 'Администратор'");
-            for (int i = 0; i < dt_admins.Rows.Count; i++)
-            {
-                Admins.Add((string)dt_admins.Rows[i][1] + " " + (string)dt_admins.Rows[i][2] + " " + (string)dt_admins.Rows[i][3]);
-                Workers_ID_admins.Add((int)dt_admins.Rows[i][0]);
-            }
+            CreatListEmployee(Admins, dt_admins, Workers_ID_admins);
+
             //Составляем лист существующих кассиров
             DataTable dt_cashiers = SQLrequest("SELECT * FROM [dbo].[Workers] where roleWorker = 'Кассир'");
-            for (int i = 0; i < dt_cashiers.Rows.Count; i++)
+            CreatListEmployee(Cashiers, dt_cashiers, Workers_ID_cashiers);
+        }
+
+        //функция для составления листа со строками типа: Фамилия Имя Отчество, а также добавления ID сотрудника в лист
+        public static void CreatListEmployee(List<string> InfoEmployee, DataTable employee, List<int> IdEmployee)
+        {
+            for (int i = 0; i < employee.Rows.Count; i++)
             {
-                Cashiers.Add((string)dt_cashiers.Rows[i][1] + " " + (string)dt_cashiers.Rows[i][2] + " " + (string)dt_cashiers.Rows[i][3]);
-                Workers_ID_cashiers.Add((int)dt_cashiers.Rows[i][0]);
+                InfoEmployee.Add((string)employee.Rows[i][1] + " " + (string)employee.Rows[i][2] + " " + (string)employee.Rows[i][3]);
+                IdEmployee.Add((int)employee.Rows[i][0]);
             }
         }
 
         public void Click_to_cashier(object sender, RoutedEventArgs e)
         {
-            IsAdmin = false;
+            isAdmin = false;
+
             List_of_cashiers window11 = new List_of_cashiers();
             window11.Show();
             Close();
@@ -77,7 +82,8 @@ namespace Cash_register
 
         public void Click_to_admin(object sender, RoutedEventArgs e)
         {
-            IsAdmin = true;
+            isAdmin = true;
+
             List_of_admin window12 = new List_of_admin();
             window12.Show();
             Close();

@@ -41,25 +41,25 @@ namespace Cash_register
             //проверяем нет ли пустых полей
             if (edit_product_name.Text != "" && edit_price.Text != "" && edit_count.Text != "")
             {
-                bool CountIsOk = false;
+                bool сountIsOk = false;
                 bool PriceIsOk = false;
                 bool NameIsOk = true;
                 //проверяем правильно ли написано количество
                 for (int i = 0; i < edit_count.Text.Length; i++)
                 {
-                    if (CountIsOk)
+                    if (сountIsOk)
                     {
-                        CountIsOk = false;
+                        сountIsOk = false;
                     }
                     for (int j = 0; j < Numbers.Count; j++)
                     {
                         if (Convert.ToString(edit_count.Text[i]).Contains(Numbers[j]))
                         {
-                            CountIsOk = true;
+                            сountIsOk = true;
                             break;
                         }
                     }
-                    if (CountIsOk == false)
+                    if (сountIsOk == false)
                     {
                         break;
                     }
@@ -107,7 +107,7 @@ namespace Cash_register
                     }
                 }
                 //если все ок и цена не начинается и не заканчивается с "." или ","
-                if (CountIsOk && PriceIsOk && NameIsOk &&
+                if (сountIsOk && PriceIsOk && NameIsOk &&
                     Convert.ToString(edit_price.Text[0]) != "." && Convert.ToString(edit_price.Text[0]) != "," &&
                     Convert.ToString(edit_price.Text[edit_price.Text.Length - 1]) != "." && Convert.ToString(edit_price.Text[edit_price.Text.Length - 1]) != ",")
                 {

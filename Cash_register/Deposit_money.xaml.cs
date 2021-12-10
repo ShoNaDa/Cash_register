@@ -27,23 +27,23 @@ namespace Cash_register
             //проверяем нет ли пустых полей
             if (depositMoneyCount.Text != "")
             {
-                bool depositCountIsOk = false;
+                bool depositсountIsOk = false;
                 //проверяем правильно ли написана сумма внесения
                 for (int i = 0; i < depositMoneyCount.Text.Length; i++)
                 {
-                    if (depositCountIsOk)
+                    if (depositсountIsOk)
                     {
-                        depositCountIsOk = false;
+                        depositсountIsOk = false;
                     }
                     for (int j = 0; j < Signs.Count; j++)
                     {
                         if (Convert.ToString(depositMoneyCount.Text[i]).Contains(Signs[j]))
                         {
-                            depositCountIsOk = true;
+                            depositсountIsOk = true;
                             break;
                         }
                     }
-                    if (depositCountIsOk == false)
+                    if (depositсountIsOk == false)
                     {
                         break;
                     }
@@ -56,13 +56,13 @@ namespace Cash_register
                         count++;
                         if (count == 2)
                         {
-                            depositCountIsOk = false;
+                            depositсountIsOk = false;
                             break;
                         }
                     }
                 }
                 //если все ок
-                if (depositCountIsOk && Convert.ToString(depositMoneyCount.Text[0]) != "." && Convert.ToString(depositMoneyCount.Text[0]) != "," &&
+                if (depositсountIsOk && Convert.ToString(depositMoneyCount.Text[0]) != "." && Convert.ToString(depositMoneyCount.Text[0]) != "," &&
                     Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != "." && Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != ",")
                 {
                     //проверяем: сумма внесения больше нуля?

@@ -38,13 +38,13 @@ namespace Cash_register
 
         private void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsCashier)
+            if (MainWindow.isCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
                 Close();
             }
-            else if (MainWindow.IsCashier == false)
+            else if (MainWindow.isCashier == false)
             {
                 Sales1.cheque.Clear();
                 After_logging_in window2 = new After_logging_in();
@@ -61,13 +61,13 @@ namespace Cash_register
             {
                 printDialog.PrintVisual(cheque, "Printing"); //при выборе принтера печатаем
             }
-            if (MainWindow.IsCashier)
+            if (MainWindow.isCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
                 Close();
             }
-            else if (MainWindow.IsCashier == false)
+            else if (MainWindow.isCashier == false)
             {
                 Sales1.cheque.Clear();
                 After_logging_in window2 = new After_logging_in();

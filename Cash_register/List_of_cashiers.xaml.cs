@@ -10,6 +10,7 @@ namespace Cash_register
     public partial class List_of_cashiers : Window
     {
         public static int index = 0;
+
         public List_of_cashiers()
         {
             InitializeComponent();
@@ -18,7 +19,6 @@ namespace Cash_register
             {
                 List_of_cashier.Items.Add(i);
             }
-
         }
 
         private void Click_to_next(object sender, RoutedEventArgs e)
@@ -26,9 +26,11 @@ namespace Cash_register
             index = List_of_cashier.SelectedIndex;
             MainWindow.Cashiers.Clear();
             MainWindow.Admins.Clear();
+
             if (List_of_cashier.SelectedIndex != -1)
             {
                 MainWindow.FIO_worker = (string)List_of_cashier.SelectedValue;
+
                 Authorization Autorization = new Authorization();
                 Autorization.Show();
                 Close();
@@ -43,6 +45,7 @@ namespace Cash_register
         {
             MainWindow.Cashiers.Clear();
             MainWindow.Admins.Clear();
+
             MainWindow Cash_register = new MainWindow();
             Cash_register.Show();
             Close();

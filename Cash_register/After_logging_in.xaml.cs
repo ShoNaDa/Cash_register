@@ -14,7 +14,8 @@ namespace Cash_register
 
         public void Click_to_sales(object sender, RoutedEventArgs e)
         {
-            MainWindow.IsCashier = false;
+            MainWindow.isCashier = false;
+
             Sales1 window3 = new Sales1();
             window3.Show();
             Close();
@@ -22,7 +23,8 @@ namespace Cash_register
 
         public void Click_to_refund(object sender, RoutedEventArgs e)
         {
-            MainWindow.IsCashier = false;
+            MainWindow.isCashier = false;
+
             Refund_of_products window5 = new Refund_of_products();
             window5.Show();
             Close();
@@ -37,7 +39,8 @@ namespace Cash_register
 
         public void Click_to_statement(object sender, RoutedEventArgs e)
         {
-            MainWindow.IsCashier = false;
+            MainWindow.isCashier = false;
+
             Statements window6 = new Statements();
             window6.Show();
             Close();
@@ -52,7 +55,8 @@ namespace Cash_register
 
         public void Click_to_calculator(object sender, RoutedEventArgs e)
         {
-            MainWindow.IsCashier = false;
+            MainWindow.isCashier = false;
+
             Calculator window8 = new Calculator();
             window8.Show();
             Close();

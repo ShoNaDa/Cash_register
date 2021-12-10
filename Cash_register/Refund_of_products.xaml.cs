@@ -14,12 +14,13 @@ namespace Cash_register
     /// </summary>
     public partial class Refund_of_products : Window
     {
+        //List
         List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        List<string> ListOfProductsSold = new List<string>(1);
+        static List<string> ListOfProductsSold = new List<string>(1);
         static List<int> numberOfChequeProductSold = new List<int>();
-
+        //Dictionary
         public static Dictionary<int, double> refunds = new Dictionary<int, double>();
-
+        //double
         public static double refundOfShift = 0;
 
         public Refund_of_products()
@@ -35,15 +36,19 @@ namespace Cash_register
             {
                 //ID проданного товара
                 DataTable dt_productId = SQLrequest("Select FK_ProductId from ProductsList where ProductsListId = " + Convert.ToInt32(dt_ProductsList.Rows[i][0]));
+                
                 //его название и цена 
                 DataTable dt_productsInfo = SQLrequest("Select ProductName, ProductPrice from Products where ProductId = " + Convert.ToInt32(dt_productId.Rows[0][0]));
+                
                 //количество проданного товара
                 DataTable dt_count = SQLrequest("Select ProductCount from ProductsList where ProductsListId = " + Convert.ToInt32(dt_ProductsList.Rows[i][0]));
+                
                 //сумма
                 double sum = Convert.ToDouble(dt_productsInfo.Rows[0][1]) * Convert.ToDouble(dt_count.Rows[0][0]);
 
                 //проверяем вернули ли мы такой товар
                 bool isRefund = false;
+                
                 foreach (int item in numberOfChequeProductSold)
                 {
                     if (Convert.ToInt32(dt_ProductsList.Rows[i][0]) == item)
@@ -51,6 +56,7 @@ namespace Cash_register
                         isRefund = true;
                     }
                 }
+                
                 if (!isRefund)
                 {
                     //прописываем проданные товары
@@ -68,13 +74,13 @@ namespace Cash_register
 
         public void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsCashier)
+            if (MainWindow.isCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
                 Close();
             }
-            else if (MainWindow.IsCashier == false)
+            else
             {
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
@@ -84,44 +90,33 @@ namespace Cash_register
 
         public void Click_to_find_a_cheque(object sender, RoutedEventArgs e)
         {
+            //делаем видимым текстблок для поиска
             Button_find_a_cheque.Visibility = Visibility.Hidden;
             Search_cheque.Visibility = Visibility.Visible;
             Button_searching.Visibility = Visibility.Visible;
 
             Search_cheque.Focus();
         }
+
         private void Click_searching(object sender, RoutedEventArgs e)
         {
-            bool IsOk = false;
-            for (int i = 0; i < Search_cheque.Text.Length; i++)
-            {
-                if (IsOk)
-                {
-                    IsOk = false;
-                }
-                for (int j = 0; j < Numbers.Count; j++)
-                {
-                    if (Convert.ToString(Search_cheque.Text[i]).Contains(Numbers[j]))
-                    {
-                        IsOk = true;
-                        break;
-                    }
-                }
-                if (IsOk == false)
-                {
-                    break;
-                }
-            }
+            bool isOk = false;
 
             List_of_products_sold.Items.Clear();
-            for (int i = 0; i < ListOfProductsSold.Count; i++)
+
+            //поиск, если чек - цифра
+            if (ChequeIsValid(Search_cheque.Text, isOk, Numbers))
             {
-                if (IsOk)
+                //создаем новый лист для записи
+                List<string> NewListSoldProducts = new List<string>();
+
+                //заполняем новый список
+                ListOfProductSold(ListOfProductsSold.Count, Search_cheque.Text, ListOfProductsSold, NewListSoldProducts);
+
+                //заполняем данными окно по поиску
+                foreach(string item in NewListSoldProducts)
                 {
-                    if (Convert.ToString(ListOfProductsSold[i]).Split(':')[1].Split('.')[0].Trim().Contains(Search_cheque.Text.Trim()))
-                    {
-                        List_of_products_sold.Items.Add(ListOfProductsSold[i]);
-                    }
+                    List_of_products_sold.Items.Add(item);
                 }
             }
         }
@@ -170,6 +165,46 @@ namespace Cash_register
                 window5.Show();
                 Close();
             }
+        }
+
+        //функция проверяет, что чек написан цифрой
+        public static bool ChequeIsValid(string searchCheque, bool isOk, List<string> Numbers)
+        {
+            for (int i = 0; i < searchCheque.Length; i++)
+            {
+                if (isOk)
+                {
+                    isOk = false;
+                }
+                for (int j = 0; j < Numbers.Count; j++)
+                {
+                    if (Convert.ToString(searchCheque[i]).Contains(Numbers[j]))
+                    {
+                        isOk = true;
+                        break;
+                    }
+                }
+                if (!isOk)
+                {
+                    break;
+                }
+            }
+
+            return isOk;
+        }
+
+        //функция поиска валидного чека
+        public static List<string> ListOfProductSold(int count, string searchCheque, List<string> ListSoldProducts, List<string> NewListSoldProducts)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (Convert.ToString(ListSoldProducts[i]).Split(':')[1].Split('.')[0].Trim().Contains(searchCheque.Trim()))
+                {
+                    NewListSoldProducts.Add(ListSoldProducts[i]);
+                }
+            }
+
+            return NewListSoldProducts;
         }
 
         private void Window5_KeyDown(object sender, KeyEventArgs e)

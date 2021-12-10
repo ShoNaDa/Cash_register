@@ -195,13 +195,13 @@ namespace Cash_register
 
         public void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsCashier == true)
+            if (MainWindow.isCashier == true)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
                 Close();
             }
-            else if (MainWindow.IsCashier == false)
+            else if (MainWindow.isCashier == false)
             {
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();

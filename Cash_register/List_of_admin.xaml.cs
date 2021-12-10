@@ -10,6 +10,7 @@ namespace Cash_register
     public partial class List_of_admin : Window
     {
         public static int index = 0;
+
         public List_of_admin()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace Cash_register
         {
             MainWindow.Admins.Clear();
             MainWindow.Cashiers.Clear();
+
             MainWindow Cash_register = new MainWindow();
             Cash_register.Show();
             Close();
@@ -34,9 +36,11 @@ namespace Cash_register
             index = List_of_admins.SelectedIndex;
             MainWindow.Admins.Clear();
             MainWindow.Cashiers.Clear();
+
             if (List_of_admins.SelectedIndex != -1)
             {
                 MainWindow.FIO_worker = (string)List_of_admins.SelectedValue;
+
                 Authorization Autorization = new Authorization();
                 Autorization.Show();
                 Close();

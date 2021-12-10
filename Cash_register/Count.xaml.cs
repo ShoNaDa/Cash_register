@@ -13,8 +13,11 @@ namespace Cash_register
     /// </summary>
     public partial class Count : Window
     {
+        //List
         List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+        //int
         public static int countOfProduct;
+
         public Count()
         {
             InitializeComponent();
@@ -22,70 +25,93 @@ namespace Cash_register
 
         private void Click_go_next(object sender, RoutedEventArgs e)
         {
-            //проверяем нет ли пустых полей
-            if (count_product.Text != "")
+            bool сountIsOk = false;
+
+            //если все ок
+            if (CountIsOk(count_product.Text, сountIsOk, Numbers))
             {
-                bool CountIsOk = false;
-                //проверяем правильно ли написано количество
-                for (int i = 0; i < count_product.Text.Length; i++)
+                bool countNotMore = true;
+
+                DataTable dt_product = SQLrequest("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
+
+                //проверяем: есть ли столько товара на складе
+                if (CountNotMore(countNotMore, Convert.ToInt32(dt_product.Rows[0][0]), Convert.ToInt32(count_product.Text)))
                 {
-                    if (CountIsOk)
+                    //создаем строку продажи товара после ввода количества
+                    countOfProduct = Convert.ToInt32(count_product.Text);
+                    Sales1.ProductsSale[Sales1.ProductsSale.Count - 1] = "Код: " + Convert.ToString(Products_sale.idProductForCount) + ". " + Products_sale.nameProduct + ". Стоимость: " + countOfProduct * Products_sale.price + "₽ (" + countOfProduct + " шт)";
+
+                    Sales1 sales = new Sales1();
+                    sales.Show();
+                    Close();
+                }
+            }
+        }
+
+        //проверяет некоторую валидацию
+        public static bool CountIsOk(string countProduct, bool countIsOk, List<string> Numbers)
+        {
+            //проверяем нет ли пустых полей
+            if (countProduct != "")
+            {
+                //проверяем правильно ли написано количество
+                for (int i = 0; i < countProduct.Length; i++)
+                {
+                    if (countIsOk)
                     {
-                        CountIsOk = false;
+                        countIsOk = false;
                     }
+
                     for (int j = 0; j < Numbers.Count; j++)
                     {
-                        if (Convert.ToString(count_product.Text[i]).Contains(Numbers[j]))
+                        if (Convert.ToString(countProduct[i]).Contains(Numbers[j]))
                         {
-                            CountIsOk = true;
+                            countIsOk = true;
                             break;
                         }
                     }
-                    if (CountIsOk == false)
+
+                    if (!countIsOk)
                     {
                         break;
                     }
                 }
-                //если все ок
-                if (CountIsOk)
-                {
-                    //проверяем: количество больше нуля?
-                    if (Convert.ToInt32(count_product.Text) > 0)
-                    {
-                        DataTable dt_product = SQLrequest("Select ProductCount from Products where ProductId = " + Convert.ToInt32(Products_sale.idProductForCount));
-                        if (Convert.ToInt32(dt_product.Rows[0][0]) >= Convert.ToInt32(count_product.Text))
-                        {
-                            countOfProduct = Convert.ToInt32(count_product.Text);
-                            Sales1.ProductsSale[Sales1.ProductsSale.Count - 1] = "Код: " + Convert.ToString(Products_sale.idProductForCount) + ". " + Products_sale.nameProduct + ". Стоимость: " + countOfProduct * Products_sale.price + "₽ (" + countOfProduct + " шт)";
+            }
 
-                            Sales1 sales = new Sales1();
-                            sales.Show();
-                            Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Такого количества товара нет на складе");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неправильный формат");
-                    }
-                }
-                else
+            //если все ок
+            if (countIsOk)
+            {
+                //проверяем: количество больше нуля?
+                if (Convert.ToInt32(countProduct) <= 0)
                 {
+                    countIsOk = false;
                     MessageBox.Show("Неправильный формат");
                 }
             }
             else
             {
-                MessageBox.Show("Все строки должны быть заполнены");
+                MessageBox.Show("Неправильный формат");
             }
+
+            return countIsOk;
+        }
+
+        //функция - проверка: столько товара есть на складе?
+        public static bool CountNotMore(bool countNotMore, int countInDB, int countEntered)
+        {
+            if (countInDB < countEntered)
+            {
+                countNotMore = false;
+                MessageBox.Show("Такого количества товара нет на складе");
+            }
+
+            return countNotMore;
         }
 
         private void Click_back(object sender, RoutedEventArgs e)
         {
             Sales1.ProductsSale.Clear();
+            
             Products_sale sale = new Products_sale();
             sale.Show();
             Close();

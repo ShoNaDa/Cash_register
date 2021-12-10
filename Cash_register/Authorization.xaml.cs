@@ -38,29 +38,20 @@ namespace Cash_register
 
         private void Click_to_enter(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.IsAdmin)
+            if (MainWindow.isAdmin)
             {
-                RoleVerification(MainWindow.Workers_ID_admins, List_of_admin.index, MainWindow.IsAdmin);
+                RoleVerification(MainWindow.Workers_ID_admins, List_of_admin.index, MainWindow.isAdmin);
             }
-            else if (!MainWindow.IsAdmin)
+            else
             {
-                RoleVerification(MainWindow.Workers_ID_cashiers, List_of_cashiers.index, MainWindow.IsAdmin);
+                RoleVerification(MainWindow.Workers_ID_cashiers, List_of_cashiers.index, MainWindow.isAdmin);
             }
         }
 
-        //фунция, которая проверяет какая роль у сотруника, чтобы открыть соответствующее окно
+        //фунция, которая проверяет правильность пароля и говорит какое окно следующим открыть
         public void RoleVerification(List<int> RoleEmployee, int index, bool isAdmin)
         {
-            //волшебным образом узнаю id пользователя
-            int counter = 0;
-            foreach (int i in RoleEmployee)
-            {
-                if (counter == index)
-                {
-                    id = i;
-                }
-                counter++; ;
-            }
+            GiveIdEmployee(RoleEmployee, index);
 
             //узнаем информацию о пользователе
             DataTable dt_role = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
@@ -87,12 +78,21 @@ namespace Cash_register
             }
         }
 
-        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        //функция получения ID сотрудника, который входит (типо авторизация)
+        public static int GiveIdEmployee(List<int> RoleEmployee, int index)
         {
-            if (e.Key == Key.Enter)
+            //волшебным образом узнаю id пользователя
+            int counter = 0;
+            foreach (int i in RoleEmployee)
             {
-                Button_enter.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                if (counter == index)
+                {
+                    id = i;
+                }
+                counter++; ;
             }
+
+            return id;
         }
 
         //функция хэширования
@@ -116,6 +116,14 @@ namespace Cash_register
                 hash += string.Format("{0:x2}", b);
             }
             return hash;
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Button_enter.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
     }
 }

@@ -28,23 +28,23 @@ namespace Cash_register
             //проверяем нет ли пустых полей
             if (withdrawalsMoneyCount.Text != "")
             {
-                bool withdrawalsCountIsOk = false;
+                bool withdrawalsсountIsOk = false;
                 //проверяем правильно ли написана сумма внесения
                 for (int i = 0; i < withdrawalsMoneyCount.Text.Length; i++)
                 {
-                    if (withdrawalsCountIsOk)
+                    if (withdrawalsсountIsOk)
                     {
-                        withdrawalsCountIsOk = false;
+                        withdrawalsсountIsOk = false;
                     }
                     for (int j = 0; j < Signs.Count; j++)
                     {
                         if (Convert.ToString(withdrawalsMoneyCount.Text[i]).Contains(Signs[j]))
                         {
-                            withdrawalsCountIsOk = true;
+                            withdrawalsсountIsOk = true;
                             break;
                         }
                     }
-                    if (withdrawalsCountIsOk == false)
+                    if (withdrawalsсountIsOk == false)
                     {
                         break;
                     }
@@ -57,13 +57,13 @@ namespace Cash_register
                         count++;
                         if (count == 2)
                         {
-                            withdrawalsCountIsOk = false;
+                            withdrawalsсountIsOk = false;
                             break;
                         }
                     }
                 }
                 //если все ок
-                if (withdrawalsCountIsOk && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "," &&
+                if (withdrawalsсountIsOk && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[0]) != "," &&
                     Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != "." && Convert.ToString(withdrawalsMoneyCount.Text[withdrawalsMoneyCount.Text.Length - 1]) != ",")
                 {
                     //проверяем: сумма изъятия больше нуля?
