@@ -15,13 +15,17 @@ namespace Cash_register
 
         private void Click_byCash(object sender, RoutedEventArgs e)
         {
+            //изменяем таблицу оплата
             SQLrequest("Insert into Pament values ('Наличные')");
+
             Close();
         }
 
         private void Click_byCard(object sender, RoutedEventArgs e)
         {
+            //изменяем таблицу оплата
             SQLrequest("Insert into Pament values ('Банковская карта')");
+            
             Close();
         }
 

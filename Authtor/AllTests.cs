@@ -2,6 +2,9 @@
 using Cash_register;
 using System.Collections.Generic;
 using System.Data;
+using static Cash_register.SearchFunc;
+using static Cash_register.ChekingValidityProduct;
+using static Cash_register.SQLRequest;
 
 namespace Tests
 {
@@ -215,7 +218,7 @@ namespace Tests
 
         //тест: правильно ли работает поиск?
         [TestMethod]
-        public void TestListOfProducts()
+        public void TestSearchProduct()
         {
             //#1 ПРАВИЛЬНЫЙ #
             //создаем искомый товар
@@ -226,7 +229,7 @@ namespace Tests
             List<string> Expected = new List<string> { "Яблоко", "Лосось" };
             //актульный лист
             List<string> Actual = new List<string>();
-            Products_sale.ListOfProducts(Products, searchProduct, Actual);
+            SearchProduct(Products, searchProduct, Actual);
             //должно совпасть
             for(int i = 0; i < Expected.Count; i++)
             {
@@ -301,6 +304,202 @@ namespace Tests
             {
                 Assert.AreNotEqual(Expected[i], Actual[i]);
             }
+        }
+
+        //тест: правильно ли высчитывается сумма у проданных товаров?
+        [TestMethod]
+        public void TestAmountOfSoldProducts()
+        {
+            //#1 ПРАВИЛЬНЫЙ #
+            //переменная для суммы
+            double actual = 0;
+            //цена товара
+            double sale = 150.5;
+            //количество товара
+            double count = 2;
+            //ожидаемая сумма
+            double expected = 301;
+            //высчитываем актуальную сумму
+            actual = Refund_of_products.AmountOfSoldProducts(actual, sale, count);
+            //должно совпасть
+            Assert.AreEqual(expected, actual);
+
+            //#2 НЕПРАВИЛЬНЫЙ #
+            //ожидаемый результат - неверный
+            expected = 300;
+            //должно не совпасть
+            Assert.AreNotEqual(expected, actual);
+        }
+
+        //тест: проверка валидации у продуктов при добавлении
+        [TestMethod]
+        public void TestValidIsOk()
+        {
+            //#1 ПРАВИЛЬНЫЙ #
+            //переменная для количества, которое введено
+            string text = "11";
+            //переменная bool для проверки
+            bool isOkOrNot = false;
+            //циферки
+            List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+            //должно быть true
+            Assert.IsTrue(ValidIsOk(text, isOkOrNot, Numbers));
+
+            //#2 НЕПРАВИЛЬНЫЙ #
+            //переменная для количества, которое введено не правильно
+            text = "1d";
+            isOkOrNot = false;
+            //должно быть false
+            Assert.IsFalse(ValidIsOk(text, isOkOrNot, Numbers));
+
+            //#3 ПРАВИЛЬНЫЙ #
+            //переменная для цены, которая введена правильно
+            text = "115.1";
+            isOkOrNot = false;
+            //циферки и точка, запятая
+            List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+            //должно быть true
+            Assert.IsTrue(ValidIsOk(text, isOkOrNot, Signs));
+
+            //#4 НЕПРАВИЛЬНЫЙ #
+            //переменная для цены, которая введена не правильно
+            text = "11/1";
+            isOkOrNot = false;
+            //должно быть false
+            Assert.IsFalse(ValidIsOk(text, isOkOrNot, Signs));
+        }
+
+        //тест: проверка доп валидации у цены при добавлении товара
+        [TestMethod]
+        public void TestPriceValid()
+        {
+            //#1 ПРАВИЛЬНЫЙ #
+            //переменная для цены, которая введена правильно
+            string text = "11.1";
+            //переменная bool для проверки
+            bool isOkOrNot = true;
+            //должно быть true
+            Assert.IsTrue(PriceValid(text, isOkOrNot));
+
+            //#2 НЕПРАВИЛЬНЫЙ #
+            //переменная для цены, которая введена не правильно (две точки)
+            text = "11.1.12";
+            isOkOrNot = true;
+            //должно быть false
+            Assert.IsFalse(PriceValid(text, isOkOrNot));
+
+            //#2 НЕПРАВИЛЬНЫЙ #
+            //переменная для цены, которая введена не правильно (начинается с точки)
+            text = ".11";
+            isOkOrNot = true;
+            //должно быть false
+            Assert.IsFalse(PriceValid(text, isOkOrNot));
+        }
+
+        //тест: проверка доп валидации у цены при добавлении товара
+        [TestMethod]
+        public void TestNameIsOk()
+        {
+            //#1 ПРАВИЛЬНЫЙ #
+            //валидное название товара
+            string text = "Колбаса";
+            //переменная bool для проверки
+            bool nameIsOk = true;
+            //должно быть true
+            Assert.IsTrue(NameIsOk(text, nameIsOk));
+
+            //#2 НЕПРАВИЛЬНЫЙ #
+            //невалидное название товара
+            text = "Колбаса?";
+            //должно быть false
+            Assert.IsFalse(NameIsOk(text, nameIsOk));
+        }
+
+        //тест: проверка правильно ли получает дату
+        [TestMethod]
+        public void TestDate()
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            //#1 формат Tuesday, July 7, 2015
+            //создаю переменную, чтобы switch понял, что я хочу
+            int count = 1;
+            //значение, которое я желаю получить
+            string expected = "Saturday, December 11, 2021";
+            //получаю актуальный вариант
+            string actual = Statements.Date(count);
+            //сверяем
+            Assert.AreEqual(expected, actual);
+
+            //#2 формат 07/20/2015
+            count = 2;
+            expected = "12/11/2021";
+            actual = Statements.Date(count);
+            Assert.AreEqual(expected, actual);
+
+            //#3 формат 6:30:25 PM
+            count = 3;
+            //секунды обрежу, потому что не выйдет
+            expected = "11:47 PM";
+            actual = Statements.Date(count).Substring(0, 5) + " PM";
+            Assert.AreEqual(expected, actual);
+
+            //#4 формат 6:30 PM
+            count = 4;
+            expected = "11:47 PM";
+            actual = Statements.Date(count);
+            Assert.AreEqual(expected, actual);
+
+            //#5 формат 07/20/2015 6:30:25 PM
+            count = 0;
+            //без секунд
+            expected = "12/11/2021 11:47 PM";
+            actual = Statements.Date(count).Substring(0, 16) + " PM";
+            Assert.AreEqual(expected, actual);
+        }
+
+        //ТЕСТИРОВАНИЕ ФУНКЦИИ ПОДКЛЮЧЕНИЯ К БД И СОЗДАНИЯ ЗАПРОСОВ
+        [TestMethod]
+        public void TestSQLrequest()
+        {
+            //# Протестируем Select
+            //предполагаемая строка из БД
+            DataTable expected = new DataTable();
+            
+            //создаю 1 колонку
+            DataColumn column;
+            column = new DataColumn
+            {
+                DataType = System.Type.GetType("System.Int32"),
+                ColumnName = "PamentId"
+            };
+            //добавил ее
+            expected.Columns.Add(column);
+            //создаю 2 колонку
+            column = new DataColumn
+            {
+                DataType = System.Type.GetType("System.String"),
+                ColumnName = "TipOfPament"
+            };
+            //добавил ее
+            expected.Columns.Add(column);
+            
+            //создаю 1 строку
+            DataRow row;
+            row = expected.NewRow();
+            row["PamentId"] = 1;
+            row["TipOfPament"] = "Наличные";
+            //добавил ее
+            expected.Rows.Add(row);
+            //актуальная строка из БД
+            DataTable actual = SQLrequest("select * from Pament where PamentId = 1");
+            //должно совпасть
+            for (int i = 0; i < expected.Rows.Count; i++)
+            {
+                Assert.AreEqual(expected.Rows[i][i], actual.Rows[i][i]);
+            }
+
+            //# Протестируем Select
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static Cash_register.SQLRequest;
+using static Cash_register.ChekingValidityProduct;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
@@ -12,8 +13,9 @@ namespace Cash_register
     /// </summary>
     public partial class Edit_product : Window
     {
-        List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
-        List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+        //List
+        private readonly List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+        private readonly List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
         public Edit_product()
         {
@@ -21,6 +23,7 @@ namespace Cash_register
 
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
+            //вставляем в текстблоки информацию о продукте, который хотим изменить
             edit_product_name.Text = Product_search.nameProduct;
             product_code_edit.Text = Convert.ToString(Product_search.idProduct);
             edit_price.Text = Convert.ToString(Product_search.salePrice);
@@ -42,97 +45,31 @@ namespace Cash_register
             if (edit_product_name.Text != "" && edit_price.Text != "" && edit_count.Text != "")
             {
                 bool сountIsOk = false;
-                bool PriceIsOk = false;
-                bool NameIsOk = true;
-                //проверяем правильно ли написано количество
-                for (int i = 0; i < edit_count.Text.Length; i++)
+                bool priceIsOk = false;
+                bool nameIsOk = true;
+
+                //если все ок и цена и количество больше нуля
+                if (ValidIsOk(edit_count.Text, сountIsOk, Numbers) &&
+                    ValidIsOk(edit_price.Text, priceIsOk, Signs) &&
+                    PriceValid(edit_price.Text, priceIsOk) &&
+                    NameIsOk(edit_product_name.Text, nameIsOk) &&
+                    Convert.ToInt32(edit_count.Text) > 0 && Convert.ToDouble(edit_price.Text) > 0)
                 {
-                    if (сountIsOk)
-                    {
-                        сountIsOk = false;
-                    }
-                    for (int j = 0; j < Numbers.Count; j++)
-                    {
-                        if (Convert.ToString(edit_count.Text[i]).Contains(Numbers[j]))
-                        {
-                            сountIsOk = true;
-                            break;
-                        }
-                    }
-                    if (сountIsOk == false)
-                    {
-                        break;
-                    }
-                }
-                //проверяем правильно ли написана цена
-                for (int i = 0; i < edit_price.Text.Length; i++)
-                {
-                    if (PriceIsOk)
-                    {
-                        PriceIsOk = false;
-                    }
-                    for (int j = 0; j < Signs.Count; j++)
-                    {
-                        if (Convert.ToString(edit_price.Text[i]).Contains(Signs[j]))
-                        {
-                            PriceIsOk = true;
-                            break;
-                        }
-                    }
-                    if (PriceIsOk == false)
-                    {
-                        break;
-                    }
-                }
-                int count = 0;
-                for (int i = 0; i < edit_price.Text.Length; i++)
-                {
-                    if (Convert.ToString(edit_price.Text[i]) == "." || Convert.ToString(edit_price.Text[i]) == ",")
-                    {
-                        count++;
-                        if (count == 2)
-                        {
-                            PriceIsOk = false;
-                            break;
-                        }
-                    }
-                }
-                //проверяем правильно ли написано название
-                for (int i = 0; i < edit_product_name.Text.Length; i++)
-                {
-                    if (edit_product_name.Text[i] == '-' || edit_product_name.Text[i] == '(' || edit_product_name.Text[i] == '?')
-                    {
-                        MessageBox.Show("Нельзя использовать '-' / '(' / '?' в названии");
-                        NameIsOk = false;
-                    }
-                }
-                //если все ок и цена не начинается и не заканчивается с "." или ","
-                if (сountIsOk && PriceIsOk && NameIsOk &&
-                    Convert.ToString(edit_price.Text[0]) != "." && Convert.ToString(edit_price.Text[0]) != "," &&
-                    Convert.ToString(edit_price.Text[edit_price.Text.Length - 1]) != "." && Convert.ToString(edit_price.Text[edit_price.Text.Length - 1]) != ",")
-                {
-                    //проверяем: цена и количество больше нуля?
-                    if (Convert.ToInt32(edit_count.Text) > 0 && Convert.ToDouble(edit_price.Text) > 0)
-                    {
-                        SQLrequest("Update [dbo].[Products] set ProductName = '" + edit_product_name.Text
+                    SQLrequest("Update [dbo].[Products] set ProductName = '" + edit_product_name.Text
                                                                                  + "', ProductPrice = " + Convert.ToDouble(Convert.ToString(edit_price.Text).Replace(',', '.'))
                                                                                  + ", ProductCount = " + Convert.ToInt32(edit_count.Text)
                                                                                  + " WHERE ProductId = " + Convert.ToInt32(product_code_edit.Text));
-                        MessageBox.Show("Данные успешно изменены");
-                        After_logging_in window2 = new After_logging_in();
-                        window2.Show();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неправильный формат");
-                    }
+                    MessageBox.Show("Данные успешно изменены");
+
+                    After_logging_in window2 = new After_logging_in();
+                    window2.Show();
+                    Close();
                 }
                 else
                 {
                     MessageBox.Show("Неправильный формат");
                 }
-            }
+            }   
             else
             {
                 MessageBox.Show("Все строки должны быть заполнены");

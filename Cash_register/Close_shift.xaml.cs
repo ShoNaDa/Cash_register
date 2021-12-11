@@ -25,9 +25,13 @@ namespace Cash_register
 
         private void Click_close(object sender, RoutedEventArgs e)
         {
+            //изменяем ID сотрудника на всякий случай в таблице смены
             SQLrequest("Update [Shift] set FK_workerId = " + Authorization.id + " where ShiftId = (select max(ShiftId) from [Shift])");
 
+            //изменяем дату в таблице баланса
             SQLrequest("Update BalanceAfterCloseCashRegister set [Date] = '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "' where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
+            
+            //изменяем дату в таблице смены
             SQLrequest("Update [Shift] set CloseShiftDate = '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "' where ShiftId = (select max(ShiftId) from [Shift])");
 
             Refund_of_products.refundOfShift = 0;

@@ -17,9 +17,11 @@ namespace Cash_register
 
             moneyInTheCashRegister.Text = MainWindow.moneyInTheCashRegister + "₽ в кассе";
 
+            //добавляем записаь в таблицу баланса
             SQLrequest("Insert into BalanceAfterCloseCashRegister values (" + MainWindow.moneyInTheCashRegister + ", " 
                 + MainWindow.moneyInTheCashRegister + ", 0, 0, '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "')");
 
+            //добавляет запись вв таблицу смены
             SQLrequest("Insert into [Shift] values ((select max(ShiftNumber) from [Shift]) + 1, " + Authorization.id +
                 ", (select max(ShiftNumber) from [Shift]) + 1, '" + DateFunction()[2] + DateFunction()[0] + DateFunction()[1] + "')");
         }

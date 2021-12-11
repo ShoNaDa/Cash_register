@@ -65,19 +65,19 @@
             Foreground="Black"
             FontSize="25">
             <ListBoxItem 
-                Content="20 июля 2015 г.">
+                Content="Tuesday, July 7, 2015">
             </ListBoxItem>
             <ListBoxItem>
-                20.07.2015
+                07/20/2015
             </ListBoxItem>
             <ListBoxItem>
-                18:30:25
+                6:30:25 PM
             </ListBoxItem>
             <ListBoxItem>
-                18:30
+                6:30 PM
             </ListBoxItem>
             <ListBoxItem>
-                20.07.2015 21:30:25
+                07/20/2015 6:30:25 PM
             </ListBoxItem>
         </ListBox>
 

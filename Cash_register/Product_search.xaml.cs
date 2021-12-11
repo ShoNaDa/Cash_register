@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data;
 using static Cash_register.SQLRequest;
+using static Cash_register.SearchFunc;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
+using System.Collections.Generic;
 
 namespace Cash_register
 {
@@ -12,16 +14,19 @@ namespace Cash_register
     /// </summary>
     public partial class Product_search : Window
     {
+        //string
         public static string nameProduct;
+        //int
         public static int idProduct;
-        public static double salePrice;
         public static int productCount;
-
-        public object Button_open { get; private set; }
+        //double
+        public static double salePrice;
 
         public Product_search()
         {
             InitializeComponent();
+
+            //выводим список всех продуктов
             DataTable dt_products = SQLrequest("SELECT * FROM [dbo].[Products]");
             for (int i = 0; i < dt_products.Rows.Count; i++)
             {
@@ -37,6 +42,7 @@ namespace Cash_register
         public void Click_add_product_plus(object sender, RoutedEventArgs e)
         {
             MainWindow.Products.Clear();
+
             Add_product window16 = new Add_product();
             window16.Show();
             Close();
@@ -45,6 +51,7 @@ namespace Cash_register
         public void Click_back(object sender, RoutedEventArgs e)
         {
             MainWindow.Products.Clear();
+
             After_logging_in window2 = new After_logging_in();
             window2.Show();
             Close();
@@ -52,6 +59,7 @@ namespace Cash_register
 
         public void Click_to_find_a_product(object sender, RoutedEventArgs e)
         {
+            //при нажатии на поиск появляется токстбокс
             Button_find_a_product.Visibility = Visibility.Hidden;
             Search_product.Visibility = Visibility.Visible;
             Button_search.Visibility = Visibility.Visible;
@@ -62,10 +70,14 @@ namespace Cash_register
         {
             if (List_of_products.SelectedIndex != -1)
             {
+                //ID товара, который хотим удалить
                 int id = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
-                SQLrequest("delete from [dbo].[Products] WHERE ProductId = " + id);
+                //удаление
+                SQLrequest("Delete from [dbo].[Products] WHERE ProductId = " + id);
+                
                 MessageBox.Show("Данные успешно удалены");
                 MainWindow.Products.Clear();
+                
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
@@ -80,11 +92,17 @@ namespace Cash_register
         {
             if (List_of_products.SelectedIndex != -1)
             {
+                //вытаскиваем название продукта
                 nameProduct = Convert.ToString(List_of_products.SelectedItem).Split('.')[1].Split('-')[0].Trim();
+                //его ID
                 idProduct = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split(' ', '.')[1]);
+                //его цену
                 salePrice = Convert.ToDouble(Convert.ToString(List_of_products.SelectedItem).Split('(')[1].Split('₽')[0]);
+                //его количество на складе
                 productCount = Convert.ToInt32(Convert.ToString(List_of_products.SelectedItem).Split('-')[1].Split('ш')[0].Trim());
+                
                 MainWindow.Products.Clear();
+                
                 Edit_product edit_product = new Edit_product();
                 edit_product.Show();
                 Close();
@@ -98,12 +116,17 @@ namespace Cash_register
         private void Click_search(object sender, RoutedEventArgs e)
         {
             List_of_products.Items.Clear();
-            foreach (string i in MainWindow.Products)
+
+            //создаем лист для заполнения искомыми товарами
+            List<string> ListOfProduct = new List<string>();
+
+            //искает...
+            SearchProduct(MainWindow.Products, Search_product.Text, ListOfProduct);
+            
+            //выводим в окошко искомые товары
+            foreach(string item in ListOfProduct)
             {
-                if (i.Contains(Search_product.Text.Trim()) || i.ToLower().Contains(Search_product.Text.Trim()))
-                {
-                    List_of_products.Items.Add(i);
-                }
+                List_of_products.Items.Add(item);
             }
         }
 

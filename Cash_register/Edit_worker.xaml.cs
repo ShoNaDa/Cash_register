@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static Cash_register.ChekingValidityProduct;
 using System.Collections.Generic;
 using static Cash_register.SQLRequest;
 using System.Windows;
@@ -12,7 +12,7 @@ namespace Cash_register
     /// </summary>
     public partial class Edit_worker : Window
     {
-        List<string> Alphabet = new List<string> {
+        private readonly List<string> Alphabet = new List<string> {
             "А", "а", "Б", "б", "В", "в", "Г", "г", "Д", "д", "Е", "е", "Ё", "ё", "Ж", "ж", "З", "з", "И", "и", "Й", "й",
             "К", "к", "Л", "л", "М", "м", "Н", "н", "О", "о", "П", "п", "Р", "р", "С", "с", "Т", "т", "У", "у", "Ф", "ф",
             "Х", "х", "Ц", "ц", "Ч", "ч", "Ш", "ш", "Щ", "щ", "Ъ", "ъ", "Ы", "ы", "Ь", "ь", "Э", "э", "Ю", "ю", "Я", "я" };
@@ -21,6 +21,7 @@ namespace Cash_register
         {
             InitializeComponent();
 
+            //выводим инфу о сотруднике
             edit_fname.Text = Workers.fname;
             edit_lname.Text = Workers.lname;
             edit_mname.Text = Workers.mname;
@@ -40,69 +41,12 @@ namespace Cash_register
             //проверяем нет ли пустых полей
             if (edit_lname.Text != "" && edit_fname.Text != "" && edit_mname.Text != "" && edit_roleWorker.Text != "" && edit_pincode.Password != string.Empty)
             {
-                bool FNameIsOk = false, LNameIsOk = false, MNameIsOk = false;
-                //проверяем правильно ли написано имя
-                for (int i = 0; i < edit_fname.Text.Length; i++)
-                {
-                    if (FNameIsOk)
-                    {
-                        FNameIsOk = false;
-                    }
-                    for (int j = 0; j < Alphabet.Count; j++)
-                    {
-                        if (Convert.ToString(edit_fname.Text[i]).Contains(Alphabet[j]))
-                        {
-                            FNameIsOk = true;
-                            break;
-                        }
-                    }
-                    if (FNameIsOk == false)
-                    {
-                        break;
-                    }
-                }
-                //проверяем правильно ли написана фамилия
-                for (int i = 0; i < edit_lname.Text.Length; i++)
-                {
-                    if (LNameIsOk)
-                    {
-                        LNameIsOk = false;
-                    }
-                    for (int j = 0; j < Alphabet.Count; j++)
-                    {
-                        if (Convert.ToString(edit_lname.Text[i]).Contains(Alphabet[j]))
-                        {
-                            LNameIsOk = true;
-                            break;
-                        }
-                    }
-                    if (LNameIsOk == false)
-                    {
-                        break;
-                    }
-                }
-                //проверяем правильно ли написано отчество
-                for (int i = 0; i < edit_mname.Text.Length; i++)
-                {
-                    if (MNameIsOk)
-                    {
-                        MNameIsOk = false;
-                    }
-                    for (int j = 0; j < Alphabet.Count; j++)
-                    {
-                        if (Convert.ToString(edit_mname.Text[i]).Contains(Alphabet[j]))
-                        {
-                            MNameIsOk = true;
-                            break;
-                        }
-                    }
-                    if (MNameIsOk == false)
-                    {
-                        break;
-                    }
-                }
+                bool fNameIsOk = false, lNameIsOk = false, mNameIsOk = false;
+                
                 //если все ок...
-                if (FNameIsOk && LNameIsOk && MNameIsOk)
+                if (ValidIsOk(edit_fname.Text, fNameIsOk, Alphabet) &&
+                    ValidIsOk(edit_lname.Text, lNameIsOk, Alphabet) &&
+                    ValidIsOk(edit_mname.Text, mNameIsOk, Alphabet))
                 {
                     SQLrequest("Update [dbo].[Workers] set LName = '" + edit_lname.Text
                                                                    + "', FName = '" + edit_fname.Text
@@ -131,8 +75,11 @@ namespace Cash_register
             //чтоб админ сам себя удалить не мог
             if (Workers.id != Authorization.id)
             {
+                //удаляем данные из таблицу сотрудники
                 SQLrequest("Delete from [dbo].[Workers] WHERE WorkerId = " + Workers.id);
+
                 MessageBox.Show("Данные успешно удалены");
+
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();

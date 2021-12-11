@@ -48,13 +48,11 @@ namespace Cash_register
             }
         }
 
-        //фунция, которая проверяет правильность пароля и говорит какое окно следующим открыть
+        //функция, которая проверяет правильность пароля и говорит какое окно следующим открыть
         public void RoleVerification(List<int> RoleEmployee, int index, bool isAdmin)
         {
-            GiveIdEmployee(RoleEmployee, index);
-
             //узнаем информацию о пользователе
-            DataTable dt_role = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
+            DataTable dt_role = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + GiveIdEmployee(RoleEmployee, index));
 
             //проверяем, что введенный пароль, если его захешировать будет соответствовать с строкой в бд
             //далее просто открываю окно

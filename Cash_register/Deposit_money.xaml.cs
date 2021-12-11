@@ -4,6 +4,7 @@ using static Cash_register.SQLRequest;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
+using static Cash_register.ChekingValidityProduct;
 
 namespace Cash_register
 {
@@ -12,10 +13,13 @@ namespace Cash_register
     /// </summary>
     public partial class Deposit_money : Window
     {
-        List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+        //List
+        private readonly List<string> Signs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "," };
+
         public Deposit_money()
         {
             InitializeComponent();
+
             //с этой штукой правильно работает точка и запятая
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
@@ -28,55 +32,21 @@ namespace Cash_register
             if (depositMoneyCount.Text != "")
             {
                 bool depositсountIsOk = false;
-                //проверяем правильно ли написана сумма внесения
-                for (int i = 0; i < depositMoneyCount.Text.Length; i++)
+
+                if (ValidIsOk(depositMoneyCount.Text, depositсountIsOk, Signs))
                 {
-                    if (depositсountIsOk)
-                    {
-                        depositсountIsOk = false;
-                    }
-                    for (int j = 0; j < Signs.Count; j++)
-                    {
-                        if (Convert.ToString(depositMoneyCount.Text[i]).Contains(Signs[j]))
-                        {
-                            depositсountIsOk = true;
-                            break;
-                        }
-                    }
-                    if (depositсountIsOk == false)
-                    {
-                        break;
-                    }
+                    depositсountIsOk = true;
                 }
-                int count = 0;
-                for (int i = 0; i < depositMoneyCount.Text.Length; i++)
-                {
-                    if (Convert.ToString(depositMoneyCount.Text[i]) == "." || Convert.ToString(depositMoneyCount.Text[i]) == ",")
-                    {
-                        count++;
-                        if (count == 2)
-                        {
-                            depositсountIsOk = false;
-                            break;
-                        }
-                    }
-                }
+
                 //если все ок
-                if (depositсountIsOk && Convert.ToString(depositMoneyCount.Text[0]) != "." && Convert.ToString(depositMoneyCount.Text[0]) != "," &&
-                    Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != "." && Convert.ToString(depositMoneyCount.Text[depositMoneyCount.Text.Length - 1]) != ",")
+                if (PriceValid(depositMoneyCount.Text, depositсountIsOk) &&
+                    Convert.ToDouble(depositMoneyCount.Text) > 0)
                 {
-                    //проверяем: сумма внесения больше нуля?
-                    if (Convert.ToDouble(depositMoneyCount.Text) > 0)
-                    {
-                        SQLrequest("Update BalanceAfterCloseCashRegister set Deposits = Deposits + " + Convert.ToDouble(Convert.ToString(depositMoneyCount.Text).Replace(',', '.')) + " where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
-                        Statements statements = new Statements();
-                        statements.Show();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Неправильный формат");
-                    }
+                    SQLrequest("Update BalanceAfterCloseCashRegister set Deposits = Deposits + " + Convert.ToDouble(Convert.ToString(depositMoneyCount.Text).Replace(',', '.')) + " where BalanceId = (select max(BalanceId) from BalanceAfterCloseCashRegister)");
+                    
+                    Statements statements = new Statements();
+                    statements.Show();
+                    Close();
                 }
                 else
                 {

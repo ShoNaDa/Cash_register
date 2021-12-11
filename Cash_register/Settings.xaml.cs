@@ -45,7 +45,7 @@ namespace Cash_register
             Close();
         }
 
-        private void window7_KeyDown(object sender, KeyEventArgs e)
+        private void Window7_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {

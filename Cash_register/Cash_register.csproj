@@ -79,6 +79,7 @@
     <Compile Include="Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChekingValidityProduct.cs" />
     <Compile Include="Cheque.xaml.cs">
       <DependentUpon>Cheque.xaml</DependentUpon>
     </Compile>
@@ -122,6 +123,7 @@
     <Compile Include="Sales1.xaml.cs">
       <DependentUpon>Sales1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SearchFunc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>

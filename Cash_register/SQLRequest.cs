@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace Cash_register
 {
-    class SQLRequest
+    public class SQLRequest
     {
         public static DataTable SQLrequest(string selectSQL) // функция подключения к базе данных и обработка запросов
         {
@@ -16,6 +16,7 @@ namespace Cash_register
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand); // создаём обработчик
             sqlDataAdapter.Fill(dataTable);                                 // возращаем таблицу с результатом
             sqlConnection.Close();
+
             return dataTable;
         }
     }

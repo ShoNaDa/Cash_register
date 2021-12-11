@@ -14,7 +14,7 @@ namespace Cash_register
     public partial class Count : Window
     {
         //List
-        List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+        private readonly List<string> Numbers = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
         //int
         public static int countOfProduct;
 

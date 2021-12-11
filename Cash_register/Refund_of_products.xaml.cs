@@ -42,9 +42,10 @@ namespace Cash_register
                 
                 //количество проданного товара
                 DataTable dt_count = SQLrequest("Select ProductCount from ProductsList where ProductsListId = " + Convert.ToInt32(dt_ProductsList.Rows[i][0]));
-                
+
                 //сумма
-                double sum = Convert.ToDouble(dt_productsInfo.Rows[0][1]) * Convert.ToDouble(dt_count.Rows[0][0]);
+                double amount = 0;
+                amount = AmountOfSoldProducts(amount, Convert.ToDouble(dt_productsInfo.Rows[0][1]), Convert.ToDouble(dt_count.Rows[0][0]));
 
                 //проверяем вернули ли мы такой товар
                 bool isRefund = false;
@@ -62,7 +63,7 @@ namespace Cash_register
                     //прописываем проданные товары
                     List_of_products_sold.Items.Add("Номер чека: " + Convert.ToString(dt_ProductsList.Rows[i][0]) + ". "
                         + Convert.ToString(dt_productsInfo.Rows[0][0])
-                        + " (Цена: " + Convert.ToString(Convert.ToDouble(dt_productsInfo.Rows[0][1])) + "₽). Количество: " + Convert.ToString(dt_count.Rows[0][0]) + ", Сумма: " + Convert.ToString(sum));
+                        + " (Цена: " + Convert.ToString(Convert.ToDouble(dt_productsInfo.Rows[0][1])) + "₽). Количество: " + Convert.ToString(dt_count.Rows[0][0]) + ", Сумма: " + Convert.ToString(amount));
                 }
             }
 
@@ -127,12 +128,15 @@ namespace Cash_register
             {
                 //количество возвращенного товара
                 string count = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[3].Split(',')[0].Trim();
+                
                 //ID возвращенного товара
                 string idInList = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[1].Split('.')[0].Trim();
                 DataTable dt_id = SQLrequest("Select FK_ProductId from ProductsList where ProductsListId = " + idInList);
+                
                 //сумма 
                 string amount = Convert.ToString(List_of_products_sold.SelectedItem).Split(':')[4].Trim().Replace(',', '.');
 
+                //возвращаем количество товара на склад
                 SQLrequest("Update Products set ProductCount = ProductCount + " + count + " where ProductId = " + dt_id.Rows[0][0]);
 
                 //Добавляем возврат
@@ -149,8 +153,10 @@ namespace Cash_register
                 {
                     refunds.Add(Convert.ToInt32(SQLrequest("Select max(ShiftId) from [Shift]").Rows[0][0]), Convert.ToDouble(amount));
                 }
+
                 numberOfChequeProductSold.Add(Convert.ToInt32(Convert.ToString(List_of_products_sold.SelectedItem).Split(' ')[2].Split('.')[0].Trim()));
 
+                //выводим каким способом этот товар оплачивали
                 DataTable dt_tipPament = SQLrequest("Select TipOfPament from Pament where PamentId = (select FK_SaleId from ProductsList where ProductsListId = " + idInList + ")" );
                 if (Convert.ToString(dt_tipPament.Rows[0][0]) == "Наличные")
                 {
@@ -164,6 +170,10 @@ namespace Cash_register
                 Refund_of_products window5 = new Refund_of_products();
                 window5.Show();
                 Close();
+            }
+            else
+            {
+                MessageBox.Show("Выберите товар");
             }
         }
 
@@ -205,6 +215,14 @@ namespace Cash_register
             }
 
             return NewListSoldProducts;
+        }
+
+        //функция высчитывает сумма проданных товаров
+        public static double AmountOfSoldProducts(double amount, double sale, double count)
+        {
+            amount = sale * count;
+
+            return amount;
         }
 
         private void Window5_KeyDown(object sender, KeyEventArgs e)

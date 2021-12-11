@@ -11,18 +11,24 @@ namespace Cash_register
     /// </summary>
     public partial class Workers : Window
     {
+        //string
         public static string lname, fname, mname;
+        //int
         public static int id = 0;
+        
         public Workers()
         {
             InitializeComponent();
 
             MainWindow.Workers_ID.Clear();
 
+            //собираем информацию о существующихсотрудниках
             DataTable dt_workers = SQLrequest("SELECT * FROM [dbo].[Workers]");
             for (int i = 0; i < dt_workers.Rows.Count; i++)
             {
+                //ФИО
                 MainWindow.Workers.Add((string)dt_workers.Rows[i][1] + " " + ((string)dt_workers.Rows[i][2]).Substring(0, 1) + ". " + ((string)dt_workers.Rows[i][3]).Substring(0, 1) + ". (" + (string)dt_workers.Rows[i][4] + ")");
+                //ID
                 MainWindow.Workers_ID.Add((int)dt_workers.Rows[i][0]);
             }
 
@@ -57,23 +63,17 @@ namespace Cash_register
             window15.Show();
             Close();
         }
+
         private void Click_to_edit_worker(object sender, RoutedEventArgs e)
         {
             MainWindow.Workers.Clear();
 
             if (List_of_workers.SelectedIndex != -1)
             {
-                int index = List_of_workers.SelectedIndex;
-                int counter = 0;
-                foreach (int i in MainWindow.Workers_ID)
-                {
-                    if (counter == index)
-                    {
-                        id = i;
-                    }
-                    counter++; ;
-                }
+                //узнаю ID сотрудника
+                Authorization.GiveIdEmployee(MainWindow.Workers_ID, List_of_workers.SelectedIndex);
 
+                //собираем информацию о сотруднике
                 DataTable dt_worker = SQLrequest("SELECT * FROM [dbo].[Workers] where WorkerId = " + id);
                 fname = (string)dt_worker.Rows[0][2];
                 lname = (string)dt_worker.Rows[0][1];

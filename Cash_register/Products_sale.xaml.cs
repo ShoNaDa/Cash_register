@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 using System.Collections.Generic;
+using static Cash_register.SearchFunc;
 
 namespace Cash_register
 {
@@ -110,28 +111,13 @@ namespace Cash_register
             List<string> ListOfProduct = new List<string>();
             
             //искает...
-            ListOfProducts(MainWindow.Products, Search_product.Text, ListOfProduct);
+            SearchProduct(MainWindow.Products, Search_product.Text, ListOfProduct);
 
             //выводим в окошко искомые товары
             foreach(string item in ListOfProduct)
             {
                 List_of_products.Items.Add(item);
             }
-        }
-
-        //функция поиска
-        public static List<string> ListOfProducts(List<string> Products, string searchProduct, List<string> ListOfProducts)
-        {
-            //ищет любые вхождения подстроки в строках
-            foreach (string i in Products)
-            {
-                if (i.Contains(searchProduct.Trim()) || i.ToLower().Contains(searchProduct.Trim()))
-                {
-                    ListOfProducts.Add(i);
-                }
-            }
-
-            return ListOfProducts;
         }
 
         private void Product_sale_KeyDown(object sender, KeyEventArgs e)

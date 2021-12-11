@@ -9,7 +9,9 @@ namespace Cash_register
     /// </summary>
     public partial class edit_time : Window
     {
+        //int
         public static int dateAndTime = 0;
+
         public edit_time()
         {
             InitializeComponent();
@@ -44,16 +46,18 @@ namespace Cash_register
             {
                 dateAndTime = 5;
             }
+
             if (List_of_time.SelectedIndex != -1)
             {
                 MessageBox.Show("Изменения сохранены");
+
                 Settings window7 = new Settings();
                 window7.Show();
                 Close();
             }
             else
             {
-                MessageBox.Show("Выберите форматa");
+                MessageBox.Show("Выберите формат");
             }
         }
 
