@@ -496,10 +496,163 @@ namespace Tests
             //должно совпасть
             for (int i = 0; i < expected.Rows.Count; i++)
             {
-                Assert.AreEqual(expected.Rows[i][i], actual.Rows[i][i]);
+                for (int j = 0; j < expected.Columns.Count; j++)
+                {
+                    Assert.AreEqual(expected.Rows[i][j], actual.Rows[i][j]);
+                }
             }
 
-            //# Протестируем Select
+            //# Протестируем Insert
+            //добавляем строку в БД
+            SQLrequest("Insert into Pament values ('Банковская карта')");
+            //так как я добавил новую строку, данные из последней актульной строки таблицы и ожидаемой не совпадут
+            //актуальная строка из БД
+            actual = SQLrequest("select * from Pament");
+            //должно не овпасть
+            for (int i = 0; i < expected.Columns.Count; i++)
+            {
+                Assert.AreNotEqual(expected.Rows[expected.Rows.Count - 1][i], actual.Rows[actual.Rows.Count - 1][i]);
+            }
+
+            //# Протестируем Update
+            //записываем последнюю строку таблицы в переменную, для будущей проверки
+            expected = actual;
+            //изменяем последнюю строку таблицы в БД
+            SQLrequest("Update Pament set TipOfPament = 'Наличные' where PamentId = (select max(PamentId) from Pament)");
+            actual = SQLrequest("select * from Pament");
+            //теперь сравним не их=змененную и строку и измененную
+            //должно не совпасть
+            Assert.AreNotEqual(expected.Rows[expected.Rows.Count - 1][1], actual.Rows[actual.Rows.Count - 1][1]);
+
+            //# Протестируем Delete
+            //проверяем солько строк в таблице
+            expected = SQLrequest("Select count(*) from Pament");
+            //удаляем строку
+            SQLrequest("Delete from Pament where PamentId = (select max(PamentId) from Pament)");
+            //проверяем количество строк снова
+            actual = SQLrequest("Select count(*) from Pament");
+            //должно не совпасть
+            Assert.AreNotEqual(expected, actual);
+        }
+
+        //тестирование: правильно ли получается дата
+        [TestMethod]
+        public void TestDateFunction()
+        {
+            //#1 ПРАВИЛЬНЫЙ #
+            //создаем лист для сравнения
+            List<string> expected = new List<string> { "12", "12", "2021" };
+            //получаем актуальную дату и сравниваем
+            //должно совпасть
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i], DateFunc.DateFunction()[i]);
+            }
+
+            //#1 НЕПРАВИЛЬНЫЙ #
+            //изменяем наш лист для сравнения
+            expected.Clear();
+            expected.Add("07");
+            expected.Add("20");
+            expected.Add("2015");
+
+            //сравниваем, должно не совпасть
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.AreNotEqual(expected[i], DateFunc.DateFunction()[i]);
+            }
+        }
+
+        //КАЛЬКУЛЯТОР
+        //тестирование функции для предотвращения багов с цифрами
+        [TestMethod]
+        public void TestNumberIsOk()
+        {
+            //#1 проверка на возможность некоторых ошибок
+            //пеерменная для выражения
+            string equation = "";
+            string expected = "0";
+            //проверю все if в функции
+            Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+            equation = "0";
+            Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+            equation = "60+0";
+            expected = "60+0";
+            Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+            equation = "";
+            expected = "7";
+            Assert.AreEqual(expected, Calculator.NumberIsOk("7", equation));
+        }
+
+        //тестирование функции для предотвращения багов с точкой
+        [TestMethod]
+        public void TestSignsPointIsOk()
+        {
+            //#1 проверка на возможность некоторых ошибок
+            //пеерменная для выражения
+            string equation = "75/";
+            //проверю все if в функции
+            Assert.IsFalse(Calculator.SignPointIsOk(".", equation));
+            equation = "75..";
+            Assert.IsFalse(Calculator.SignPointIsOk(".", equation));
+        }
+
+        //тестирование функции для предотвращения багов со знаками
+        [TestMethod]
+        public void TestSignsIsOk()
+        {
+            //#1 проверка на возможность некоторых ошибок
+            //пеерменная для выражения
+            string equation = "";
+            string expected = "-";
+            //проверю все if в функции
+            string actual = Calculator.SignsIsOk("-", equation);
+            Assert.AreEqual(expected, actual);
+            equation = "-";
+            actual = Calculator.SignsIsOk("-", equation);
+            Assert.AreEqual(expected, actual);
+            equation = "";
+            expected = "+";
+            actual = Calculator.SignsIsOk("+", equation);
+            Assert.AreNotEqual(expected, actual);
+            equation = "76+";
+            expected = "76-";
+            actual = Calculator.SignsIsOk("-", equation);
+            Assert.AreEqual(expected, actual);
+        }
+
+        //тестирование функции для предотвращения багов с нулем
+        [TestMethod]
+        public void TestZiroIsOk()
+        {
+            //#1 проверка на возможность некоторых ошибок
+            //пеерменная для выражения
+            string equation = "0";
+            string expected = "0";
+            // проверю все if в функции
+            string actual = Calculator.ZiroIsOk(equation);
+            Assert.AreEqual(expected, actual);
+            equation = "-0";
+            expected = "-0";
+            actual = Calculator.ZiroIsOk(equation);
+            Assert.AreEqual(expected, actual);
+            equation = "/";
+            expected = "/0";
+            actual = Calculator.ZiroIsOk(equation);
+            Assert.AreNotEqual(expected, actual);
+        }
+
+        //минитестирование минифункции для нажатия на равно
+        [TestMethod]
+        public void TestEqualIsOk()
+        {
+            //#1 проверка на возможность некоторых ошибок
+            //пеерменная для выражения
+            string equation = "";
+            // проверю все if в функции
+            Assert.IsFalse(Calculator.EqualIsOk(equation));
+            equation = ".";
+            Assert.IsFalse(Calculator.EqualIsOk(equation));
         }
     }
 }

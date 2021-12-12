@@ -13,74 +13,80 @@ namespace Cash_register
     public partial class Calculator : Window
     {
         //переменная, в которую заполняется выражение
-        string equation = "";
+        private static string equation = "";
+        private static bool pointIsOk = true;
+
         public Calculator()
         {
             InitializeComponent();
         }
-        //Метод нажатия на выбранный знак знак
+
+        //Метод нажатия на выбранный знак
         public void Buttons_of_sings(object sender, RoutedEventArgs e)
         {
             Signs(Convert.ToString(((Button)sender).Content));
+
+            //ставим фокус на равно
+            Equal.Focus();
         }
+
         //Метод нажатия на выбранную цифру
         public void Buttons_of_numbers(object sender, RoutedEventArgs e)
         {
             Numbers(Convert.ToString(((Button)sender).Content));
+
+            //ставим фокус на равно
+            Equal.Focus();
         }
+
         //функция для предотвращения багов с цифрами
-        string Numbers(string number)
+        public static string NumberIsOk(string number, string equation)
         {
             if (equation == "")
             {
                 equation = number;
-                Reply_line.Text = equation;
             }
             else if (equation[equation.Length - 1] == '0' && equation.Length == 1)
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += number;
-                Reply_line.Text = equation;
             }
             else if (equation[equation.Length - 1] == '0' && equation[equation.Length - 2] != '1' && equation[equation.Length - 2] != '2' && equation[equation.Length - 2] != '3' && equation[equation.Length - 2] != '4' && equation[equation.Length - 2] != '5' && equation[equation.Length - 2] != '6' && equation[equation.Length - 2] != '7' && equation[equation.Length - 2] != '8' && equation[equation.Length - 2] != '9' && equation[equation.Length - 2] != '0')
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += number;
-                Reply_line.Text = equation;
             }
             else
             {
                 equation += number;
-                Reply_line.Text = equation;
             }
-            bool comma = Reply_line.Text.Contains(".");
-            if (comma == true)
-            {
-                Reply_line.Text = Reply_line.Text.Replace(".", ",");
-            }
-            //чтобы всегда стояла точка вместо запятой
-            Reply_line.Text = Reply_line.Text.Replace(',', '.');
-            //ставим фокус на равно
-            Equal.Focus();
+
             return equation;
         }
-        //функция для предотвращения багов со знаками
-        string Signs(string sing)
+
+        //функция для промежуточной записи выражения и проверки на '.' и ','
+        public void Numbers(string number)
         {
-            bool pointIsOk = true;
-            //если точку поставили сразу
-            if (sing == "." && equation == "")
-            {
-                equation = "0.";
-                Reply_line.Text = equation;
-            }
+            equation = NumberIsOk(number, equation);
+
+            Reply_line.Text = equation;
+
+            //чтобы всегда стояла точка вместо запятой
+            Reply_line.Text = Reply_line.Text.Replace(',', '.');
+        }
+
+        //функция для предотвращения багов с точкой
+        public static bool SignPointIsOk(string sign, string equation)
+        {
+            pointIsOk = true;
+
             //если пытаемся точку после другого знака поставить
-            else if (sing == "." && (equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*' 
+            if (sign == "." && (equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*'
                 || equation[equation.Length - 1] == '-' || equation[equation.Length - 1] == '+'))
             {
                 pointIsOk = false;
             }
-            else if (sing == "." && pointIsOk)
+            else if (sign == "." && pointIsOk)
             {
                 //проверяем нет ли двух точек в одном числе
                 for (int i = equation.Length - 1; i >= 0; i--)
@@ -95,52 +101,77 @@ namespace Cash_register
                     }
                 }
             }
-            if (!pointIsOk)
+
+            return pointIsOk;
+        }
+
+        //функция для проверки правильного написания знаков
+        public static string SignsIsOk(string sign, string equation)
+        {
+            //если мы пытаемся поставить знак в самом начале
+            if (equation == "" || equation == "-")
             {
-                MessageBox.Show(Convert.ToString("Ошибка!"));
-            }
-            else if (equation == "" || equation == "-")
-            {
-                if (sing == "-")
+                //минус можно поставить
+                if (sign == "-")
                 {
-                    equation = sing;
-                    Reply_line.Text = equation;
+                    equation = sign;
                 }
                 else
                 {
                     MessageBox.Show(Convert.ToString("Ошибка!"));
                 }
             }
+            //если пытаемся поставить знак после знака, то он заменяется
             else if (equation[equation.Length - 1] == '.' || equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*' || equation[equation.Length - 1] == '+' || equation[equation.Length - 1] == '-')
             {
                 equation = equation.Substring(0, equation.Length - 1);
-                equation += sing;
-                Reply_line.Text = equation;
+                equation += sign;
             }
             else
             {
-                equation += sing;
-                Reply_line.Text = equation;
+                equation += sign;
             }
-            //чтобы всегда стояла точка вместо запятой
-            Reply_line.Text = Reply_line.Text.Replace(',', '.');
-            //ставим фокус на равно
-            Equal.Focus();
+
             return equation;
         }
-        //нажата цифра 0
-        private void Click_to_zero(object sender, RoutedEventArgs e)
+
+        //фнкция для промежуточной записи выражения
+        public void Signs(string sign)
         {
+            //если точку поставили сразу
+            if (sign == "." && equation == "")
+            {
+                equation = "0.";
+            }
+
+            Reply_line.Text = equation;
+
+            //проверка, что точка введена правильно
+            if (!SignPointIsOk(sign, equation))
+            {
+                MessageBox.Show(Convert.ToString("Ошибка!"));
+            }
+
+            equation = SignsIsOk(sign, equation);
+
+            Reply_line.Text = equation;
+
+            //чтобы всегда стояла точка вместо запятой
+            Reply_line.Text = Reply_line.Text.Replace(',', '.');
+        }
+
+        //функция для проверки правильного написания нуля
+        public static string ZiroIsOk(string equation)
+        {
+            //если ноль вначале
             if (equation == "" || equation == "0")
             {
                 equation = "0";
-                Reply_line.Text = equation;
             }
             else if (equation[equation.Length - 1] == '0' && (equation[equation.Length - 2] == '-' || equation[equation.Length - 2] == '*' || equation[equation.Length - 2] == '+'))
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += "0";
-                Reply_line.Text = equation;
             }
             else if (equation[equation.Length - 1] == '/')
             {
@@ -149,43 +180,69 @@ namespace Cash_register
             else
             {
                 equation += "0";
-                Reply_line.Text = equation;
             }
+
+            return equation;
+        }
+
+        //нажата цифра 0
+        private void Click_to_zero(object sender, RoutedEventArgs e)
+        {
+            equation = ZiroIsOk(equation);
+
+            Reply_line.Text = equation;
+
             //чтобы всегда стояла точка вместо запятой
             Reply_line.Text = Reply_line.Text.Replace(',', '.');
+
             //ставим фокус на равно
             Equal.Focus();
         }
+
+        //минифункция для проверки нажатия на равно
+        public static bool EqualIsOk(string equation)
+        {
+            bool equalIsOk = true;
+
+            if (equation == "")
+            {
+                equalIsOk = false;
+            }
+
+            else if (equation[equation.Length - 1] == '.' || equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*' || equation[equation.Length - 1] == '+' || equation[equation.Length - 1] == '-')
+            {
+                equalIsOk = false;
+            }
+
+            return equalIsOk;
+        }
+
         //нажата кнопка равно
         private void Click_to_equal(object sender, RoutedEventArgs e)
         {
-            if (equation != "")
+            if (EqualIsOk(equation))
             {
-                if (equation[equation.Length - 1] == '.' || equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*' || equation[equation.Length - 1] == '+' || equation[equation.Length - 1] == '-')
+                try
                 {
-                    MessageBox.Show(Convert.ToString("Ошибка!"));
+                    //Ответ             
+                    var result = new DataTable().Compute(equation, null);
+                    equation = Convert.ToString(result);
+                    Reply_line.Text = Convert.ToString(result);
                 }
-                else
+                catch (FormatException message)
                 {
-                    try
-                    {
-                        //Ответ             
-                        var result = new DataTable().Compute(equation, null);
-                        equation = Convert.ToString(result);
-                        Reply_line.Text = Convert.ToString(result);
-                    }
-                    catch (FormatException message)
-                    {
-                        //сообщение об ошибке если шо
-                        MessageBox.Show(Convert.ToString(message));
-                    }
+                    //сообщение об ошибке если шо
+                    MessageBox.Show(Convert.ToString(message));
                 }
             }
+
             //чтобы всегда стояла точка вместо запятой
             Reply_line.Text = Reply_line.Text.Replace(',', '.');
+
             //ставим фокус на равно
             Equal.Focus();
         }
+
         //нажата кнопка стереть все
         private void Click_to_CA(object sender, RoutedEventArgs e)
         {
@@ -195,19 +252,20 @@ namespace Cash_register
 
         public void Click_back(object sender, RoutedEventArgs e)
         {
-            if (MainWindow.isCashier == true)
+            if (MainWindow.isCashier)
             {
                 After_login_in_cashier window9 = new After_login_in_cashier();
                 window9.Show();
                 Close();
             }
-            else if (MainWindow.isCashier == false)
+            else
             {
                 After_logging_in window2 = new After_logging_in();
                 window2.Show();
                 Close();
             }
         }
+
         //функции нажатия на кнопки
         private void Grid_TextInput(object sender, TextCompositionEventArgs e)
         {
@@ -284,8 +342,10 @@ namespace Cash_register
             {
                 Signs(".");
             }
+
             //чтобы всегда стояла точка вместо запятой
             Reply_line.Text = Reply_line.Text.Replace(',', '.');
+
             //ставим фокус на равно
             Equal.Focus();
         }
@@ -309,8 +369,10 @@ namespace Cash_register
             {
                 Click_to_CA(sender, e);
             }
+
             //чтобы всегда стояла точка вместо запятой
             Reply_line.Text = Reply_line.Text.Replace(',', '.');
+
             //ставим фокус на равно
             Equal.Focus();
 
@@ -319,6 +381,7 @@ namespace Cash_register
                 Button_back.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
         }
+
         //кнопка стереть
         private void Click_to_clear(object sender, RoutedEventArgs e)
         {
@@ -326,9 +389,11 @@ namespace Cash_register
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 Reply_line.Text = equation;
+
                 //чтобы всегда стояла точка вместо запятой
                 Reply_line.Text = Reply_line.Text.Replace(',', '.');
             }
+
             //ставим фокус на равно
             Equal.Focus();
         }
