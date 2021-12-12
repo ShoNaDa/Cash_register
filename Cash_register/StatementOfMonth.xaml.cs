@@ -131,7 +131,7 @@ namespace Cash_register
                     DataTable dt_sale = SQLrequest("Select sum(Amount) from Sale where FK_ShiftId = " + DataTables()[0].Rows[i][0]);
 
                     //тернарная операция, проверка если продажи пустые, если она ничему не равна, то присвоить ноль
-                    double sale = dt_sale.Rows[0][0] == DBNull.Value ? 0 : (double)dt_sale.Rows[0][0]; 
+                    double sale = dt_sale.Rows[0][0] == DBNull.Value ? 0 : Convert.ToDouble(dt_sale.Rows[0][0]); 
 
                     //если возвраты пустые, то присвоить ноль, если нет - берем их из словаря
                     string refund = Refund_of_products.refunds.ContainsKey(Convert.ToInt32(SQLrequest("Select max(ShiftId) from [Shift]").Rows[0][0]))
