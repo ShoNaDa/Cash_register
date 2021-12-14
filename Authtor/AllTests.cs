@@ -31,6 +31,14 @@ namespace Tests
             actual = Authorization.Hash(pass);
             //должно не совпасть
             Assert.AreNotEqual(expected, actual);
+
+            pass = "12341";
+            actual = Authorization.Hash(pass);
+            Assert.AreNotEqual(expected, actual);
+
+            pass = "1 2 3 1 4";
+            actual = Authorization.Hash(pass);
+            Assert.AreNotEqual(expected, actual);
         }
 
         //тест: проверка правильности получения ID сотрудника при регистрации
@@ -54,6 +62,10 @@ namespace Tests
             index = 2;
             actual = Authorization.GiveIdEmployee(IdAllEmployees, index);
             //должно не совпасть
+            Assert.AreNotEqual(expected, actual);
+
+            index = 5;
+            actual = Authorization.GiveIdEmployee(IdAllEmployees, index);
             Assert.AreNotEqual(expected, actual);
         }
 
@@ -130,10 +142,16 @@ namespace Tests
             Assert.AreEqual(expectedFIO, FIO_employee[0]);
             Assert.AreEqual(expectedID, ID_employee[0]);
 
+            expectedFIO = "Кашлач Никита Сергеевич";
+            expectedID = 2;
+            MainWindow.CreatListEmployee(FIO_employee, employeeFIO, ID_employee);
+            Assert.AreEqual(expectedFIO, FIO_employee[1]);
+            Assert.AreEqual(expectedID, ID_employee[1]);
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //должно не совпасть
-            Assert.AreNotEqual(expectedFIO, FIO_employee[1]);
-            Assert.AreNotEqual(expectedID, ID_employee[1]);
+            Assert.AreNotEqual(expectedFIO, FIO_employee[0]);
+            Assert.AreNotEqual(expectedID, ID_employee[0]);
         }
 
         //тест: правильно ли составляется сумма продаваемых товаров
@@ -156,9 +174,16 @@ namespace Tests
             //должно совпасть
             Assert.AreEqual(expected, actual);
 
+
             //#2 НЕПРАВИЛЬНЫЙ #
             expected = 1000;
             //должно не совпасть
+            Assert.AreNotEqual(expected, actual);
+
+            expected = 176;
+            Assert.AreNotEqual(expected, actual);
+
+            expected = 17652;
             Assert.AreNotEqual(expected, actual);
         }
 
@@ -193,6 +218,9 @@ namespace Tests
             count = "-1";
             //должно быть false
             Assert.IsFalse(Count.CountIsOk(count, сountIsOk, Numbers));
+
+            count = "1 1";
+            Assert.IsFalse(Count.CountIsOk(count, сountIsOk, Numbers));
         }
 
         //тест: проверяет: введенное количество товара есть на складе?
@@ -209,10 +237,16 @@ namespace Tests
             //должно быть true
             Assert.IsTrue(Count.CountNotMore(countNotMore, countInDB, countEntered));
 
+            countEntered = 66;
+            Assert.IsTrue(Count.CountNotMore(countNotMore, countInDB, countEntered));
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //вводимое количество больше имеющегося
             countEntered = 100;
             //должно быть false
+            Assert.IsFalse(Count.CountNotMore(countNotMore, countInDB, countEntered));
+
+            countEntered = 68;
             Assert.IsFalse(Count.CountNotMore(countNotMore, countInDB, countEntered));
         }
 
@@ -245,6 +279,14 @@ namespace Tests
             {
                 Assert.AreNotEqual(Expected[i], Actual[i]);
             }
+
+            Expected.Clear();
+            Expected.Add("ло");
+
+            for (int i = 0; i < Expected.Count; i++)
+            {
+                Assert.AreNotEqual(Expected[i], Actual[i]);
+            }
         }
 
         //тест: чек написал цифрой?
@@ -261,10 +303,19 @@ namespace Tests
             //должно быть true
             Assert.IsTrue(Refund_of_products.ChequeIsValid(searchCheque, isOk, Numbers));
 
+            searchCheque = "21";
+            Assert.IsTrue(Refund_of_products.ChequeIsValid(searchCheque, isOk, Numbers));
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //создаем искомый чек - не цифра
             searchCheque = "2ц";
             //должно быть false
+            Assert.IsFalse(Refund_of_products.ChequeIsValid(searchCheque, isOk, Numbers));
+
+            searchCheque = "2 1";
+            Assert.IsFalse(Refund_of_products.ChequeIsValid(searchCheque, isOk, Numbers));
+
+            searchCheque = "";
             Assert.IsFalse(Refund_of_products.ChequeIsValid(searchCheque, isOk, Numbers));
         }
 
@@ -295,10 +346,52 @@ namespace Tests
                 Assert.AreEqual(Expected[i], Actual[i]);
             }
 
+            searchCheque = "2";
+            Expected.Clear();
+            Expected.Add("Номер чека: 12. Энергетик (Цена: 76.4₽). Количество: 2, Сумма: 152.8");
+            Expected.Add("Номер чека: 2. Конфеты за кг (Цена: 100.12₽). Количество: 1, Сумма: 100.12");
+            Refund_of_products.ListOfProductSold(count, searchCheque, ListSoldProducts, Actual);
+            for (int i = 0; i < Expected.Count; i++)
+            {
+                Assert.AreEqual(Expected[i], Actual[i]);
+            }
+
+            searchCheque = "";
+            Expected.Clear();
+            Expected.Add("Номер чека: 12. Энергетик (Цена: 76.4₽). Количество: 2, Сумма: 152.8");
+            Expected.Add("Номер чека: 2. Конфеты за кг (Цена: 100.12₽). Количество: 1, Сумма: 100.12");
+            Refund_of_products.ListOfProductSold(count, searchCheque, ListSoldProducts, Actual);
+            for (int i = 0; i < Expected.Count; i++)
+            {
+                Assert.AreEqual(Expected[i], Actual[i]);
+            }
+
+            searchCheque = "1 2";
+            Expected.Clear();
+            Expected.Add("Номер чека: 12. Энергетик (Цена: 76.4₽). Количество: 2, Сумма: 152.8");
+            Refund_of_products.ListOfProductSold(count, searchCheque, ListSoldProducts, Actual);
+            //должно не совпасть
+            for (int i = 0; i < Expected.Count; i++)
+            {
+                Assert.AreEqual(Expected[i], Actual[i]);
+            }
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //меняем ожидаемый на тот, что не ожидаем
+            searchCheque = "1";
             Expected.Clear();
             Expected.Add("Номер чека: 2. Конфеты за кг (Цена: 100.12₽). Количество: 1, Сумма: 100.12");
+            Refund_of_products.ListOfProductSold(count, searchCheque, ListSoldProducts, Actual);
+            //должно не совпасть
+            for (int i = 0; i < Expected.Count; i++)
+            {
+                Assert.AreNotEqual(Expected[i], Actual[i]);
+            }
+
+            searchCheque = "Конфеты";
+            Expected.Clear();
+            Expected.Add("Номер чека: 2. Конфеты за кг (Цена: 100.12₽). Количество: 1, Сумма: 100.12");
+            Refund_of_products.ListOfProductSold(count, searchCheque, ListSoldProducts, Actual);
             //должно не совпасть
             for (int i = 0; i < Expected.Count; i++)
             {
@@ -324,10 +417,25 @@ namespace Tests
             //должно совпасть
             Assert.AreEqual(expected, actual);
 
+            sale = 11;
+            count = 10;
+            expected = 110;
+            actual = Refund_of_products.AmountOfSoldProducts(actual, sale, count);
+            Assert.AreEqual(expected, actual);
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //ожидаемый результат - неверный
-            expected = 300;
+            sale = 1.1;
+            count = 10;
+            expected = 110;
+            actual = Refund_of_products.AmountOfSoldProducts(actual, sale, count);
             //должно не совпасть
+            Assert.AreNotEqual(expected, actual);
+
+            sale = 1;
+            count = 10;
+            expected = 1.1;
+            actual = Refund_of_products.AmountOfSoldProducts(actual, sale, count);
             Assert.AreNotEqual(expected, actual);
         }
 
@@ -345,11 +453,19 @@ namespace Tests
             //должно быть true
             Assert.IsTrue(ValidIsOk(text, isOkOrNot, Numbers));
 
+            text = "21";
+            isOkOrNot = false;
+            Assert.IsTrue(ValidIsOk(text, isOkOrNot, Numbers));
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //переменная для количества, которое введено не правильно
             text = "1d";
             isOkOrNot = false;
             //должно быть false
+            Assert.IsFalse(ValidIsOk(text, isOkOrNot, Numbers));
+
+            text = "1 1";
+            isOkOrNot = false;
             Assert.IsFalse(ValidIsOk(text, isOkOrNot, Numbers));
 
             //#3 ПРАВИЛЬНЫЙ #
@@ -361,11 +477,20 @@ namespace Tests
             //должно быть true
             Assert.IsTrue(ValidIsOk(text, isOkOrNot, Signs));
 
+            text = "0.1";
+            isOkOrNot = false;
+            Assert.IsTrue(ValidIsOk(text, isOkOrNot, Signs));
+
+
             //#4 НЕПРАВИЛЬНЫЙ #
             //переменная для цены, которая введена не правильно
             text = "11/1";
             isOkOrNot = false;
             //должно быть false
+            Assert.IsFalse(ValidIsOk(text, isOkOrNot, Signs));
+
+            text = "1. 1";
+            isOkOrNot = false;
             Assert.IsFalse(ValidIsOk(text, isOkOrNot, Signs));
         }
 
@@ -381,6 +506,10 @@ namespace Tests
             //должно быть true
             Assert.IsTrue(PriceValid(text, isOkOrNot));
 
+            text = "0.1";
+            isOkOrNot = true;
+            Assert.IsTrue(PriceValid(text, isOkOrNot));
+
             //#2 НЕПРАВИЛЬНЫЙ #
             //переменная для цены, которая введена не правильно (две точки)
             text = "11.1.12";
@@ -388,11 +517,19 @@ namespace Tests
             //должно быть false
             Assert.IsFalse(PriceValid(text, isOkOrNot));
 
-            //#2 НЕПРАВИЛЬНЫЙ #
+            //#3 НЕПРАВИЛЬНЫЙ #
             //переменная для цены, которая введена не правильно (начинается с точки)
             text = ".11";
             isOkOrNot = true;
             //должно быть false
+            Assert.IsFalse(PriceValid(text, isOkOrNot));
+
+            text = "11. 1. 12";
+            isOkOrNot = true;
+            Assert.IsFalse(PriceValid(text, isOkOrNot));
+
+            text = "11..12";
+            isOkOrNot = true;
             Assert.IsFalse(PriceValid(text, isOkOrNot));
         }
 
@@ -574,14 +711,22 @@ namespace Tests
             string expected = "0";
             //проверю все if в функции
             Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+
             equation = "0";
             Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+
             equation = "60+0";
             expected = "60+0";
             Assert.AreEqual(expected, Calculator.NumberIsOk("0", equation));
+
             equation = "";
             expected = "7";
             Assert.AreEqual(expected, Calculator.NumberIsOk("7", equation));
+
+            //#2 неправильно
+            equation = "60+0";
+            expected = "600";
+            Assert.AreNotEqual(expected, Calculator.NumberIsOk("0", equation));
         }
 
         //тестирование функции для предотвращения багов с точкой
@@ -593,8 +738,12 @@ namespace Tests
             string equation = "75/";
             //проверю все if в функции
             Assert.IsFalse(Calculator.SignPointIsOk(".", equation));
+
             equation = "75..";
             Assert.IsFalse(Calculator.SignPointIsOk(".", equation));
+
+            equation = "751";
+            Assert.IsTrue(Calculator.SignPointIsOk(".", equation));
         }
 
         //тестирование функции для предотвращения багов со знаками
@@ -602,22 +751,35 @@ namespace Tests
         public void TestSignsIsOk()
         {
             //#1 проверка на возможность некоторых ошибок
-            //пеерменная для выражения
+            //переменная для выражения
             string equation = "";
             string expected = "-";
             //проверю все if в функции
             string actual = Calculator.SignsIsOk("-", equation);
             Assert.AreEqual(expected, actual);
+
             equation = "-";
             actual = Calculator.SignsIsOk("-", equation);
             Assert.AreEqual(expected, actual);
+
             equation = "";
             expected = "+";
             actual = Calculator.SignsIsOk("+", equation);
             Assert.AreNotEqual(expected, actual);
+
+            equation = "";
+            expected = "/";
+            actual = Calculator.SignsIsOk("/", equation);
+            Assert.AreNotEqual(expected, actual);
+
             equation = "76+";
             expected = "76-";
             actual = Calculator.SignsIsOk("-", equation);
+            Assert.AreEqual(expected, actual);
+
+            equation = "105*";
+            expected = "105/";
+            actual = Calculator.SignsIsOk("/", equation);
             Assert.AreEqual(expected, actual);
         }
 
@@ -632,10 +794,12 @@ namespace Tests
             // проверю все if в функции
             string actual = Calculator.ZiroIsOk(equation);
             Assert.AreEqual(expected, actual);
+
             equation = "-0";
             expected = "-0";
             actual = Calculator.ZiroIsOk(equation);
             Assert.AreEqual(expected, actual);
+
             equation = "/";
             expected = "/0";
             actual = Calculator.ZiroIsOk(equation);
@@ -651,8 +815,18 @@ namespace Tests
             string equation = "";
             // проверю все if в функции
             Assert.IsFalse(Calculator.EqualIsOk(equation));
+
             equation = ".";
             Assert.IsFalse(Calculator.EqualIsOk(equation));
+
+            equation = "105*5";
+            Assert.IsTrue(Calculator.EqualIsOk(equation));
+
+            equation = "1-5";
+            Assert.IsTrue(Calculator.EqualIsOk(equation));
+
+            equation = "0*0.5";
+            Assert.IsTrue(Calculator.EqualIsOk(equation));
         }
     }
 }
