@@ -204,7 +204,8 @@ namespace Cash_register
         }
 
         //функция поиска валидного чека
-        public static List<string> ListOfProductSold(int count, string searchCheque, List<string> ListSoldProducts, List<string> NewListSoldProducts)
+        public static List<string> ListOfProductSold(int count, string searchCheque, 
+            List<string> ListSoldProducts, List<string> NewListSoldProducts)
         {
             for (int i = 0; i < count; i++)
             {

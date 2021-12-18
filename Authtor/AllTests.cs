@@ -41,7 +41,7 @@ namespace Tests
             Assert.AreNotEqual(expected, actual);
         }
 
-        //тест: проверка правильности получения ID сотрудника при регистрации
+        //тест: проверка правильности получения ID сотрудника при авторизации
         [TestMethod]
         public void TestGiveIdEmployee()
         {
@@ -186,7 +186,7 @@ namespace Tests
             expected = 17652;
             Assert.AreNotEqual(expected, actual);
         }
-
+        
         //тест: проверяет: в поле строка есть значение? если есть, это число?
         [TestMethod]
         public void TestCountIsOk()
@@ -533,7 +533,7 @@ namespace Tests
             Assert.IsFalse(PriceValid(text, isOkOrNot));
         }
 
-        //тест: проверка доп валидации у цены при добавлении товара
+        //тест: проверка валидации названия
         [TestMethod]
         public void TestNameIsOk()
         {

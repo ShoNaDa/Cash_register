@@ -47,7 +47,7 @@ namespace Cash_register
             if (add_product_name.Text != "" && add_price.Text != "" && add_count.Text != "")
             {
                 bool сountIsOk = false;
-                bool priceIsOk = false;
+                bool priceIsOk = true;
                 bool nameIsOk = true;
 
                 //если все ок и цена и количество больше нуля

@@ -51,7 +51,11 @@ namespace Cash_register
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += number;
             }
-            else if (equation[equation.Length - 1] == '0' && equation[equation.Length - 2] != '1' && equation[equation.Length - 2] != '2' && equation[equation.Length - 2] != '3' && equation[equation.Length - 2] != '4' && equation[equation.Length - 2] != '5' && equation[equation.Length - 2] != '6' && equation[equation.Length - 2] != '7' && equation[equation.Length - 2] != '8' && equation[equation.Length - 2] != '9' && equation[equation.Length - 2] != '0')
+            else if (equation[equation.Length - 1] == '0' && equation[equation.Length - 2] != '1' &&
+                equation[equation.Length - 2] != '2' && equation[equation.Length - 2] != '3' && 
+                equation[equation.Length - 2] != '4' && equation[equation.Length - 2] != '5' && 
+                equation[equation.Length - 2] != '6' && equation[equation.Length - 2] != '7' && 
+                equation[equation.Length - 2] != '8' && equation[equation.Length - 2] != '9' && equation[equation.Length - 2] != '0')
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += number;
@@ -122,7 +126,8 @@ namespace Cash_register
                 }
             }
             //если пытаемся поставить знак после знака, то он заменяется
-            else if (equation[equation.Length - 1] == '.' || equation[equation.Length - 1] == '/' || equation[equation.Length - 1] == '*' || equation[equation.Length - 1] == '+' || equation[equation.Length - 1] == '-')
+            else if (equation[equation.Length - 1] == '.' || equation[equation.Length - 1] == '/' || 
+                equation[equation.Length - 1] == '*' || equation[equation.Length - 1] == '+' || equation[equation.Length - 1] == '-')
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += sign;
@@ -168,7 +173,8 @@ namespace Cash_register
             {
                 equation = "0";
             }
-            else if (equation[equation.Length - 1] == '0' && (equation[equation.Length - 2] == '-' || equation[equation.Length - 2] == '*' || equation[equation.Length - 2] == '+'))
+            else if (equation[equation.Length - 1] == '0' && (equation[equation.Length - 2] == '-' || 
+                equation[equation.Length - 2] == '*' || equation[equation.Length - 2] == '+'))
             {
                 equation = equation.Substring(0, equation.Length - 1);
                 equation += "0";
